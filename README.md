@@ -1,4 +1,4 @@
-# Minecraft SNAPSHOT .commands mod v0.2
+# Minecraft SNAPSHOT .commands mod v0.3
 
 Written by YT_Veritas0923             
 

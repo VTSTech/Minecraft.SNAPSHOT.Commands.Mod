@@ -1,6 +1,6 @@
 import subprocess, string, csv
 from subprocess import PIPE, Popen
-ver = "0.2"
+ver = "0.3"
 def banner():
 	print "##########################################"
 	print "# Minecraft SNAPSHOT .commands mod v" + ver + "  #"
@@ -68,7 +68,7 @@ while Popen.poll(p) == None:
 		if tmp[4] == '.about':
 			player = string.strip(tmp[3],"<")
 			player = string.strip(player,">")
-			cmdin = "tell " + player + " Minecraft SNAPSHOT .commands mod v" + ver + " -- Written by YT_Veritas0923 (GitHub: Veritas83 Twitter: @Veritas_83)\n"
+			cmdin = "say Minecraft SNAPSHOT .commands mod v" + ver + " -- Written by YT_Veritas0923 (GitHub: Veritas83 Twitter: @Veritas_83)\n"
 			p.stdin.write(cmdin)
 		if tmp[4] == '.help':
 			player = string.strip(tmp[3],"<")
@@ -120,7 +120,7 @@ while Popen.poll(p) == None:
 				with open('warps.csv','ab') as csvfile:
 					warps = csv.writer(csvfile,delimiter=',',dialect='excel')
 					warps.writerow([warpname,x,y,z])
-					cmdin = "say " + warpname + " set to: " + x + " " + y + " " + z
+					cmdin = "say " + warpname + " set to: " + x + " " + y + " " + z + "\n"
 					p.stdin.write(cmdin)
 					setwarp = False
 		if tmp[4] == '.warp':
