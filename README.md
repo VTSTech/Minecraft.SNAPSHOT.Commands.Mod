@@ -1,4 +1,4 @@
-# Minecraft SNAPSHOT .commands mod v0.1
+# Minecraft SNAPSHOT .commands mod v0.2
 
 Written by YT_Veritas0923             
 
@@ -10,7 +10,7 @@ GitHub: Veritas83
 
 BTC 18j2Env7QokhGG5MccS3LPBKnjsko6u4NQ
 
-<img src="https://i.gyazo.com/4f96126f4d743cfa53df88226a4bb4d5.png">
+<img src="https://i.gyazo.com/d077b2df38ee707ec174223b10aeb6a6.png">
 
 
 Simply place beside your minecraft_server.jar and run.
@@ -19,10 +19,10 @@ Simply place beside your minecraft_server.jar and run.
 Config:
 
 
-Line 13: Your java command line to launch minecraft. Requires nogui
+Line 14: Your java command line to launch minecraft. Requires nogui
 
 
-Line 28: Your server world spawn coordinates
+Line 32: Your server world spawn coordinates
 
 
 Commands:
@@ -33,5 +33,13 @@ Commands:
 .sethome
 
 .home
+
+.setwarp
+
+.warp
+
+.help
+
+.about
 
 .commands
