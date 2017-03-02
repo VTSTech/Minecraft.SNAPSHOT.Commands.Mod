@@ -21,10 +21,15 @@ Config:
 Lines 13-18:
 
 javacmd = 'java -Xms2G -Xmx2G -jar minecraft_server.jar nogui' # Java command line to start Minecraft Server jar
+
 spawn = "0 64 -3"  																						 # WorldSpawn Coordinates
+
 useautosave = True 																						 # Use Autosave?
+
 useautoclear = True 																					 # Use Autoclear?
+
 autosaveint = 1800																					   # Autosave Interval in seconds
+
 autoclearint = 43200																					 # Autoclear Interval in seconds
 
 
