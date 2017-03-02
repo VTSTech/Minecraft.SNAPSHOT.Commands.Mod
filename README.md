@@ -1,4 +1,4 @@
-# Minecraft SNAPSHOT .commands mod v0.3
+# Minecraft SNAPSHOT .commands script v0.4
 
 Written by YT_Veritas0923             
 
@@ -18,11 +18,14 @@ Simply place beside your minecraft_server.jar and run.
 
 Config:
 
+Lines 13-18:
 
-Line 14: Your java command line to launch minecraft. Requires nogui
-
-
-Line 32: Your server world spawn coordinates
+javacmd = 'java -Xms2G -Xmx2G -jar minecraft_server.jar nogui' # Java command line to start Minecraft Server jar
+spawn = "0 64 -3"  																						 # WorldSpawn Coordinates
+useautosave = True 																						 # Use Autosave?
+useautoclear = True 																					 # Use Autoclear?
+autosaveint = 1800																					   # Autosave Interval in seconds
+autoclearint = 43200																					 # Autoclear Interval in seconds
 
 
 Commands:
