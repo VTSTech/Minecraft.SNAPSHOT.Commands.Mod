@@ -15,6 +15,7 @@ BTC 18j2Env7QokhGG5MccS3LPBKnjsko6u4NQ
 
 Simply place beside your minecraft_server.jar and run.
 
+<img src="https://i.gyazo.com/fd1652e942ea9edb4731459f3f35994b.png">
 
 Config:
 <pre>
