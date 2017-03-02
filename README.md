@@ -17,7 +17,7 @@ Simply place beside your minecraft_server.jar and run.
 
 
 Config:
-
+<pre>
 Lines 13-18:
 
 javacmd = 'java -Xms2G -Xmx2G -jar minecraft_server.jar nogui' # Java command line to start Minecraft Server jar
@@ -31,7 +31,7 @@ useautoclear = True 																					 # Use Autoclear?
 autosaveint = 1800																					   # Autosave Interval in seconds
 
 autoclearint = 43200																					 # Autoclear Interval in seconds
-
+</pre>
 
 Commands:
 
