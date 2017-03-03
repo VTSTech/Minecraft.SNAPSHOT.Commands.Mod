@@ -1,23 +1,24 @@
-import subprocess, string, csv, time, logging, threading
-logging.basicConfig(level=logging.INFO) # will log to stderr of this script
+import subprocess, string, csv, time, logging, threading, random
 
-ver = "Minecraft SNAPSHOT .commands script v0.4"
+ver = "Minecraft SNAPSHOT .commands script v0.41"
 
 def banner():
-	banner = "#############################################\n# " + ver + "  #\n"
-	banner += "# Written by YT_Veritas0923                 #\n# Twitter: @Veritas_83                      #\n"
-	banner += "# Web: www.NigelTodman.com                  #\n# GitHub: Veritas83                         #\n"
-	banner += "# BTC 18j2Env7QokhGG5MccS3LPBKnjsko6u4NQ    #\n#############################################\n"
+	banner = "##############################################\n# " + ver + "  #\n"
+	banner += "# Written by YT_Veritas0923                 #\n# Twitter: @Veritas_83                       #\n"
+	banner += "# Web: www.NigelTodman.com                  #\n# GitHub: Veritas83                          #\n"
+	banner += "# BTC 18j2Env7QokhGG5MccS3LPBKnjsko6u4NQ    #\n##############################################\n"
 	return banner
 ## Start Config ##
-javacmd = 'java -Xms2G -Xmx2G -jar minecraft_server.jar nogui' # Java command line to start Minecraft Server jar
-spawn = "0 64 -3"  																			 # WorldSpawn Coordinates
-useautosave = True 																			 # Use Autosave?
-useautoclear = True 																		 # Use Autoclear?
-autosaveint = 1800																		   # Autosave Interval in seconds
-autoclearint = 43200																		 # Autoclear Interval in seconds
-# 5m 300, 30m 1800, 1h 3600, 12h 43200, 1d 86400, 1w 604800, 1mo 2419200
+javacmd = 'java -Xms2G -Xmx2G -jar minecraft_server.jar nogui' # Java command line to start Minecraft Server jar, Must use nogui
+spawn = "0 64 -3"  																						 # WorldSpawn Coordinates
+useautosave = True 																						 # Use Autosave?
+useautoclear = True 																					 # Use Autoclear?
+autosaveint = 1800																					   # Autosave Interval in seconds
+autoclearint = 600  																					 # Autoclear Interval in seconds
 ## End Config   ##
+
+# 5m 300, 30m 1800, 1h 3600, 12h 43200, 1d 86400, 1w 604800, 1mo 2419200
+
 
 cmdline = string.split(javacmd)
 p = subprocess.Popen([cmdline[0],cmdline[1],cmdline[2],cmdline[3],cmdline[4],cmdline[5]], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -117,7 +118,7 @@ class ReaderThread(threading.Thread):
 				if tmp[4] == '.commands':
 					player = string.strip(tmp[3],"<")
 					player = string.strip(player,">")
-					cmdin = "tell " + player + " Commands are: .spawn .sethome .home .setwarp .warp .commands .about .help\n"
+					cmdin = "tell " + player + " Commands are: .spawn .sethome .home .rtp .setwarp .warp .commands .about .help\n"
 					p.stdin.write(cmdin)
 				if tmp[4] == '.about':
 					player = string.strip(tmp[3],"<")
@@ -134,6 +135,8 @@ class ReaderThread(threading.Thread):
 					cmdin = "say sethome - sets .home to current coords\n"
 					p.stdin.write(cmdin)
 					cmdin = "say home - teleports you to your set home\n"
+					p.stdin.write(cmdin)
+					cmdin = "say rtp - teleports you to a random location\n"
 					p.stdin.write(cmdin)
 					cmdin = "say setwarp name - sets a public .warp as given name. name cannot contain spaces\n"
 					p.stdin.write(cmdin)
@@ -202,6 +205,11 @@ class ReaderThread(threading.Thread):
 						cmdin = "tell " + player + " " + warpstr + "\n"
 						p.stdin.write(cmdin)
 					warplist = False
+				if tmp[4] == '.rtp':
+					player = string.strip(tmp[3],"<")
+					player = string.strip(player,">")
+					cmdin = "spreadplayers " + str(random.randint(-5000,5000)) + " " + str(random.randint(-5000,5000)) + " 1 25 false " + player + "\n"
+					p.stdin.write(cmdin)
 reader = ReaderThread(p.stdout)
 reader.start()
 p.wait()

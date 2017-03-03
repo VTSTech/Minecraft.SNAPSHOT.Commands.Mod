@@ -1,4 +1,4 @@
-# Minecraft SNAPSHOT .commands script v0.4
+# Minecraft SNAPSHOT .commands script v0.41
 
 Written by YT_Veritas0923             
 
