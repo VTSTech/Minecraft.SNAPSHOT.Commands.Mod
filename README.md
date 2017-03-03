@@ -43,6 +43,8 @@ Commands:
 
 .home
 
+.rtp
+
 .setwarp
 
 .warp
