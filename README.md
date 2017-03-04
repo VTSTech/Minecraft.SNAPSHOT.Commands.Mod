@@ -1,4 +1,4 @@
-# Minecraft SNAPSHOT .commands script v0.43
+# Minecraft SNAPSHOT .commands script v0.44
 
 Written by YT_Veritas0923             
 
@@ -48,6 +48,8 @@ Commands:
 .whois
 
 .ping
+
+.seen
 
 .help
 

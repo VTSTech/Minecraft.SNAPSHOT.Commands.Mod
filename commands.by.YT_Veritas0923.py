@@ -4,7 +4,7 @@ from time import sleep
 from nbstreamreader import NonBlockingStreamReader as NBSR
 #nbstreamreader.py https://gist.github.com/EyalAr/7915597
 
-ver = "Minecraft SNAPSHOT .commands script v0.43"
+ver = "Minecraft SNAPSHOT .commands script v0.44"
 bannershown = False
 
 def banner():
@@ -33,7 +33,7 @@ rtpradius = 35000  																						 # Random Teleport radius (-35000,35000
 useautosave = True 																						 # Use Autosave?
 useautoclear = True 																					 # Use Autoclear?
 autosaveint = 1800																					   # Autosave Interval in seconds
-autoclearint = 600
+autoclearint = 600																					   # Autoclear Interval in seconds
 ## End Config   ##
 
 # 5m 300, 30m 1800, 1h 3600, 12h 43200, 1d 86400, 1w 604800, 1mo 2419200
@@ -50,9 +50,12 @@ warplist = False
 clearwarn10 = False
 clearwarn60 = False
 logged = False
-warpstr = ""
+playerisonline = False
+warpstr = ''
 cmdout = "[" + get24hrtime() + "] [Script thread/IDLE]: There was no output for awhile\n"
-derp=""
+derp=''
+seen=''
+tmparray=[]
 x=0
 currtime = time.time()
 lasttimesave = currtime
@@ -142,7 +145,7 @@ while True:
 						p.stdin.write(cmdin)
 		if tmp[4] == '.commands':
 			player = getplayername(tmp[3])
-			cmdin = "tell " + player + " Commands are: .spawn .sethome .home .rtp .setwarp .warp .whois .ping .commands .about .help\n"
+			cmdin = "tell " + player + " Commands are: .spawn .sethome .home .rtp .setwarp .warp .whois .ping .seen .commands .about .help\n"
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 		if tmp[4] == '.about':
@@ -155,6 +158,34 @@ while True:
 			cmdin = "say Pong!\n"
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
+		if tmp[4] == '.seen':
+			player = getplayername(tmp[3])
+			seen = tmp[5]
+			playerisonline=False
+			#Open online list, Read it, Inform player is online
+			with open('online.csv','rb') as csvfile:
+				online = csv.reader(csvfile,delimiter=',',dialect='excel')
+				for row in online:
+					o = ','.join(row)
+					ot = string.split(o,',')
+					if ot[0] == seen:
+						playerisonline = True
+					else:
+						derp=True
+			if playerisonline == True:
+				cmdin = "say Look harder! Player is online right now!\n"
+				print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+				p.stdin.write(cmdin)
+			else:
+				with open('playerdb.csv','rb') as csvfile:
+					playerdb = csv.reader(csvfile,delimiter=',',dialect='excel')
+					for row in playerdb:
+						db = ', '.join(row)
+						dbt = string.split(db,', ')
+						if dbt[0] == seen:
+							cmdin = "say Player: " + seen + " was last online " + str(round(((time.time() - float(dbt[4])) / 60.0))) + " minutes ago.\n"
+							print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+							p.stdin.write(cmdin)
 		if tmp[4] == '.help':
 			player = getplayername(tmp[3])
 			cmdin = "say " + ver + " help\n"
@@ -301,14 +332,12 @@ while True:
 				print "Home set to: " + x + " " + y + " " + z
 		#0          1       2             3                              4      5  6    7      8  9     10 11
 		#[00:16:23] [Server thread/INFO]: Player_Name[/ip.ip.ip.ip:port] logged in with entity id 31337 at (0.0, 0.0, 0.0)
-		#New Player connecting...
+		#Player connecting...
 		if tmp[4] == 'logged':
 			newconn = tmp[3]
 			newconn = string.split(newconn,"/")
 			newplayer = newconn[0][:-1]
 			playerip = newconn[1][:string.find(newconn[1],":")]
-			print "Debug: " + newplayer + " Find: " + str(string.find(newconn[1],":"))
-			print "Player: " + newplayer + " IP: " + playerip + "\n",
 			logged = True
 			oldplayer = False
 		if logged == True:
@@ -324,7 +353,7 @@ while True:
 			if oldplayer==False:
 				with open('playerdb.csv','ab') as csvfile:
 					playerdb = csv.writer(csvfile,delimiter=',',dialect='excel')
-					playerdb.writerow([newplayer,playerip,getdate(),getdate(),get24hrtime()])	
+					playerdb.writerow([newplayer,playerip,getdate(),getdate(),time.time()])	
 					cmdin = "say Welcome to mc.nigeltodman.com, " + player + "! See our custom commands and their usage with '.help'\n"
 					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 					p.stdin.write(cmdin)
@@ -338,6 +367,37 @@ while True:
 					with open('online.csv','ab') as csvfile:
 						online = csv.writer(csvfile,delimiter=',',dialect='excel')
 						online.writerow([player,playerip,time.time()])					
-		#[01:45:53] [Server thread/INFO]: YT_Veritas0923 left the game
-
+		#Player disconnecting...
+		if tmp[4] == 'left':
+			player = tmp[3]
+			#Open online list, Read it, Write it back without the leaving player
+			with open('online.csv','rb') as csvfile:
+				online = csv.reader(csvfile,delimiter=',',dialect='excel')
+				for row in online:
+					o = ','.join(row)
+					ot = string.split(o,',')
+					if ot[0] == player:
+						lastonline = ot[0] + ',' + ot[1] + ',' + str(time.time())
+					else:
+						tmparray.append(o)
+			with open('online.csv','wb') as csvfile:
+				online = csv.writer(csvfile,delimiter='\n',dialect='excel')
+				for y in xrange(0,len(tmparray)):
+					online.writerow([tmparray[y]])
+			#Open playerdb, Write new last online time
+			tmparray=[]
+			with open('playerdb.csv','rb') as csvfile:
+				playerdb = csv.reader(csvfile,delimiter=',',dialect='excel')
+				for row in playerdb:
+					db = ','.join(row)
+					dbt = string.split(db,',')
+					if dbt[0] == player:
+						t = dbt[0] + ',' + dbt[1] + ',' + dbt[2] + ',' + dbt[3] + ',' + str(time.time())
+						tmparray.append(t)
+					else:
+						tmparray.append(db)
+			with open('playerdb.csv','wb') as csvfile:
+				playerdb = csv.writer(csvfile,delimiter='\n',dialect='excel')
+				for y in xrange(0,len(tmparray)):
+					playerdb.writerow([tmparray[y]])
 print "[" + get24hrtime() + "] [Script thread/DONE]: Script completed (this shouldn't happen!)\n"
