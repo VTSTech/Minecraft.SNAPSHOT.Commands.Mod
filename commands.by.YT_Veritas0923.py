@@ -4,7 +4,7 @@ from time import sleep
 from nbstreamreader import NonBlockingStreamReader as NBSR
 #nbstreamreader.py https://gist.github.com/EyalAr/7915597
 
-ver = "Minecraft SNAPSHOT .commands script v0.44"
+ver = "Minecraft SNAPSHOT .commands script v0.45"
 bannershown = False
 
 def banner():
@@ -183,7 +183,14 @@ while True:
 						db = ', '.join(row)
 						dbt = string.split(db,', ')
 						if dbt[0] == seen:
-							cmdin = "say Player: " + seen + " was last online " + str(round(((time.time() - float(dbt[4])) / 60.0))) + " minutes ago.\n"
+							if ((time.time() - float(dbt[4])) / 60.0) > 60:
+								hours = str((((time.time() - float(dbt[4])) / 60.0) / 60.0))
+								mintmp = string.split(hours,'.')
+								hours = int(mintmp[0])
+								minutes = round((60 * float('0.' + mintmp[1])))
+								cmdin = "say Player: " + seen + " was last online " + str(int(hours)) + " hours " + str(int(minutes)) + " minutes ago.\n"
+							else:
+								cmdin = "say Player: " + seen + " was last online " + str(round(((time.time() - float(dbt[4])) / 60.0))) + " minutes ago.\n"
 							print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 							p.stdin.write(cmdin)
 		if tmp[4] == '.help':
@@ -371,6 +378,7 @@ while True:
 		if tmp[4] == 'left':
 			player = tmp[3]
 			#Open online list, Read it, Write it back without the leaving player
+			tmparray=[]
 			with open('online.csv','rb') as csvfile:
 				online = csv.reader(csvfile,delimiter=',',dialect='excel')
 				for row in online:
@@ -379,13 +387,13 @@ while True:
 					if ot[0] == player:
 						lastonline = ot[0] + ',' + ot[1] + ',' + str(time.time())
 					else:
-						tmparray.append(o)
+						tmparray.append(o)			
 			with open('online.csv','wb') as csvfile:
 				online = csv.writer(csvfile,delimiter='\n',dialect='excel')
 				for y in xrange(0,len(tmparray)):
 					online.writerow([tmparray[y]])
 			#Open playerdb, Write new last online time
-			tmparray=[]
+			tmparray2=[]
 			with open('playerdb.csv','rb') as csvfile:
 				playerdb = csv.reader(csvfile,delimiter=',',dialect='excel')
 				for row in playerdb:
@@ -393,11 +401,11 @@ while True:
 					dbt = string.split(db,',')
 					if dbt[0] == player:
 						t = dbt[0] + ',' + dbt[1] + ',' + dbt[2] + ',' + dbt[3] + ',' + str(time.time())
-						tmparray.append(t)
+						tmparray2.append(t)
 					else:
-						tmparray.append(db)
+						tmparray2.append(db)
 			with open('playerdb.csv','wb') as csvfile:
 				playerdb = csv.writer(csvfile,delimiter='\n',dialect='excel')
-				for y in xrange(0,len(tmparray)):
-					playerdb.writerow([tmparray[y]])
+				for y in xrange(0,len(tmparray2)):
+					playerdb.writerow([tmparray2[y]])
 print "[" + get24hrtime() + "] [Script thread/DONE]: Script completed (this shouldn't happen!)\n"
