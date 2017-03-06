@@ -1,4 +1,4 @@
-# Minecraft SNAPSHOT .commands script v0.44
+# Minecraft SNAPSHOT .commands script v0.45
 
 Written by YT_Veritas0923             
 
@@ -19,7 +19,7 @@ Simply place beside your minecraft_server.jar and run.
 
 Config:
 <pre>
-Lines 30-36:
+Lines 30-37:
 
 javacmd = 'java -Xms2G -Xmx2G -jar minecraft_server.jar nogui' # Java command line to start Minecraft Server jar, Must use nogui
 spawn = "0 64 -3"  																						 # WorldSpawn Coordinates
@@ -28,6 +28,9 @@ useautosave = True 																						 # Use Autosave?
 useautoclear = True 																					 # Use Autoclear?
 autosaveint = 1800																					   # Autosave Interval in seconds
 autoclearint = 600																					   # Autoclear Interval in seconds
+motd = "!##_##! MOTD Welcome to mc.nigeltodman.com, PLAYER_NAME! See our custom commands and their usage with '.help' !##_##! March Gamerules: keepInventory:Off mobGriefing:On Difficulty:Hard !##_##!"
+																					   									 # Message of the Day notes:
+																					   									 # PLAYER_NAME is replaced with connecting player.
 </pre>
 
 Commands:

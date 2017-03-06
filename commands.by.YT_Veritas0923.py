@@ -34,8 +34,10 @@ useautosave = True 																						 # Use Autosave?
 useautoclear = True 																					 # Use Autoclear?
 autosaveint = 1800																					   # Autosave Interval in seconds
 autoclearint = 600																					   # Autoclear Interval in seconds
-## End Config   ##
-
+motd = "!## MOTD ##! Welcome to mc.nigeltodman.com, PLAYER_NAME! See our custom commands and their usage with '.help' * March Gamerules: keepInventory:Off mobGriefing:On Difficulty:Hard"
+																					   									 # Message of the Day notes:
+																					   									 # PLAYER_NAME is replaced with connecting player.
+## End Config   ##												   									 # 'Welcome to' is replaced by 'Welcome back to' for returning players.
 # 5m 300, 30m 1800, 1h 3600, 12h 43200, 1d 86400, 1w 604800, 1mo 2419200
 
 
@@ -51,6 +53,7 @@ clearwarn10 = False
 clearwarn60 = False
 logged = False
 playerisonline = False
+sbset = False
 warpstr = ''
 cmdout = "[" + get24hrtime() + "] [Script thread/IDLE]: There was no output for awhile\n"
 derp=''
@@ -117,13 +120,26 @@ while True:
 		print cmdout,
 		clearwarn60 = False
 		clearwarn10 = False
+	if sbset == False:
+		setsb = "scoreboard objectives add inOverworld dummy\n"
+		print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
+		p.stdin.write(setsb)
+		sbset = True
+	if sbset == True and currtime - lasttimepoll > 15:
+		lasttimepoll = time.time()
+		setsb = "scoreboard players set @a inOverworld 0\n"
+		#print "[" + get24hrtime() + "] [Script thread/CHKD]: " + setsb,
+		p.stdin.write(setsb)
+		setsb = "scoreboard players set @a inOverworld 1 {Dimension:0}\n"
+		#print "[" + get24hrtime() + "] [Script thread/CHKD]: " + setsb,
+		p.stdin.write(setsb)
 	##
 	#User .commands
 	##
 	if len(tmp) > 4:
 		if tmp[4] == '.spawn':
 			player = getplayername(tmp[3])
-			cmdin = "tp " + player + " " + spawn + "\n"
+			cmdin = "tp @a[name=" + player + ",score_inOverworld_min=1] " + spawn + "\n"
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 		if tmp[4] == '.sethome':
@@ -140,7 +156,7 @@ while True:
 					h = ', '.join(row)
 					ht = string.split(h,', ')
 					if ht[0] == player:
-						cmdin = "tp " + player + " " + str(ht[1]) + " " + str(ht[2]) + " " + str(ht[3]) + "\n"
+						cmdin = "tp @a[name=" + player + ",score_inOverworld_min=1] " + str(ht[1]) + " " + str(ht[2]) + " " + str(ht[3]) + "\n"
 						print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 						p.stdin.write(cmdin)
 		if tmp[4] == '.commands':
@@ -216,10 +232,13 @@ while True:
 			cmdin = "say warp name - teleports you to warp name. List warps with just .warp\n"
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
-			cmdin = "say whois player - checks if player has played on this server.\n"
+			cmdin = "say whois player - checks if player has played on this server\n"
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 			cmdin = "say ping - causes server to reply with Pong!\n"
+			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+			p.stdin.write(cmdin)
+			cmdin = "say seen player - displays when player was last seen online\n"
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 			cmdin = "say commands - list available commands\n"
@@ -247,7 +266,7 @@ while True:
 					w = ','.join(row)
 					wt = string.split(w,',')
 					if warplist == False and wt[0] == warpname:
-						cmdin = "tp " + player + " " + str(wt[1]) + " " + str(wt[2]) + " " + str(wt[3]) + "\n"
+						cmdin = "tp @a[name=" + player + ",score_inOverworld_min=1] " + str(wt[1]) + " " + str(wt[2]) + " " + str(wt[3]) + "\n"
 						print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 						p.stdin.write(cmdin)
 					elif warplist == True:
@@ -361,15 +380,21 @@ while True:
 				with open('playerdb.csv','ab') as csvfile:
 					playerdb = csv.writer(csvfile,delimiter=',',dialect='excel')
 					playerdb.writerow([newplayer,playerip,getdate(),getdate(),time.time()])	
-					cmdin = "say Welcome to mc.nigeltodman.com, " + player + "! See our custom commands and their usage with '.help'\n"
+					motd = string.replace(motd, "PLAYER_NAME", player)
+					cmdin = "say " + motd + "'\n"
 					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+					motd = string.replace(motd, player,"PLAYER_NAME")
 					p.stdin.write(cmdin)
 				with open('online.csv','ab') as csvfile:
 					online = csv.writer(csvfile,delimiter=',',dialect='excel')
 					online.writerow([player,playerip,time.time()])
 			if oldplayer==True:
-					cmdin = "say Welcome Back, " + player + "!\n"
+					motd = string.replace(motd, "PLAYER_NAME", player)
+					motd = string.replace(motd, "Welcome to ", "Welcome back to ")
+					cmdin = "say " + motd + "'\n"
 					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+					motd = string.replace(motd, player,"PLAYER_NAME")
+					motd = string.replace(motd, "Welcome back to ", "Welcome to ")
 					p.stdin.write(cmdin)
 					with open('online.csv','ab') as csvfile:
 						online = csv.writer(csvfile,delimiter=',',dialect='excel')
