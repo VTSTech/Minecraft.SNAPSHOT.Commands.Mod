@@ -4,7 +4,7 @@ from time import sleep
 from nbstreamreader import NonBlockingStreamReader as NBSR
 #nbstreamreader.py https://gist.github.com/EyalAr/7915597
 
-ver = "Minecraft SNAPSHOT .commands script v0.45"
+ver = "Minecraft SNAPSHOT .commands script v0.46"
 bannershown = False
 
 def banner():
@@ -32,8 +32,8 @@ spawn = "0 64 -3"  																						 # WorldSpawn Coordinates
 rtpradius = 35000  																						 # Random Teleport radius (-35000,35000)
 useautosave = True 																						 # Use Autosave?
 useautoclear = True 																					 # Use Autoclear?
-autosaveint = 1800																					   # Autosave Interval in seconds
-autoclearint = 600																					   # Autoclear Interval in seconds
+autosaveint = 1776																					   # Autosave Interval in seconds
+autoclearint = 3625																					   # Autoclear Interval in seconds
 motd = "!## MOTD ##! Welcome to mc.nigeltodman.com, PLAYER_NAME! See our custom commands and their usage with '.help' * March Gamerules: keepInventory:Off mobGriefing:On Difficulty:Hard"
 																					   									 # Message of the Day notes:
 																					   									 # PLAYER_NAME is replaced with connecting player.
@@ -46,24 +46,26 @@ p = subprocess.Popen([cmdline[0],cmdline[1],cmdline[2],cmdline[3],cmdline[4],cmd
 nbsr = NBSR(p.stdout)
 print banner()
 
-sethome = False
-setwarp = False
-warplist = False
-clearwarn10 = False
-clearwarn60 = False
-logged = False
-playerisonline = False
-sbset = False
-warpstr = ''
-cmdout = "[" + get24hrtime() + "] [Script thread/IDLE]: There was no output for awhile\n"
-derp=''
-seen=''
-tmparray=[]
-x=0
 currtime = time.time()
 lasttimesave = currtime
 lasttimeclear = currtime
 lasttimepoll = currtime
+playerisonline = False
+clearwarn10 = False
+clearwarn60 = False
+warplist = False
+sethome = False
+setwarp = False
+logged = False
+sbset = False
+isop=False
+tmparray=[]
+cmdout = "[" + get24hrtime() + "] [Script thread/IDLE]: There was no output for awhile\n"
+warpstr = ''
+derp=''
+seen=''
+op=''
+x=0
 
 while True:
 	output = nbsr.readline(0.1)
@@ -80,7 +82,17 @@ while True:
 		tmp = string.split(cmdout)
 	else:
 		tmp = string.split(cmdout)
-		print line,
+		#Filter some output here...
+		if len(tmp) > 4:
+			if tmp[3] == "Set" and tmp[4] == "score":
+				derp=True
+			elif tmp[3] == "The" and tmp[4] == "dataTag":
+				derp=True
+			elif tmp[3] == "Selector":
+				derp=True
+			#if not matching a filter, send output to console (display, not stdin)
+			else:
+				print line,
 	##
 	#Timed Functions
 	##
@@ -306,13 +318,27 @@ while True:
 	#Mod .commands
 	##
 		if tmp[4] == '.setwarp':
-			player = getplayername(tmp[3])
-			cmdin = "tp " + player + " ~ ~ ~\n"
-			setwarp = True			
-			if len(tmp) >= 5:
-				warpname = tmp[5]
-			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
-			p.stdin.write(cmdin)
+				isop=False
+				ops = open('ops.json','rb')
+				player = getplayername(tmp[3])
+				for line in ops:
+					if line[:13] =='    "name": "':
+						#print "Debug: Op Detected as: " + line[13:-3]
+						op = line[13:-3]
+					if op == player:
+						isop=True
+				if isop == True:
+					player = getplayername(tmp[3])
+					cmdin = "tp " + player + " ~ ~ ~\n"
+					setwarp = True			
+					if len(tmp) >= 5:
+						warpname = tmp[5]
+					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+					p.stdin.write(cmdin)
+				else:
+					cmdin = "say Only ops may .setwarp\n"
+					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+					p.stdin.write(cmdin)
 	##
 	#Event functions
 	##
