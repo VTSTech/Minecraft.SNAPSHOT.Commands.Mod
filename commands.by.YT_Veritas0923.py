@@ -184,9 +184,12 @@ while True:
 			p.stdin.write(cmdin)
 		if tmp[4] == '.ping':
 			player = getplayername(tmp[3])
-			with open('playerdb.csv','rb') as csvfile:
-				playerdb = csv.reader(csvfile,delimiter=',',dialect='excel')
-				for row in playerdb:
+			pingreply = []
+			tmparray4 = []
+			msreply = ''
+			with open('online.csv','rb') as csvfile:
+				online = csv.reader(csvfile,delimiter=',',dialect='excel')
+				for row in online:
 					db = ','.join(row)
 					dbt = string.split(db,',')
 					if dbt[0] == player:
@@ -205,7 +208,7 @@ while True:
 								cmdin = "say " + player + " Ping: " + msreply + "\n"
 								print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 								p.stdin.write(cmdin)
-		if tmp[4] == '.seen':
+		if tmp[4] == '.seen' and len(tmp) == 6:
 			player = getplayername(tmp[3])
 			seen = tmp[5]
 			playerisonline=False
