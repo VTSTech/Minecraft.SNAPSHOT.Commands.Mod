@@ -4,7 +4,7 @@ from time import sleep
 from nbstreamreader import NonBlockingStreamReader as NBSR
 #nbstreamreader.py https://gist.github.com/EyalAr/7915597
 
-ver = "Minecraft SNAPSHOT .commands script v0.46"
+ver = "Minecraft SNAPSHOT .commands script v0.47"
 bannershown = False
 
 def banner():
@@ -34,6 +34,7 @@ useautosave = True 																						 # Use Autosave?
 useautoclear = True 																					 # Use Autoclear?
 autosaveint = 1776																					   # Autosave Interval in seconds
 autoclearint = 3625																					   # Autoclear Interval in seconds
+freeshulkerbox = True																					 # Gives new players a shulker box on their first connect
 motd = "!## MOTD ##! Welcome to mc.nigeltodman.com, PLAYER_NAME! See our custom commands and their usage with '.help' * March Gamerules: keepInventory:Off mobGriefing:On Difficulty:Hard"
 																					   									 # Message of the Day notes:
 																					   									 # PLAYER_NAME is replaced with connecting player.
@@ -66,7 +67,7 @@ derp=''
 seen=''
 op=''
 x=0
-
+t=0
 while True:
 	output = nbsr.readline(0.1)
 	# 0.1 secs to let the shell output the result
@@ -165,8 +166,8 @@ while True:
 			with open('homes.csv','rb') as csvfile:
 				homes = csv.reader(csvfile,delimiter=',',dialect='excel')
 				for row in homes:
-					h = ', '.join(row)
-					ht = string.split(h,', ')
+					h = ','.join(row)
+					ht = string.split(h,',')
 					if ht[0] == player:
 						cmdin = "tp @a[name=" + player + ",score_inOverworld_min=1] " + str(ht[1]) + " " + str(ht[2]) + " " + str(ht[3]) + "\n"
 						print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
@@ -372,15 +373,35 @@ while True:
 		#.sethome
 		if sethome == True and tmp[3] == "Teleported":
 			sethome = False
+			oldhome = False
 			x = tmp[6]
 			y = tmp[7]
 			z = tmp[8]
 			x = string.strip(x,",")
 			y = string.strip(y,",")
 			z = string.strip(z,",")
-			with open('homes.csv','ab') as csvfile:
-				homes = csv.writer(csvfile,delimiter=',',dialect='excel')
-				homes.writerow([player,x,y,z])
+			player = tmp[4]
+			with open('homes.csv','rb') as csvfile:
+				homes = csv.reader(csvfile,delimiter=',',dialect='excel')
+				tmparray3 = []
+				for row in homes:
+					h = ','.join(row)
+					ht = string.split(h,',')
+					if ht[0] == player:
+						oldhome = True
+						cmdin = "say home already set! replacing with current coordinates.\n"
+						print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+						p.stdin.write(cmdin)
+					else:
+						tmparray3.append(h)
+			with open('homes.csv','wb') as csvfile:
+				homes = csv.writer(csvfile,delimiter='\n',dialect='excel')
+				for t in xrange(0,len(tmparray3)):
+					tmparray3[t] = string.replace(tmparray3[t],', ',',')
+					homes.writerow([tmparray3[t]])
+				if oldhome == True:
+					homestr = player + "," + x + "," + y + "," + z
+					homes.writerow([homestr])
 				print "Home set to: " + x + " " + y + " " + z
 		#0          1       2             3                              4      5  6    7      8  9     10 11
 		#[00:16:23] [Server thread/INFO]: Player_Name[/ip.ip.ip.ip:port] logged in with entity id 31337 at (0.0, 0.0, 0.0)
@@ -411,6 +432,10 @@ while True:
 					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 					motd = string.replace(motd, player,"PLAYER_NAME")
 					p.stdin.write(cmdin)
+					if freeshulkerbox == True:
+						cmdin = "give " + player + " purple_shulker_box 1\n"
+						print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+						p.stdin.write(cmdin)
 				with open('online.csv','ab') as csvfile:
 					online = csv.writer(csvfile,delimiter=',',dialect='excel')
 					online.writerow([player,playerip,time.time()])
