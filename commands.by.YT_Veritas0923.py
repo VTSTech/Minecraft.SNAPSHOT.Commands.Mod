@@ -420,6 +420,9 @@ while True:
 				if oldhome == True:
 					homestr = player + "," + x + "," + y + "," + z
 					homes.writerow([homestr])
+				if oldhome == False:
+					homestr = player + "," + x + "," + y + "," + z
+					homes.writerow([homestr])
 				print "Home set to: " + x + " " + y + " " + z
 		#0          1       2             3                              4      5  6    7      8  9     10 11
 		#[00:16:23] [Server thread/INFO]: Player_Name[/ip.ip.ip.ip:port] logged in with entity id 31337 at (0.0, 0.0, 0.0)
