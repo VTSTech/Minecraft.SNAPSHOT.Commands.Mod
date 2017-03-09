@@ -4,7 +4,7 @@ from time import sleep
 from nbstreamreader import NonBlockingStreamReader as NBSR
 #nbstreamreader.py https://gist.github.com/EyalAr/7915597
 
-ver = "Minecraft SNAPSHOT .commands script v0.47"
+ver = "Minecraft SNAPSHOT .commands script v0.48"
 bannershown = False
 
 def banner():
@@ -184,9 +184,27 @@ while True:
 			p.stdin.write(cmdin)
 		if tmp[4] == '.ping':
 			player = getplayername(tmp[3])
-			cmdin = "say Pong!\n"
-			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
-			p.stdin.write(cmdin)
+			with open('playerdb.csv','rb') as csvfile:
+				playerdb = csv.reader(csvfile,delimiter=',',dialect='excel')
+				for row in playerdb:
+					db = ','.join(row)
+					dbt = string.split(db,',')
+					if dbt[0] == player:
+						host = dbt[1]
+						ping = subprocess.Popen(
+						    ["ping", "-n", "1", "-l", "2", "-w", "2000", host],
+						    stdout = subprocess.PIPE,
+						    stderr = subprocess.PIPE
+						)
+						out, error = ping.communicate()
+						pingreply = string.split(out,"\n")
+						for t in xrange(0,len(pingreply)):
+							if pingreply[t][0:5] == "Reply":
+								tmparray4 = string.split(pingreply[t]," ")
+								msreply = tmparray4[4][5:]
+								cmdin = "say " + player + " Ping: " + msreply + "\n"
+								print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+								p.stdin.write(cmdin)
 		if tmp[4] == '.seen':
 			player = getplayername(tmp[3])
 			seen = tmp[5]
@@ -230,7 +248,7 @@ while True:
 			cmdin = "say spawn - teleports you to spawn\n"
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
-			cmdin = "say sethome - sets .home to current coords\n"
+			cmdin = "say sethome - sets .home to current coordinates\n"
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 			cmdin = "say home - teleports you to your set home\n"
@@ -248,7 +266,7 @@ while True:
 			cmdin = "say whois player - checks if player has played on this server\n"
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
-			cmdin = "say ping - causes server to reply with Pong!\n"
+			cmdin = "say ping - causes server to reply with ping response time in ms\n"
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 			cmdin = "say seen player - displays when player was last seen online\n"
