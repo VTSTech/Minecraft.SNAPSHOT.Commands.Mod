@@ -4,7 +4,7 @@ from time import sleep
 from nbstreamreader import NonBlockingStreamReader as NBSR
 #nbstreamreader.py https://gist.github.com/EyalAr/7915597
 
-ver = "Minecraft SNAPSHOT .commands script v0.48"
+ver = "Minecraft SNAPSHOT .commands script v0.49"
 bannershown = False
 
 def banner():
@@ -103,21 +103,21 @@ while True:
 		print "[" + get24hrtime() + "] [Script thread/EXEC]: " + autosave,
 		p.stdin.write(autosave)
 		print cmdout,
-		autosave = "say World saved. Autosave by " + ver +  "\n"
+		autosave = 'tellraw @a {"text":"World saved. Autosave by ' + ver + '","color":"yellow"}\n'
 		print "[" + get24hrtime() + "] [Script thread/EXEC]: " + autosave,
 		p.stdin.write(autosave)
 		print cmdout,
 	if useautoclear == True and ((currtime - lasttimeclear) > (autoclearint-60)):
 		if clearwarn60 == False:
 			if ((currtime - lasttimeclear) > (autoclearint-60)):
-				autoclear = "say Clearing items in 1 minute!\n"
+				autoclear = 'tellraw @a {"text":"Clearing Items in 1 minute!","color":"aqua"}\n'
 				clearwarn60 = True
 				print "[" + get24hrtime() + "] [Script thread/EXEC]: " + autoclear,
 				p.stdin.write(autoclear)
 				print cmdout,
 		if clearwarn10 == False:
 			if ((currtime - lasttimeclear) > (autoclearint-10)):
-				autoclear = "say Clearing items in 10 seconds!\n"
+				autoclear = 'tellraw @a {"text":"Clearing items in 10 seconds!","color":"aqua"}\n'
 				clearwarn10 = True
 				print "[" + get24hrtime() + "] [Script thread/EXEC]: " + autoclear,
 				p.stdin.write(autoclear)
@@ -128,7 +128,7 @@ while True:
 		print "[" + get24hrtime() + "] [Script thread/EXEC]: " + autoclear,
 		p.stdin.write(autoclear)
 		print cmdout,
-		autoclear = "say Items cleared. Autoclear by " + ver +  "\n"
+		autoclear = 'tellraw @a {"text":"Items cleared. Autoclear by ' + ver +  '","color":"aqua"}\n'
 		p.stdin.write(autoclear)
 		print cmdout,
 		clearwarn60 = False
@@ -174,12 +174,12 @@ while True:
 						p.stdin.write(cmdin)
 		if tmp[4] == '.commands':
 			player = getplayername(tmp[3])
-			cmdin = "tell " + player + " Commands are: .spawn .sethome .home .rtp .setwarp .warp .whois .ping .seen .commands .about .help\n"
+			cmdin = 'tellraw ' + player + ' {"text":"Commands are: .spawn .sethome .home .rtp .setwarp .warp .whois .ping .seen .commands .about .help","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 		if tmp[4] == '.about':
 			player = getplayername(tmp[3])
-			cmdin = "say " + ver + " -- Written by YT_Veritas0923 (GitHub: Veritas83 Twitter: @Veritas_83)\n"
+			cmdin = 'tellraw @a {"text":"' + ver + ' -- Written by YT_Veritas0923 (GitHub: Veritas83 Twitter: @Veritas_83)","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 		if tmp[4] == '.ping':
@@ -205,7 +205,11 @@ while True:
 							if pingreply[t][0:5] == "Reply":
 								tmparray4 = string.split(pingreply[t]," ")
 								msreply = tmparray4[4][5:]
-								cmdin = "say " + player + " Ping: " + msreply + "\n"
+								cmdin = 'tellraw @a {"text":"' + player + ' Ping: ' + msreply + '","color":"aqua"}\n'
+								print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+								p.stdin.write(cmdin)
+							elif pingreply[t][0:7] == "Request":
+								cmdin = 'tellraw @a {"text":"' + player + ' Ping: Timeout or ping blocked. Make sure your network does not discard ping!","color":"aqua"}\n'
 								print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 								p.stdin.write(cmdin)
 		if tmp[4] == '.seen' and len(tmp) == 6:
@@ -223,7 +227,7 @@ while True:
 					else:
 						derp=True
 			if playerisonline == True:
-				cmdin = "say Look harder! Player is online right now!\n"
+				cmdin = 'tellraw @a {"text":"Look harder! Player is online right now!","color":"aqua"}\n'
 				print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 				p.stdin.write(cmdin)
 			else:
@@ -238,50 +242,50 @@ while True:
 								mintmp = string.split(hours,'.')
 								hours = int(mintmp[0])
 								minutes = round((60 * float('0.' + mintmp[1])))
-								cmdin = "say Player: " + seen + " was last online " + str(int(hours)) + " hours " + str(int(minutes)) + " minutes ago.\n"
+								cmdin = 'tellraw @a {"text":"Player: ' + seen + ' was last online ' + str(int(hours)) + ' hours ' + str(int(minutes)) + ' minutes ago.","color":"aqua"}\n'
 							else:
-								cmdin = "say Player: " + seen + " was last online " + str(round(((time.time() - float(dbt[4])) / 60.0))) + " minutes ago.\n"
+								cmdin = 'tellraw @a {"text":"Player: ' + seen + ' was last online ' + str(round(((time.time() - float(dbt[4])) / 60.0))) + ' minutes ago.","color":"aqua"}\n'
 							print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 							p.stdin.write(cmdin)
 		if tmp[4] == '.help':
 			player = getplayername(tmp[3])
-			cmdin = "say " + ver + " help\n"
+			cmdin = 'tellraw ' + player + ' {"text":"' + ver + ' help","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
-			cmdin = "say spawn - teleports you to spawn\n"
+			cmdin = 'tellraw ' + player + ' {"text":"spawn - teleports you to spawn","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
-			cmdin = "say sethome - sets .home to current coordinates\n"
+			cmdin = 'tellraw ' + player + ' {"text":"sethome - sets .home to current coordinates","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
-			cmdin = "say home - teleports you to your set home\n"
+			cmdin = 'tellraw ' + player + ' {"text":"home - teleports you to your set home","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
-			cmdin = "say rtp - teleports you to a random location\n"
+			cmdin = 'tellraw ' + player + ' {"text":"rtp - teleports you to a random location","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
-			cmdin = "say setwarp name - sets a public .warp as given name. name cannot contain spaces\n"
+			cmdin = 'tellraw ' + player + ' {"text":"setwarp name - sets a public .warp as given name. name cannot contain spaces","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
-			cmdin = "say warp name - teleports you to warp name. List warps with just .warp\n"
+			cmdin = 'tellraw ' + player + ' {"text":"warp name - teleports you to warp name. List warps with just .warp","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
-			cmdin = "say whois player - checks if player has played on this server\n"
+			cmdin = 'tellraw ' + player + ' {"text":"whois player - checks if player has played on this server","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
-			cmdin = "say ping - causes server to reply with ping response time in ms\n"
+			cmdin = 'tellraw ' + player + ' {"text":"ping - causes server to reply with ping response time in ms","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
-			cmdin = "say seen player - displays when player was last seen online\n"
+			cmdin = 'tellraw ' + player + ' {"text":"seen player - displays when player was last seen online","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
-			cmdin = "say commands - list available commands\n"
+			cmdin = 'tellraw ' + player + ' {"text":"commands - list available commands","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
-			cmdin = "say about - display script version and author information\n"
+			cmdin = 'tellraw ' + player + ' {"text":"about - display script version and author information","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
-			cmdin = "say help - displays commands and their usage\n"
+			cmdin = 'tellraw ' + player + ' {"text":"help - displays commands and their usage","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 		if tmp[4] == '.warp':
@@ -291,7 +295,7 @@ while True:
 				warpname = tmp[5]
 			else:
 				warplist = True
-				cmdin = "tell " + player + " Warp List:\n"
+				cmdin = 'tellraw ' + player + ' {"text":"Warp List:","color":"aqua"}\n'
 				print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 				p.stdin.write(cmdin)
 			with open('warps.csv','rb') as csvfile:
@@ -306,7 +310,7 @@ while True:
 					elif warplist == True:
 						warpstr = warpstr + wt[0] + ", "
 			if warplist == True:
-				cmdin = "tell " + player + " " + warpstr[:-2] + "\n"
+				cmdin = 'tellraw ' + player + ' {"text":"' + warpstr[:-2] + '","color":"aqua"}\n'
 				print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 				p.stdin.write(cmdin)
 			warplist = False
@@ -329,11 +333,11 @@ while True:
 						playername = tmp[5]
 						if dbt[0] == playername:
 							oldplayer = True
-							cmdin = "say " + playername + " playing here since " + dbt[2] + "\n"
+							cmdin = 'tellraw @a {"text":"' + playername + ' playing here since ' + dbt[2] + '","color":"aqua"}\n'
 							print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 							p.stdin.write(cmdin)
 			if oldplayer == False:		
-						cmdin = "say " + playername + " not found.\n"
+						cmdin = 'tellraw @a {"text":"' + playername + ' not found.","color":"aqua"}\n'
 						print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 						p.stdin.write(cmdin)
 	##
@@ -452,7 +456,7 @@ while True:
 					playerdb = csv.writer(csvfile,delimiter=',',dialect='excel')
 					playerdb.writerow([newplayer,playerip,getdate(),getdate(),time.time()])	
 					motd = string.replace(motd, "PLAYER_NAME", player)
-					cmdin = "say " + motd + "'\n"
+					cmdin = 'tellraw @a {"text":"' + motd + '","color":"yellow"}\n'
 					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 					motd = string.replace(motd, player,"PLAYER_NAME")
 					p.stdin.write(cmdin)
@@ -466,7 +470,7 @@ while True:
 			if oldplayer==True:
 					motd = string.replace(motd, "PLAYER_NAME", player)
 					motd = string.replace(motd, "Welcome to ", "Welcome back to ")
-					cmdin = "say " + motd + "'\n"
+					cmdin = 'tellraw @a {"text":"' + motd + '","color":"yellow"}\n'
 					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 					motd = string.replace(motd, player,"PLAYER_NAME")
 					motd = string.replace(motd, "Welcome back to ", "Welcome to ")

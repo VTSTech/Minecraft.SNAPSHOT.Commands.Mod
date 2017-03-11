@@ -1,4 +1,4 @@
-# Minecraft SNAPSHOT .commands script v0.48
+# Minecraft SNAPSHOT .commands script v0.49
 
 Written by YT_Veritas0923             
 
@@ -10,12 +10,12 @@ GitHub: Veritas83
 
 BTC 18j2Env7QokhGG5MccS3LPBKnjsko6u4NQ
 
-<img src="https://i.gyazo.com/888a6598c5daf3d84d054e1b2d035058.png">
+<img src="https://i.gyazo.com/a55c9db2ef5b1894b25a066a9689e1e2.png">
 
 
 Simply place beside your minecraft_server.jar and run.
 
-<img src="https://i.gyazo.com/ff0dd56d0143d940dcbaa716b08f9942.png">
+<img src="https://i.gyazo.com/3f69a9231bfa9352003d08e2733570d8.png">
 
 Config:
 <pre>
