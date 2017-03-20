@@ -1,4 +1,4 @@
-# Minecraft SNAPSHOT .commands script v0.49
+# Minecraft SNAPSHOT .commands script v0.50
 
 Written by YT_Veritas0923             
 
@@ -55,6 +55,8 @@ Commands:
 .ping
 
 .seen
+
+.uptime
 
 .help
 

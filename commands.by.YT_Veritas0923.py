@@ -1,10 +1,10 @@
-import subprocess, string, csv, time, logging, threading, random
+import subprocess, string, csv, time, logging, threading, random, datetime
 from subprocess import Popen, PIPE
 from time import sleep
 from nbstreamreader import NonBlockingStreamReader as NBSR
 #nbstreamreader.py https://gist.github.com/EyalAr/7915597
 
-ver = "Minecraft SNAPSHOT .commands script v0.49"
+ver = "Minecraft SNAPSHOT .commands script v0.50"
 bannershown = False
 
 def banner():
@@ -48,10 +48,12 @@ nbsr = NBSR(p.stdout)
 print banner()
 
 currtime = time.time()
+starttime = time.time()
 lasttimesave = currtime
 lasttimeclear = currtime
 lasttimepoll = currtime
 playerisonline = False
+playerisseen = False
 clearwarn10 = False
 clearwarn60 = False
 warplist = False
@@ -62,6 +64,7 @@ sbset = False
 isop=False
 tmparray=[]
 cmdout = "[" + get24hrtime() + "] [Script thread/IDLE]: There was no output for awhile\n"
+strtime= time.clock()
 warpstr = ''
 derp=''
 seen=''
@@ -174,12 +177,19 @@ while True:
 						p.stdin.write(cmdin)
 		if tmp[4] == '.commands':
 			player = getplayername(tmp[3])
-			cmdin = 'tellraw ' + player + ' {"text":"Commands are: .spawn .sethome .home .rtp .setwarp .warp .whois .ping .seen .commands .about .help","color":"aqua"}\n'
+			cmdin = 'tellraw ' + player + ' {"text":"Commands are: .spawn .sethome .home .rtp .setwarp .warp .whois .ping .seen .uptime .commands .about .help","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 		if tmp[4] == '.about':
 			player = getplayername(tmp[3])
 			cmdin = 'tellraw @a {"text":"' + ver + ' -- Written by YT_Veritas0923 (GitHub: Veritas83 Twitter: @Veritas_83)","color":"aqua"}\n'
+			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+			p.stdin.write(cmdin)
+		if tmp[4] == '.uptime':
+			player = getplayername(tmp[3])
+			strtime = str(datetime.timedelta(seconds=round(time.clock())))
+			strtime = string.split(strtime,":")
+			cmdin = 'tellraw @a {"text":"Server Uptime: ' + strtime[0] + strtime[0] + ' hours, ' + strtime[1] + ' minutes, ' + strtime[2] + ' seconds","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 		if tmp[4] == '.ping':
@@ -216,7 +226,8 @@ while True:
 			player = getplayername(tmp[3])
 			seen = tmp[5]
 			playerisonline=False
-			#Open online list, Read it, Inform player is online
+			playerisseen=False
+			#Open online list, Read it, Inform if player is online
 			with open('online.csv','rb') as csvfile:
 				online = csv.reader(csvfile,delimiter=',',dialect='excel')
 				for row in online:
@@ -224,6 +235,7 @@ while True:
 					ot = string.split(o,',')
 					if ot[0] == seen:
 						playerisonline = True
+						playerisseen = True
 					else:
 						derp=True
 			if playerisonline == True:
@@ -237,14 +249,14 @@ while True:
 						db = ', '.join(row)
 						dbt = string.split(db,', ')
 						if dbt[0] == seen:
-							if ((time.time() - float(dbt[4])) / 60.0) > 60:
-								hours = str((((time.time() - float(dbt[4])) / 60.0) / 60.0))
-								mintmp = string.split(hours,'.')
-								hours = int(mintmp[0])
-								minutes = round((60 * float('0.' + mintmp[1])))
-								cmdin = 'tellraw @a {"text":"Player: ' + seen + ' was last online ' + str(int(hours)) + ' hours ' + str(int(minutes)) + ' minutes ago.","color":"aqua"}\n'
-							else:
-								cmdin = 'tellraw @a {"text":"Player: ' + seen + ' was last online ' + str(round(((time.time() - float(dbt[4])) / 60.0))) + ' minutes ago.","color":"aqua"}\n'
+							playerisseen = True
+							strtime = str(datetime.timedelta(seconds=round((time.time() - float(dbt[4])))))
+							strtime = string.split(strtime,":")
+							cmdin = 'tellraw @a {"text":"Player: ' + seen + ' was last online ' + strtime[0] + ' hours, ' + strtime[1] + ' minutes, ' + strtime[2] + ' seconds ago","color":"aqua"}\n'
+							print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+							p.stdin.write(cmdin)
+					if playerisseen == False:
+							cmdin = 'tellraw @a {"text":"Player: ' + seen + ' has not been seen","color":"aqua"}\n'
 							print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 							p.stdin.write(cmdin)
 		if tmp[4] == '.help':
@@ -277,6 +289,9 @@ while True:
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 			cmdin = 'tellraw ' + player + ' {"text":"seen player - displays when player was last seen online","color":"aqua"}\n'
+			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+			p.stdin.write(cmdin)
+			cmdin = 'tellraw ' + player + ' {"text":"uptime - displays server uptime","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 			cmdin = 'tellraw ' + player + ' {"text":"commands - list available commands","color":"aqua"}\n'
