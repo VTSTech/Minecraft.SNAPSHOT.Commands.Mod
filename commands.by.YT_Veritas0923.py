@@ -187,9 +187,12 @@ while True:
 			p.stdin.write(cmdin)
 		if tmp[4] == '.uptime':
 			player = getplayername(tmp[3])
-			strtime = str(datetime.timedelta(seconds=round(time.clock())))
-			strtime = string.split(strtime,":")
-			cmdin = 'tellraw @a {"text":"Server Uptime: ' + strtime[0] + strtime[0] + ' hours, ' + strtime[1] + ' minutes, ' + strtime[2] + ' seconds","color":"aqua"}\n'
+			minutes, seconds = divmod(time.clock(), 60)
+			hours, minutes = divmod(minutes, 60)
+			days, hours = divmod(hours, 24)
+			months, days = divmod(days, 30)
+			strtime = str(round(days)) + " days " + str(round(hours)) + " hours " + str(round(minutes)) + " minutes " + str(round(seconds)) + " seconds"
+			cmdin = 'tellraw @a {"text":"Server Uptime: ' + strtime + '","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 		if tmp[4] == '.ping':
@@ -250,9 +253,12 @@ while True:
 						dbt = string.split(db,', ')
 						if dbt[0] == seen:
 							playerisseen = True
-							strtime = str(datetime.timedelta(seconds=round((time.time() - float(dbt[4])))))
-							strtime = string.split(strtime,":")
-							cmdin = 'tellraw @a {"text":"Player: ' + seen + ' was last online ' + strtime[0] + ' hours, ' + strtime[1] + ' minutes, ' + strtime[2] + ' seconds ago","color":"aqua"}\n'
+							minutes, seconds = divmod(round((time.time() - float(dbt[4]))), 60)
+							hours, minutes = divmod(minutes, 60)
+							days, hours = divmod(hours, 24)
+							months, days = divmod(days, 30)
+							strtime = str(round(days)) + " days " + str(round(hours)) + " hours " + str(round(minutes)) + " minutes " + str(round(seconds)) + " seconds"
+							cmdin = 'tellraw @a {"text":"Player: ' + seen + ' was last online ' + strtime + ' ago","color":"aqua"}\n'
 							print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 							p.stdin.write(cmdin)
 					if playerisseen == False:

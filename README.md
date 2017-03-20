@@ -10,12 +10,12 @@ GitHub: Veritas83
 
 BTC 18j2Env7QokhGG5MccS3LPBKnjsko6u4NQ
 
-<img src="https://i.gyazo.com/a55c9db2ef5b1894b25a066a9689e1e2.png">
+<img src="https://i.gyazo.com/0f5d52f6c8347699f141e7454b0bede4.png">
 
 
 Simply place beside your minecraft_server.jar and run.
 
-<img src="https://i.gyazo.com/3f69a9231bfa9352003d08e2733570d8.png">
+<img src="https://i.gyazo.com/3bdb0758d6e0bcb9f6bc2bdcd8484f1d.png">
 
 Config:
 <pre>
