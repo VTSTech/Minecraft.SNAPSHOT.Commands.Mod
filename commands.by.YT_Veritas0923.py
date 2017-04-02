@@ -4,7 +4,7 @@ from time import sleep
 from nbstreamreader import NonBlockingStreamReader as NBSR
 #nbstreamreader.py https://gist.github.com/EyalAr/7915597
 
-ver = "Minecraft SNAPSHOT .commands script v0.50"
+ver = "Minecraft SNAPSHOT .commands script v0.51"
 bannershown = False
 
 def banner():
@@ -35,7 +35,8 @@ useautoclear = True 																					 # Use Autoclear?
 autosaveint = 1776																					   # Autosave Interval in seconds
 autoclearint = 3625																					   # Autoclear Interval in seconds
 freeshulkerbox = True																					 # Gives new players a shulker box on their first connect
-motd = "!## MOTD ##! Welcome to mc.nigeltodman.com, PLAYER_NAME! See our custom commands and their usage with '.help' * March Gamerules: keepInventory:Off mobGriefing:On Difficulty:Hard"
+motd = "!## MOTD ##! Welcome to mc.nigeltodman.com, PLAYER_NAME! See our custom commands and their usage with '.help' * April Gamerules: limitedCrafting:Off keepInventory:On mobGriefing:Off Difficulty:Hard"
+votemsg = "Vote for this server! Vote #1 adf.ly/1kVCJK #2 adf.ly/1kVCLs #3 adf.ly/1g4VYV"
 																					   									 # Message of the Day notes:
 																					   									 # PLAYER_NAME is replaced with connecting player.
 ## End Config   ##												   									 # 'Welcome to' is replaced by 'Welcome back to' for returning players.
@@ -69,6 +70,7 @@ warpstr = ''
 derp=''
 seen=''
 op=''
+playercnt = 0
 x=0
 t=0
 while True:
@@ -177,12 +179,17 @@ while True:
 						p.stdin.write(cmdin)
 		if tmp[4] == '.commands':
 			player = getplayername(tmp[3])
-			cmdin = 'tellraw ' + player + ' {"text":"Commands are: .spawn .sethome .home .rtp .setwarp .warp .whois .ping .seen .uptime .commands .about .help","color":"aqua"}\n'
+			cmdin = 'tellraw ' + player + ' {"text":"Commands are: .spawn .sethome .home .rtp .setwarp .warp .whois .ping .seen .uptime .stats .vote .commands .about .help","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 		if tmp[4] == '.about':
 			player = getplayername(tmp[3])
 			cmdin = 'tellraw @a {"text":"' + ver + ' -- Written by YT_Veritas0923 (GitHub: Veritas83 Twitter: @Veritas_83)","color":"aqua"}\n'
+			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+			p.stdin.write(cmdin)
+		if tmp[4] == '.vote':
+			player = getplayername(tmp[3])
+			cmdin = 'tellraw @a {"text":"' + votemsg + '","color":"yellow"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 		if tmp[4] == '.uptime':
@@ -297,6 +304,12 @@ while True:
 			cmdin = 'tellraw ' + player + ' {"text":"seen player - displays when player was last seen online","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
+			cmdin = 'tellraw ' + player + ' {"text":"stats - displays total players in PlayerDB and server uptime","color":"aqua"}\n'
+			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+			p.stdin.write(cmdin)
+			cmdin = 'tellraw ' + player + ' {"text":"vote - displays server vote links","color":"aqua"}\n'
+			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+			p.stdin.write(cmdin)
 			cmdin = 'tellraw ' + player + ' {"text":"uptime - displays server uptime","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
@@ -361,6 +374,21 @@ while True:
 						cmdin = 'tellraw @a {"text":"' + playername + ' not found.","color":"aqua"}\n'
 						print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 						p.stdin.write(cmdin)
+		if tmp[4] == '.stats':
+			playercnt = 0
+			minutes, seconds = divmod(time.clock(), 60)
+			hours, minutes = divmod(minutes, 60)
+			days, hours = divmod(hours, 24)
+			months, days = divmod(days, 30)
+			strtime = str(round(days)) + " days " + str(round(hours)) + " hours " + str(round(minutes)) + " minutes " + str(round(seconds)) + " seconds"
+			with open('playerdb.csv','rb') as csvfile:
+				playerdb = csv.reader(csvfile,delimiter=',',dialect='excel')
+				for row in playerdb:
+					playercnt = playercnt + 1
+			if playercnt >= 1:		
+				cmdin = 'tellraw @a {"text":"Total Players: ' + str(playercnt) + ' Uptime: ' + strtime + '","color":"aqua"}\n'
+				print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+				p.stdin.write(cmdin)
 	##
 	#Mod .commands
 	##
