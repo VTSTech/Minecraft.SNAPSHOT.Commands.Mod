@@ -4,7 +4,7 @@ from time import sleep
 from nbstreamreader import NonBlockingStreamReader as NBSR
 #nbstreamreader.py https://gist.github.com/EyalAr/7915597
 
-ver = "Minecraft SNAPSHOT .commands script v0.51"
+ver = "Minecraft SNAPSHOT .commands script v0.52"
 bannershown = False
 
 def banner():
@@ -28,7 +28,7 @@ def getplayername(txt):
 
 ## Start Config ##
 javacmd = 'java -Xms2G -Xmx2G -jar minecraft_server.jar nogui' # Java command line to start Minecraft Server jar, Must use nogui
-spawn = "0 64 -3"  																						 # WorldSpawn Coordinates
+spawn = "0 64 -3"   																					 # WorldSpawn Coordinates
 rtpradius = 35000  																						 # Random Teleport radius (-35000,35000)
 useautosave = True 																						 # Use Autosave?
 useautoclear = True 																					 # Use Autoclear?
@@ -37,6 +37,7 @@ autoclearint = 3625																					   # Autoclear Interval in seconds
 freeshulkerbox = True																					 # Gives new players a shulker box on their first connect
 motd = "!## MOTD ##! Welcome to mc.nigeltodman.com, PLAYER_NAME! See our custom commands and their usage with '.help' * April Gamerules: limitedCrafting:Off keepInventory:On mobGriefing:Off Difficulty:Hard"
 votemsg = "Vote for this server! Vote #1 adf.ly/1kVCJK #2 adf.ly/1kVCLs #3 adf.ly/1g4VYV"
+admin="YT_Veritas0923"
 																					   									 # Message of the Day notes:
 																					   									 # PLAYER_NAME is replaced with connecting player.
 ## End Config   ##												   									 # 'Welcome to' is replaced by 'Welcome back to' for returning players.
@@ -62,11 +63,13 @@ sethome = False
 setwarp = False
 logged = False
 sbset = False
+ismod=False
 isop=False
 tmparray=[]
 cmdout = "[" + get24hrtime() + "] [Script thread/IDLE]: There was no output for awhile\n"
 strtime= time.clock()
 warpstr = ''
+modstr = ''
 derp=''
 seen=''
 op=''
@@ -179,7 +182,7 @@ while True:
 						p.stdin.write(cmdin)
 		if tmp[4] == '.commands':
 			player = getplayername(tmp[3])
-			cmdin = 'tellraw ' + player + ' {"text":"Commands are: .spawn .sethome .home .rtp .setwarp .warp .whois .ping .seen .uptime .stats .vote .commands .about .help","color":"aqua"}\n'
+			cmdin = 'tellraw ' + player + ' {"text":"User Commands are: .spawn .sethome .home .rtp .warp .whois .ping .seen .uptime .stats .staff .vote .commands .about .help Mod Commands are: .setwarp .kick","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 		if tmp[4] == '.about':
@@ -289,9 +292,6 @@ while True:
 			cmdin = 'tellraw ' + player + ' {"text":"rtp - teleports you to a random location","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
-			cmdin = 'tellraw ' + player + ' {"text":"setwarp name - sets a public .warp as given name. name cannot contain spaces","color":"aqua"}\n'
-			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
-			p.stdin.write(cmdin)
 			cmdin = 'tellraw ' + player + ' {"text":"warp name - teleports you to warp name. List warps with just .warp","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
@@ -316,10 +316,19 @@ while True:
 			cmdin = 'tellraw ' + player + ' {"text":"commands - list available commands","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
+			cmdin = 'tellraw ' + player + ' {"text":"staff - list server staff","color":"aqua"}\n'
+			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+			p.stdin.write(cmdin)
 			cmdin = 'tellraw ' + player + ' {"text":"about - display script version and author information","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 			cmdin = 'tellraw ' + player + ' {"text":"help - displays commands and their usage","color":"aqua"}\n'
+			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+			p.stdin.write(cmdin)
+			cmdin = 'tellraw ' + player + ' {"text":"setwarp name - sets a public .warp as given name. name cannot contain spaces","color":"red"}\n'
+			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+			p.stdin.write(cmdin)
+			cmdin = 'tellraw ' + player + ' {"text":"kick player reason - kicks a player, reason is optional. reason cannot contain spaces (use . instead of space)","color":"red"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 		if tmp[4] == '.warp':
@@ -389,6 +398,14 @@ while True:
 				cmdin = 'tellraw @a {"text":"Total Players: ' + str(playercnt) + ' Uptime: ' + strtime + '","color":"aqua"}\n'
 				print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 				p.stdin.write(cmdin)
+		if tmp[4] == '.staff':
+			mods = open('mods.csv','rb')
+			for line in mods:
+				if len(line) > 3:
+					modstr = modstr + line[:-2] + " "
+			cmdin = 'tellraw @a {"text":"Server Admin: ' + str(admin) + ' Mods: ' + modstr + '","color":"red"}\n'
+			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+			p.stdin.write(cmdin)
 	##
 	#Mod .commands
 	##
@@ -414,6 +431,23 @@ while True:
 					cmdin = "say Only ops may .setwarp\n"
 					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 					p.stdin.write(cmdin)
+		if tmp[4] == '.kick':
+			ismod=False
+			mods = open('mods.csv','rb')
+			player = getplayername(tmp[3])
+			for line in mods:
+				if line[:-2] == player:
+					ismod=True
+			if ismod == True or str(player) == str(admin):
+				if len(tmp) > 5:
+					pkick = tmp[5]
+					cmdin = "kick " + pkick + "\n"
+				if len(tmp) > 6:
+					pkick = tmp[5]
+					kreason = tmp[6]
+					cmdin = "kick " + pkick + " " + kreason + "\n"
+				print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+				p.stdin.write(cmdin)
 	##
 	#Event functions
 	##
