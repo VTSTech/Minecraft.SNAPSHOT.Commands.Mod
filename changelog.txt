@@ -1,0 +1,74 @@
+
+
+Changelog:
+
+v0.53
+Added .tpa .tpaccept .tpdeny .report
+Updated .commands and .help to reflect new commands.
+Increased .ping timeout to 4000ms
+
+v0.52
+added moderators.
+Added .kick
+Added .staff
+Added 'admin' to config, Bypasses mods.csv list requirement for mod
+commands
+Updated .commands and .help to reflect new commands
+
+specify admin player name in config. add mods to mods.csv, 1 player name
+per line.
+
+v0.51
+Added .stats - displays total players in PlayerDB and server uptime
+Added .vote - displays votemsg from config
+Updated .commands and .help to reflect new commands
+
+v0.50
+Added .uptime command
+.seen now reports if player is not seen
+
+v0.49
+Now using /tellraw instead of /say
+Colorized most script output
+
+v0.48
+.ping now returns actual ms response time
+updated .help output to reflect changes
+
+v0.48 (Internal)
+Fixed bug where script would crash if .seen and no player specified
+.ping now pings current ip, not first seen ip.
+Logic error in .sethome for new players, Forgot a condition
+
+v0.47
+Now allows only 1 .home to be set. Replaces existing homes.csv entry
+(Previous ver would tp to all homes in sequence ending in last set home)
+Added option to give a free shulker box on first connect
+
+v0.46
+.setwarp is now only available to ops
+Excessive output from timed 15s dimension check is now filtered
+
+v0.45
+Welcome message is now an MOTD
+MOTD is now set in config block
+Enabled dimension detection (15s timer)
+.warp & .home will no longer tp if not in Overworld
+Added .seen to .help output
+
+v0.45 (Internal)
+Fixed bug causing excess online entries to be written
+.seen now displays hours and minutes
+
+v0.44
+Added .seen
+Online players stored in online.csv
+All players stored in playerdb.csv
+
+v0.43
+Added config option for rtp radius
+Added [Script thread/EXEC] prefix to console output
+Added [Script thread/IDLE] prefix to Idle check
+Autoclear now warns at 60s and 10s
+Added .ping and .whois commands
+Now welcomes players both old and new.
