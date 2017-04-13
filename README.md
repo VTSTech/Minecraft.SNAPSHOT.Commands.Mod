@@ -1,4 +1,4 @@
-# Minecraft SNAPSHOT .commands script v0.52
+# Minecraft SNAPSHOT .commands script v0.53
 
 Written by YT_Veritas0923             
 
@@ -57,11 +57,19 @@ User Commands:
 
 .ping
 
+.report
+
 .seen
 
 .stats
 
 .staff
+
+.tpa
+
+.tpaccept
+
+.tpdeny
 
 .vote
 

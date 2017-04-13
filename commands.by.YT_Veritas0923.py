@@ -4,7 +4,7 @@ from time import sleep
 from nbstreamreader import NonBlockingStreamReader as NBSR
 #nbstreamreader.py https://gist.github.com/EyalAr/7915597
 
-ver = "Minecraft SNAPSHOT .commands script v0.52"
+ver = "Minecraft SNAPSHOT .commands script v0.53"
 bannershown = False
 
 def banner():
@@ -25,10 +25,13 @@ def getplayername(txt):
 		player = string.strip(txt,"<")
 		player = string.strip(player,">")	
 		return player
+#spawn = "-82 64 264" Dev Server coords		(MC.NIGELTODMAN.COM:25599)
+#spawn = "0 64 -3"    Snapshot srv coords (MC.NIGELTODMAN.COM:25565)
+#spawn = "206 64 259" VNNLA Server coords (VNLLA.NIGELTODMAN.COM:25566)
 
 ## Start Config ##
 javacmd = 'java -Xms2G -Xmx2G -jar minecraft_server.jar nogui' # Java command line to start Minecraft Server jar, Must use nogui
-spawn = "0 64 -3"   																					 # WorldSpawn Coordinates
+spawn = "-82 64 264"   																					 # WorldSpawn Coordinates
 rtpradius = 35000  																						 # Random Teleport radius (-35000,35000)
 useautosave = True 																						 # Use Autosave?
 useautoclear = True 																					 # Use Autoclear?
@@ -50,17 +53,23 @@ nbsr = NBSR(p.stdout)
 print banner()
 
 currtime = time.time()
-starttime = time.time()
+starttime = currtime
+tpastart = currtime
 lasttimesave = currtime
 lasttimeclear = currtime
 lasttimepoll = currtime
+lasttimetpa = currtime
 playerisonline = False
 playerisseen = False
 clearwarn10 = False
 clearwarn60 = False
+tpasent = False
 warplist = False
 sethome = False
 setwarp = False
+tpareq = False
+tpyes = False
+tpno = True
 logged = False
 sbset = False
 ismod=False
@@ -70,12 +79,18 @@ cmdout = "[" + get24hrtime() + "] [Script thread/IDLE]: There was no output for 
 strtime= time.clock()
 warpstr = ''
 modstr = ''
+reportstr = ''
+writestr = ''
+reported = ''
+tpasource = ''
+tpatarget = ''
 derp=''
 seen=''
 op=''
 playercnt = 0
 x=0
 t=0
+i=0
 while True:
 	output = nbsr.readline(0.1)
 	# 0.1 secs to let the shell output the result
@@ -158,6 +173,7 @@ while True:
 	#User .commands
 	##
 	if len(tmp) > 4:
+		player = getplayername(tmp[3])
 		if tmp[4] == '.spawn':
 			player = getplayername(tmp[3])
 			cmdin = "tp @a[name=" + player + ",score_inOverworld_min=1] " + spawn + "\n"
@@ -182,7 +198,7 @@ while True:
 						p.stdin.write(cmdin)
 		if tmp[4] == '.commands':
 			player = getplayername(tmp[3])
-			cmdin = 'tellraw ' + player + ' {"text":"User Commands are: .spawn .sethome .home .rtp .warp .whois .ping .seen .uptime .stats .staff .vote .commands .about .help Mod Commands are: .setwarp .kick","color":"aqua"}\n'
+			cmdin = 'tellraw ' + player + ' {"text":"User Commands are: .spawn .sethome .home .rtp .warp .whois .ping .report .seen .uptime .stats .staff .tpa .tpaccept .tpdeny .vote .report .commands .about .help Mod Commands are: .setwarp .kick","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 		if tmp[4] == '.about':
@@ -218,7 +234,7 @@ while True:
 					if dbt[0] == player:
 						host = dbt[1]
 						ping = subprocess.Popen(
-						    ["ping", "-n", "1", "-l", "2", "-w", "2000", host],
+						    ["ping", "-n", "1", "-l", "2", "-w", "4000", host],
 						    stdout = subprocess.PIPE,
 						    stderr = subprocess.PIPE
 						)
@@ -301,16 +317,28 @@ while True:
 			cmdin = 'tellraw ' + player + ' {"text":"ping - causes server to reply with ping response time in ms","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
+			cmdin = 'tellraw ' + player + ' {"text":"report player reason - reports player for specified reason","color":"aqua"}\n'
+			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+			p.stdin.write(cmdin)
 			cmdin = 'tellraw ' + player + ' {"text":"seen player - displays when player was last seen online","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 			cmdin = 'tellraw ' + player + ' {"text":"stats - displays total players in PlayerDB and server uptime","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
-			cmdin = 'tellraw ' + player + ' {"text":"vote - displays server vote links","color":"aqua"}\n'
+			cmdin = 'tellraw ' + player + ' {"text":"tpa player - sends .tpa request to specified player","color":"aqua"}\n'
+			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+			p.stdin.write(cmdin)
+			cmdin = 'tellraw ' + player + ' {"text":"tpaccept - Accepts .tpa request. Teleports player to you.","color":"aqua"}\n'
+			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+			p.stdin.write(cmdin)
+			cmdin = 'tellraw ' + player + ' {"text":"tpdeny - Denies .tpa request.","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 			cmdin = 'tellraw ' + player + ' {"text":"uptime - displays server uptime","color":"aqua"}\n'
+			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+			p.stdin.write(cmdin)
+			cmdin = 'tellraw ' + player + ' {"text":"vote - displays server vote links","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 			cmdin = 'tellraw ' + player + ' {"text":"commands - list available commands","color":"aqua"}\n'
@@ -400,13 +428,62 @@ while True:
 				p.stdin.write(cmdin)
 		if tmp[4] == '.staff':
 			mods = open('mods.csv','rb')
+			modstr = ''
 			for line in mods:
 				if len(line) > 3:
 					modstr = modstr + line[:-2] + " "
 			cmdin = 'tellraw @a {"text":"Server Admin: ' + str(admin) + ' Mods: ' + modstr + '","color":"red"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
-	##
+		if tmp[4] == '.report':
+			player = getplayername(tmp[3])
+			if len(tmp) > 5:
+				reported = tmp[5]
+				for i in range(6,len(tmp)):
+					reportstr = reportstr + tmp[i] + "."
+					i=i+1
+				with open('reports.csv','wb') as csvfile:
+					tmparray3 = []
+					reports = csv.writer(csvfile,delimiter='\n',dialect='excel')
+					writestr = player + "," + reported + "," + reportstr + "," + getdate() + "," + get24hrtime()
+					reports.writerow([writestr])
+				cmdin = 'tellraw @a {"text":"Reporting: ' + str(reported) + ' Reason: ' + reportstr + '","color":"red"}\n'
+				print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+				p.stdin.write(cmdin)
+		if tmp[4] == '.tpa':
+			player = getplayername(tmp[3])
+			tpastart = time.time()
+			tpareq = True
+			tpyes = False
+			tpasent = False
+			if len(tmp) > 5:
+				tpasource = player
+				tpatarget = tmp[5]
+				cmdin = 'tellraw @a {"text":"Sending .tpa request to ' + tpatarget + ' from ' + tpasource + ' Type .tpaccept to accept. .tpdeny to deny","color":"red"}\n'
+				print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+				p.stdin.write(cmdin)
+		if tmp[4] == '.tpaccept' and player == tpatarget and tpareq == True:
+			tpyes = True
+			tpno = False
+			tpareq = False
+			cmdin = 'tellraw @a {"text":"Accepting .tpa request to ' + tpatarget + ' from ' + tpasource + '!","color":"red"}\n'
+			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+			p.stdin.write(cmdin)
+			lasttimetpa = time.time()
+			cmdin = "tp " + tpasource + " " + tpatarget + "\n"
+			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+			p.stdin.write(cmdin)			
+			tpareq = False		
+			tpyes = False
+			tpasent = False
+		if tmp[4] == '.tpdeny' and player == tpatarget and tpareq == True:
+			tpyes = False
+			tpno = True
+			tpareq = False
+			cmdin = 'tellraw @a {"text":"Denying .tpa request to ' + tpatarget + ' from ' + tpasource + '!","color":"red"}\n'
+			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+			p.stdin.write(cmdin)
+	##			
 	#Mod .commands
 	##
 		if tmp[4] == '.setwarp':
