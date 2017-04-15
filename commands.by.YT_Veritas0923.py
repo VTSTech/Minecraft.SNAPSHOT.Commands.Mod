@@ -4,7 +4,7 @@ from time import sleep
 from nbstreamreader import NonBlockingStreamReader as NBSR
 #nbstreamreader.py https://gist.github.com/EyalAr/7915597
 
-ver = "Minecraft SNAPSHOT .commands script v0.53"
+ver = "Minecraft SNAPSHOT .commands script v0.54"
 bannershown = False
 
 def banner():
@@ -39,13 +39,15 @@ autosaveint = 1776																					   # Autosave Interval in seconds
 autoclearint = 3625																					   # Autoclear Interval in seconds
 freeshulkerbox = True																					 # Gives new players a shulker box on their first connect
 motd = "!## MOTD ##! Welcome to mc.nigeltodman.com, PLAYER_NAME! See our custom commands and their usage with '.help' * April Gamerules: limitedCrafting:Off keepInventory:On mobGriefing:Off Difficulty:Hard"
-votemsg = "Vote for this server! Vote #1 adf.ly/1kVCJK #2 adf.ly/1kVCLs #3 adf.ly/1g4VYV"
+votemsg = "Vote for this server! Vote #1 adf.ly/1kVCJK #2 adf.ly/1kVCLs #3 adf.ly/1g4VYV #4 adf.ly/1mCgLU #5 adf.ly/1mCgcL #6 adf.ly/1mCgoa"
 admin="YT_Veritas0923"
 																					   									 # Message of the Day notes:
 																					   									 # PLAYER_NAME is replaced with connecting player.
 ## End Config   ##												   									 # 'Welcome to' is replaced by 'Welcome back to' for returning players.
 # 5m 300, 30m 1800, 1h 3600, 12h 43200, 1d 86400, 1w 604800, 1mo 2419200
 
+itemsdb="torch,coal,iron_ingot,gold_ingot,diamond,enchanting_table"
+pricedb="5,10,25,50,500,5000"
 
 cmdline = string.split(javacmd)
 p = subprocess.Popen([cmdline[0],cmdline[1],cmdline[2],cmdline[3],cmdline[4],cmdline[5]], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -110,9 +112,13 @@ while True:
 		if len(tmp) > 4:
 			if tmp[3] == "Set" and tmp[4] == "score":
 				derp=True
+			elif tmp[3] == "Set" and tmp[6] == "objective":
+				derp=True
 			elif tmp[3] == "The" and tmp[4] == "dataTag":
 				derp=True
 			elif tmp[3] == "Selector":
+				derp=True
+			elif tmp[3] == "Operation":
 				derp=True
 			#if not matching a filter, send output to console (display, not stdin)
 			else:
@@ -160,15 +166,63 @@ while True:
 		setsb = "scoreboard objectives add inOverworld dummy\n"
 		print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
 		p.stdin.write(setsb)
+		setsb = "scoreboard objectives add Character dummy\n"
+		print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
+		p.stdin.write(setsb)
+		setsb = "scoreboard objectives add totalkills stat.mobKills Kills\n"
+		print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
+		p.stdin.write(setsb)
+		setsb = "scoreboard objectives add killcounter stat.mobKills\n"
+		print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
+		p.stdin.write(setsb)
+		setsb = "scoreboard objectives add money dummy Money\n"
+		print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
+		p.stdin.write(setsb)
+		setsb = "scoreboard objectives setdisplay sidebar Character\n"
+		print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
+		p.stdin.write(setsb)
+		setsb = "scoreboard players operation $ Character = @a money\n"
+		print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
+		p.stdin.write(setsb)
+		setsb = "scoreboard players operation Kills Character = @a totalkills\n"
+		print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
+		p.stdin.write(setsb)
+		setsb = "scoreboard objectives setdisplay list money\n"
+		print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
+		p.stdin.write(setsb)
 		sbset = True
 	if sbset == True and currtime - lasttimepoll > 15:
 		lasttimepoll = time.time()
 		setsb = "scoreboard players set @a inOverworld 0\n"
-		#print "[" + get24hrtime() + "] [Script thread/CHKD]: " + setsb,
+		#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 		p.stdin.write(setsb)
 		setsb = "scoreboard players set @a inOverworld 1 {Dimension:0}\n"
-		#print "[" + get24hrtime() + "] [Script thread/CHKD]: " + setsb,
+		#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 		p.stdin.write(setsb)
+		for i in range(1,16):
+			setsb = "scoreboard players add @a[score_killcounter_min=" + str(i) + "] money " + str(int(i) * 5) + "\n"
+			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+			p.stdin.write(setsb)
+		p.stdin.write(setsb)
+		setsb = "scoreboard players set @a inOverworld 1 {Dimension:0}\n"
+		#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+		p.stdin.write(setsb)
+		setsb = "scoreboard players operation $ Character = @a money\n"
+		#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+		p.stdin.write(setsb)
+		setsb = "scoreboard players operation Kills Character = @a totalkills\n"
+		#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+		p.stdin.write(setsb)
+		setsb = "scoreboard objectives setdisplay list money\n"
+		#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+		p.stdin.write(setsb)
+		setsb = "scoreboard objectives setdisplay sidebar Character\n"
+		#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+		p.stdin.write(setsb)
+		setsb = "scoreboard players set @a killcounter 0\n"
+		#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+		p.stdin.write(setsb)
+
 	##
 	#User .commands
 	##
@@ -483,6 +537,35 @@ while True:
 			cmdin = 'tellraw @a {"text":"Denying .tpa request to ' + tpatarget + ' from ' + tpasource + '!","color":"red"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
+		if tmp[4] == '.shop':
+			itemsdb=string.split(itemsdb,",")
+			pricedb=string.split(pricedb,",")
+			shopstr = ''
+			for i in range(0,len(itemsdb)):
+				shopstr = "Item: " + itemsdb[i] + " Price: " + pricedb[i]
+				cmdin = 'tellraw ' + player + ' {"text":"' + shopstr + '","color":"green"}\n'
+				p.stdin.write(cmdin)
+			cmdin = 'tellraw ' + player + ' {"text":"Buy with .buy item_name","color":"green"}\n'
+			p.stdin.write(cmdin)
+		if tmp[4] == '.buy':
+			itemsdb="torch,coal,iron_ingot,gold_ingot,diamond,enchanting_table"
+			pricedb="5,10,25,50,500,5000"
+			itemsdb=string.split(itemsdb,",")
+			pricedb=string.split(pricedb,",")
+			for i in range(0,len(itemsdb)):
+				if tmp[5] == itemsdb[i]:
+					cmdin = "give @a[name=" + player + ",score_money_min=" + pricedb[i]+ "] " + itemsdb[i] + " 1\n"
+					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+					p.stdin.write(cmdin)
+					cmdin = "scoreboard players remove @a[name=" + player + "] money " + pricedb[i]+ "\n"
+					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+					p.stdin.write(cmdin)
+					setsb = "scoreboard players operation $ Character = @a money\n"
+					#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+					p.stdin.write(setsb)
+					setsb = "scoreboard players operation Kills Character = @a totalkills\n"
+					#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+					p.stdin.write(setsb)
 	##			
 	#Mod .commands
 	##
@@ -624,6 +707,9 @@ while True:
 						cmdin = "give " + player + " purple_shulker_box 1\n"
 						print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 						p.stdin.write(cmdin)
+						setsb = "scoreboard players add " + player + " money 25\n"
+						print "[" + get24hrtime() + "] [Script thread/EXEC]: " + setsb,
+						p.stdin.write(setsb)
 				with open('online.csv','ab') as csvfile:
 					online = csv.writer(csvfile,delimiter=',',dialect='excel')
 					online.writerow([player,playerip,time.time()])
@@ -635,6 +721,9 @@ while True:
 					motd = string.replace(motd, player,"PLAYER_NAME")
 					motd = string.replace(motd, "Welcome back to ", "Welcome to ")
 					p.stdin.write(cmdin)
+					setsb = "scoreboard players add " + player + " money 2\n"
+					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + setsb,
+					p.stdin.write(setsb)
 					with open('online.csv','ab') as csvfile:
 						online = csv.writer(csvfile,delimiter=',',dialect='excel')
 						online.writerow([player,playerip,time.time()])					
