@@ -1,4 +1,4 @@
-# Minecraft SNAPSHOT .commands script v0.53
+# Minecraft SNAPSHOT .commands script v0.54
 
 Written by YT_Veritas0923             
 
@@ -39,12 +39,13 @@ admin="YT_Veritas0923"
 																					   									 # Message of the Day notes:
 																					   									 # PLAYER_NAME is replaced with connecting player.
 ## End Config   ##												   									 # 'Welcome to' is replaced by 'Welcome back to' for returning players.
-</pre>
 
 Shop Config, Lines 49,50
 
 itemsdb="torch,coal,iron_ingot,gold_ingot,diamond,enchanting_table"
 pricedb="5,10,25,50,500,5000"
+</pre>
+
 User Commands:
 
 .spawn
