@@ -27,10 +27,10 @@ def getplayername(txt):
 		return player
 
 def LoadItems():
-	itemsdb="arrow,torch,coal,iron_ingot,gold_ingot,chainmail_leggings,chainmail_boots,chainmail_helmet,chainmail_chestplate,bow,iron_sword,iron_shovel,iron_pickaxe,iron_hoe,diamond,enchanting_table"
+	itemsdb="stone,cobblestone,dirt,arrow,torch,planks,cobblestone,coal,wheat,leather,carrot,melon,log,bread,iron_ingot,gold_ingot,chainmail_leggings,chainmail_boots,chainmail_helmet,chainmail_chestplate,bow,leather_helmet,leather_chestplate,leather_leggings,leather_boots,iron_sword,iron_pickaxe,iron_hoe,iron_shovel,diamond,enchanting_table,iron_helmet,iron_chestplate,iron_leggings,iron_boots,gold helmet,gold_chestplate,gold_leggings,gold_boots,diamond_helmet,diamond_chestplate,diamond_leggings,diamond_boots"
 	return itemsdb
 def LoadPrices():
-	pricedb="2,5,10,25,50,100,100,100,100,100,250,250,250,250,5000,2000"
+	pricedb="1,10,1,2,5,5,10,10,10,15,15,15,20,25,100,250,100,100,100,100,100,75,120,105,60,200,750,200,100,2500,2000,500,800,700,400,1250,2000,1750,1000,12500,20000,17500,10000"
 	return pricedb
 
 def UpdateSB():
@@ -45,15 +45,15 @@ def UpdateSB():
 #spawn = "206 64 259" VNNLA Server coords (VNLLA.NIGELTODMAN.COM:25566)
 
 ## Start Config ##
-javacmd = 'java -Xms2G -Xmx2G -jar minecraft_server.jar nogui' # Java command line to start Minecraft Server jar, Must use nogui
-spawn = "-82 64 264"   																					 # WorldSpawn Coordinates
+javacmd = 'java -Xms128M -Xmx4G -jar minecraft_server.jar nogui' # Java command line to start Minecraft Server jar, Must use nogui
+spawn = "0 64 -3"   																					 # WorldSpawn Coordinates
 rtpradius = 35000  																						 # Random Teleport radius (-35000,35000)
 useautosave = True 																						 # Use Autosave?
 useautoclear = True 																					 # Use Autoclear?
 autosaveint = 1776																					   # Autosave Interval in seconds
 autoclearint = 3625																					   # Autoclear Interval in seconds
 freeshulkerbox = True																					 # Gives new players a shulker box on their first connect
-motd = "!## MOTD ##! Welcome to mc.nigeltodman.com, PLAYER_NAME! See our custom commands and their usage with '.help' * April Gamerules: limitedCrafting:Off keepInventory:On mobGriefing:Off Difficulty:Hard"
+motd = "!## MOTD ##! Welcome to vnlla.nigeltodman.com, PLAYER_NAME! See our custom commands and their usage with '.help' * April Gamerules: limitedCrafting:Off keepInventory:On mobGriefing:Off Difficulty:Hard"
 votemsg = "Vote for this server! Vote #1 adf.ly/1kVCJK #2 adf.ly/1kVCLs #3 adf.ly/1g4VYV #4 adf.ly/1mCgLU #5 adf.ly/1mCgcL #6 adf.ly/1mCgoa"
 admin="YT_Veritas0923"
 																					   									 # Message of the Day notes:
@@ -211,22 +211,12 @@ while True:
 		print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
 		p.stdin.write(setsb)
 		sbset = True
-	if sbset == True and currtime - lasttimepoll > 15:
+	if sbset == True and currtime - lasttimepoll > 5:
 		lasttimepoll = time.time()
-		setsb = "scoreboard players set @a inOverworld 0\n"
-		#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
-		p.stdin.write(setsb)
-		setsb = "scoreboard players set @a inOverworld 1 {Dimension:0}\n"
-		#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
-		p.stdin.write(setsb)
 		for i in range(1,16):
 			setsb = "scoreboard players add @a[score_killcounter_min=" + str(i) + "] money " + str(int(i) * 5) + "\n"
 			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 			p.stdin.write(setsb)
-		p.stdin.write(setsb)
-		setsb = "scoreboard players set @a inOverworld 1 {Dimension:0}\n"
-		#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
-		p.stdin.write(setsb)
 		setsb = "scoreboard players operation $ Character = @a money\n"
 		#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 		p.stdin.write(setsb)
@@ -240,6 +230,14 @@ while True:
 		#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 		p.stdin.write(setsb)
 		setsb = "scoreboard players set @a killcounter 0\n"
+		#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+		p.stdin.write(setsb)
+	if sbset == True and currtime - lasttimepoll > 15:
+		#lasttimepoll = time.time()
+		setsb = "scoreboard players set @a inOverworld 0\n"
+		#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+		p.stdin.write(setsb)
+		setsb = "scoreboard players set @a inOverworld 1 {Dimension:0}\n"
 		#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 		p.stdin.write(setsb)
 
