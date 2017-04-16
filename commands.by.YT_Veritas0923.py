@@ -4,7 +4,7 @@ from time import sleep
 from nbstreamreader import NonBlockingStreamReader as NBSR
 #nbstreamreader.py https://gist.github.com/EyalAr/7915597
 
-ver = "Minecraft SNAPSHOT .commands script v0.54"
+ver = "Minecraft SNAPSHOT .commands script v0.55"
 bannershown = False
 
 def banner():
@@ -25,6 +25,21 @@ def getplayername(txt):
 		player = string.strip(txt,"<")
 		player = string.strip(player,">")	
 		return player
+
+def LoadItems():
+	itemsdb="arrow,torch,coal,iron_ingot,gold_ingot,chainmail_leggings,chainmail_boots,chainmail_helmet,chainmail_chestplate,bow,iron_sword,iron_shovel,iron_pickaxe,iron_hoe,diamond,enchanting_table"
+	return itemsdb
+def LoadPrices():
+	pricedb="2,5,10,25,50,100,100,100,100,100,250,250,250,250,5000,2000"
+	return pricedb
+
+def UpdateSB():
+	setsb = "scoreboard players operation $ Character = @a money\n"
+	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+	p.stdin.write(setsb)
+	setsb = "scoreboard players operation Kills Character = @a totalkills\n"
+	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+	p.stdin.write(setsb)
 #spawn = "-82 64 264" Dev Server coords		(MC.NIGELTODMAN.COM:25599)
 #spawn = "0 64 -3"    Snapshot srv coords (MC.NIGELTODMAN.COM:25565)
 #spawn = "206 64 259" VNNLA Server coords (VNLLA.NIGELTODMAN.COM:25566)
@@ -46,8 +61,8 @@ admin="YT_Veritas0923"
 ## End Config   ##												   									 # 'Welcome to' is replaced by 'Welcome back to' for returning players.
 # 5m 300, 30m 1800, 1h 3600, 12h 43200, 1d 86400, 1w 604800, 1mo 2419200
 
-itemsdb="torch,coal,iron_ingot,gold_ingot,diamond,enchanting_table"
-pricedb="5,10,25,50,500,5000"
+itemsdb=LoadItems()
+pricedb=LoadPrices()
 
 cmdline = string.split(javacmd)
 p = subprocess.Popen([cmdline[0],cmdline[1],cmdline[2],cmdline[3],cmdline[4],cmdline[5]], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -65,6 +80,9 @@ playerisonline = False
 playerisseen = False
 clearwarn10 = False
 clearwarn60 = False
+buying=False
+selling=False
+auction=False
 tpasent = False
 warplist = False
 sethome = False
@@ -93,6 +111,8 @@ playercnt = 0
 x=0
 t=0
 i=0
+itemsdb=LoadItems()
+pricedb=LoadPrices()
 while True:
 	output = nbsr.readline(0.1)
 	# 0.1 secs to let the shell output the result
@@ -252,7 +272,7 @@ while True:
 						p.stdin.write(cmdin)
 		if tmp[4] == '.commands':
 			player = getplayername(tmp[3])
-			cmdin = 'tellraw ' + player + ' {"text":"User Commands are: .spawn .sethome .home .rtp .warp .whois .ping .report .seen .uptime .stats .staff .tpa .tpaccept .tpdeny .vote .report .commands .about .help Mod Commands are: .setwarp .kick","color":"aqua"}\n'
+			cmdin = 'tellraw ' + player + ' {"text":"User Commands are: .spawn .sethome .home .rtp .warp .whois .ping .report .seen .uptime .shop .buy .sell .stats .staff .tpa .tpaccept .tpdeny .vote .report .commands .about .help Mod Commands are: .setwarp .kick","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 		if tmp[4] == '.about':
@@ -372,6 +392,15 @@ while True:
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 			cmdin = 'tellraw ' + player + ' {"text":"report player reason - reports player for specified reason","color":"aqua"}\n'
+			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+			p.stdin.write(cmdin)
+			cmdin = 'tellraw ' + player + ' {"text":"shop - lists items for sale, use .buy to purchase","color":"aqua"}\n'
+			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+			p.stdin.write(cmdin)
+			cmdin = 'tellraw ' + player + ' {"text":"buy item_name - buys an item from the .shop","color":"aqua"}\n'
+			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+			p.stdin.write(cmdin)
+			cmdin = 'tellraw ' + player + ' {"text":"sell item_name - sells an item to the .shop","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 			cmdin = 'tellraw ' + player + ' {"text":"seen player - displays when player was last seen online","color":"aqua"}\n'
@@ -538,6 +567,8 @@ while True:
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 		if tmp[4] == '.shop':
+			itemsdb=LoadItems()
+			pricedb=LoadPrices()
 			itemsdb=string.split(itemsdb,",")
 			pricedb=string.split(pricedb,",")
 			shopstr = ''
@@ -548,10 +579,12 @@ while True:
 			cmdin = 'tellraw ' + player + ' {"text":"Buy with .buy item_name","color":"green"}\n'
 			p.stdin.write(cmdin)
 		if tmp[4] == '.buy':
-			itemsdb="torch,coal,iron_ingot,gold_ingot,diamond,enchanting_table"
-			pricedb="5,10,25,50,500,5000"
+			buying=True
+			itemsdb=LoadItems()
+			pricedb=LoadPrices()
 			itemsdb=string.split(itemsdb,",")
 			pricedb=string.split(pricedb,",")
+			player = getplayername(tmp[3])
 			for i in range(0,len(itemsdb)):
 				if tmp[5] == itemsdb[i]:
 					cmdin = "give @a[name=" + player + ",score_money_min=" + pricedb[i]+ "] " + itemsdb[i] + " 1\n"
@@ -566,6 +599,38 @@ while True:
 					setsb = "scoreboard players operation Kills Character = @a totalkills\n"
 					#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 					p.stdin.write(setsb)
+		if tmp[4] == '.sell':
+			selling=True
+			itemsdb=LoadItems()
+			pricedb=LoadPrices()
+			itemsdb=string.split(itemsdb,",")
+			pricedb=string.split(pricedb,",")
+			player = getplayername(tmp[3])
+			selltime = currtime
+			sellplayer = player
+			sellitem = tmp[5]
+			for i in range(0,len(itemsdb)):
+				if tmp[5] == itemsdb[i]:
+					sellprice = str(int(round((int(pricedb[i]) * 0.5))))
+					cmdin = "clear @a[name=" + player + "] " + itemsdb[i] + " -1 1\n"
+					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+					p.stdin.write(cmdin)
+					
+					a=UpdateSB()
+		if selling == True:
+			if tmp[3] == "Cleared":
+				cmdin = "scoreboard players add @a[name=" + sellplayer + "] money " + sellprice + "\n"
+				print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+				p.stdin.write(cmdin)
+				selling=False
+				cmdin = "say " + sellplayer + " has just sold a " + sellitem + " for $" + sellprice + "!\n"
+				print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+				p.stdin.write(cmdin)
+			if tmp[3] == "Could" and tmp[4] == "not" and tmp[5] == "clear":
+				selling=False
+				cmdin = "tell " + sellplayer + " You do not hold any " + sellitem + " to sell!\n"
+				print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+				p.stdin.write(cmdin)
 	##			
 	#Mod .commands
 	##

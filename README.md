@@ -1,4 +1,4 @@
-# Minecraft SNAPSHOT .commands script v0.54
+# Minecraft SNAPSHOT .commands script v0.55
 
 Written by YT_Veritas0923             
 
@@ -10,19 +10,19 @@ GitHub: Veritas83
 
 BTC 18j2Env7QokhGG5MccS3LPBKnjsko6u4NQ
 
-<img src="https://i.gyazo.com/0ded8799db3daea0f35115225b55a66d.png">
+<img src="https://i.gyazo.com/a61907ee29455e53eee6b08f386dc7f0.png">
 
 
 Simply place beside your minecraft_server.jar and run.
 
-<img src="https://i.gyazo.com/574ad295a1a3fec5fe9ae6833f3ead1d.png">
+<img src="https://i.gyazo.com/fa6774c428f7a276047616098109a04d.png">
 
 Config:
 
 specify admin player name in config. add mods to mods.csv, 1 player name per line.
 
 <pre>
-Lines 29-43:
+Lines 48-58:
 
 ## Start Config ##
 javacmd = 'java -Xms2G -Xmx2G -jar minecraft_server.jar nogui' # Java command line to start Minecraft Server jar, Must use nogui
@@ -40,10 +40,9 @@ admin="YT_Veritas0923"
 																					   									 # PLAYER_NAME is replaced with connecting player.
 ## End Config   ##												   									 # 'Welcome to' is replaced by 'Welcome back to' for returning players.
 
-Shop Config, Lines 49,50
 
-itemsdb="torch,coal,iron_ingot,gold_ingot,diamond,enchanting_table"
-pricedb="5,10,25,50,500,5000"
+itemsdb="arrow,torch,coal,iron_ingot,gold_ingot,chainmail_leggings,chainmail_boots,chainmail_helmet,chainmail_chestplate,bow,iron_sword,iron_shovel,iron_pickaxe,iron_hoe,diamond,enchanting_table"
+pricedb="2,5,10,25,50,100,100,100,100,100,250,250,250,250,5000,2000"
 </pre>
 
 User Commands:
@@ -63,6 +62,12 @@ User Commands:
 .ping
 
 .report
+
+.shop
+
+.buy
+
+.sell
 
 .seen
 
