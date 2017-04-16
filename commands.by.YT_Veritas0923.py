@@ -46,7 +46,7 @@ def UpdateSB():
 
 ## Start Config ##
 javacmd = 'java -Xms128M -Xmx4G -jar minecraft_server.jar nogui' # Java command line to start Minecraft Server jar, Must use nogui
-spawn = "-82 64 264"   																					 # WorldSpawn Coordinates
+spawn = "0 64 -3"   																					 # WorldSpawn Coordinates
 rtpradius = 35000  																						 # Random Teleport radius (-35000,35000)
 useautosave = True 																						 # Use Autosave?
 useautoclear = True 																					 # Use Autoclear?
@@ -586,6 +586,8 @@ while True:
 			for i in range(0,len(itemsdb)):
 				if len(tmp) > 6:
 					if tmp[5] == itemsdb[i] and tmp[6] == 1:
+						buyqty = 1
+						totalprice = int(pricedb[i]) * int(buyqty)
 						cmdin = "give @a[name=" + player + ",score_money_min=" + pricedb[i]+ "] " + itemsdb[i] + " 1\n"
 						print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 						p.stdin.write(cmdin)
@@ -598,8 +600,12 @@ while True:
 						setsb = "scoreboard players operation Kills Character = @a totalkills\n"
 						#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 						p.stdin.write(setsb)
+						cmdin = 'tellraw @a {"text":"' + player + ' has just bought ' + str(buyqty) + ' '+ itemsdb[i] + ' for $' + str(totalprice) + '","color":"yellow"}\n'
+						print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+						p.stdin.write(cmdin)
 					if tmp[5] == itemsdb[i] and tmp[6] > 1:
-						totalprice = int(pricedb[i]) * int(tmp[6])
+						buyqty = tmp[6]
+						totalprice = int(pricedb[i]) * int(buyqty)
 						cmdin = "give @a[name=" + player + ",score_money_min=" + str(int(totalprice)) + "] " + itemsdb[i] + " " + str(tmp[6]) + "\n"
 						print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 						p.stdin.write(cmdin)
@@ -612,6 +618,10 @@ while True:
 						setsb = "scoreboard players operation Kills Character = @a totalkills\n"
 						#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 						p.stdin.write(setsb)
+						#'tellraw @a {"text":"Items cleared. Autoclear by ' + ver +  '","color":"aqua"}\n'
+						cmdin = 'tellraw @a {"text":"' + player + ' has just bought ' + str(buyqty) + ' '+ itemsdb[i] + ' for $' + str(totalprice) + '","color":"yellow"}\n'
+						print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+						p.stdin.write(cmdin)
 			if len(tmp) < 6:
 				cmdin = "tell " + player + " .buy requires a quantity! (ie: .buy log 64 or .buy log 1)\n"
 				print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
@@ -649,7 +659,7 @@ while True:
 				print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 				p.stdin.write(cmdin)
 				selling=False
-				cmdin = "say " + sellplayer + " has just sold " + sellqty + " " + sellitem + " for $" + sellprice + "!\n"
+				cmdin = 'tellraw @a {"text":"' + sellplayer + ' has just sold ' + str(sellqty) + ' '+ sellitem + ' for $' + str(sellprice) + '","color":"green"}\n'
 				print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 				p.stdin.write(cmdin)
 			if tmp[3] == "Could" and tmp[4] == "not" and tmp[5] == "clear":
