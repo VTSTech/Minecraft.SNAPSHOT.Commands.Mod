@@ -40,6 +40,7 @@ admin="YT_Veritas0923"
 																					   									 # PLAYER_NAME is replaced with connecting player.
 ## End Config   ##												   									 # 'Welcome to' is replaced by 'Welcome back to' for returning players.
 
+Shop Config, Lines 30,33
 
 itemsdb="arrow,torch,coal,iron_ingot,gold_ingot,chainmail_leggings,chainmail_boots,chainmail_helmet,chainmail_chestplate,bow,iron_sword,iron_shovel,iron_pickaxe,iron_hoe,diamond,enchanting_table"
 pricedb="2,5,10,25,50,100,100,100,100,100,250,250,250,250,5000,2000"

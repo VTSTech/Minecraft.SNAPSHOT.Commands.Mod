@@ -2,6 +2,16 @@
 
 Changelog:
 
+v0.55
+Added .sell
+Updated .help and .commands to reflect .buy .shop and .sell
+
+v0.54
+Added money.
+Added Kills counter.
+Added .shop .buy
+Get money by killing mobs.
+
 v0.53
 Added .tpa .tpaccept .tpdeny .report
 Updated .commands and .help to reflect new commands.
