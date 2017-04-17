@@ -40,13 +40,16 @@ def UpdateSB():
 	setsb = "scoreboard players operation Kills Character = @a totalkills\n"
 	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 	p.stdin.write(setsb)
+	setsb = "scoreboard players operation Rank Character = @a rank\n"
+	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+	p.stdin.write(setsb)
 #spawn = "-82 64 264" Dev Server coords		(MC.NIGELTODMAN.COM:25599)
 #spawn = "0 64 -3"    Snapshot srv coords (MC.NIGELTODMAN.COM:25565)
 #spawn = "206 64 259" VNNLA Server coords (VNLLA.NIGELTODMAN.COM:25566)
 
 ## Start Config ##
 javacmd = 'java -Xms128M -Xmx4G -jar minecraft_server.jar nogui' # Java command line to start Minecraft Server jar, Must use nogui
-spawn = "0 64 -3"   																					 # WorldSpawn Coordinates
+spawn = "-82 64 264"   																					 # WorldSpawn Coordinates
 rtpradius = 35000  																						 # Random Teleport radius (-35000,35000)
 useautosave = True 																						 # Use Autosave?
 useautoclear = True 																					 # Use Autoclear?
@@ -194,10 +197,16 @@ while True:
 		setsb = "scoreboard objectives add Character dummy\n"
 		print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
 		p.stdin.write(setsb)
+		setsb = "scoreboard objectives add Info dummy\n"
+		print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
+		p.stdin.write(setsb)
 		setsb = "scoreboard objectives add totalkills stat.mobKills Kills\n"
 		print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
 		p.stdin.write(setsb)
 		setsb = "scoreboard objectives add killcounter stat.mobKills\n"
+		print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
+		p.stdin.write(setsb)
+		setsb = "scoreboard objectives add rank 0 Rank\n"
 		print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
 		p.stdin.write(setsb)
 		setsb = "scoreboard objectives add money dummy Money\n"
@@ -212,7 +221,19 @@ while True:
 		setsb = "scoreboard players operation Kills Character = @a totalkills\n"
 		print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
 		p.stdin.write(setsb)
-		setsb = "scoreboard objectives setdisplay list money\n"
+		setsb = "scoreboard players operation Rank Character = @a rank\n"
+		print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
+		p.stdin.write(setsb)
+		setsb = "scoreboard players operation Rank Info = @a rank\n"
+		print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
+		p.stdin.write(setsb)
+		setsb = "scoreboard players operation $ Info = @a money\n"
+		print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
+		p.stdin.write(setsb)
+		setsb = "scoreboard players operation Kills Info = @a totalkills\n"
+		print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
+		p.stdin.write(setsb)
+		setsb = "scoreboard objectives setdisplay list Info\n"
 		print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
 		p.stdin.write(setsb)
 		sbset = True
@@ -228,7 +249,7 @@ while True:
 		setsb = "scoreboard players operation Kills Character = @a totalkills\n"
 		#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 		p.stdin.write(setsb)
-		setsb = "scoreboard objectives setdisplay list money\n"
+		setsb = "scoreboard objectives setdisplay list Info\n"
 		#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 		p.stdin.write(setsb)
 		setsb = "scoreboard objectives setdisplay sidebar Character\n"
@@ -521,6 +542,47 @@ while True:
 			cmdin = 'tellraw @a {"text":"Server Admin: ' + str(admin) + ' Mods: ' + modstr + '","color":"red"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
+		if tmp[4] == '.ranks':
+			ranks = open('ranks.csv','rb')
+			rankstr = ''
+			for line in ranks:
+				if len(line) > 3:
+					rankstr = string.split(string.strip(line,"\r\n"),",")
+					cmdin = 'tellraw @a {"text":"Rank: ' + str(rankstr[0]) + ' Cost: ' + str(rankstr[1]) + ' Bonus: ' + str(rankstr[2]) + '","color":"red"}\n'
+					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+					p.stdin.write(cmdin)
+		if tmp[4] == '.rankup':
+			ranks = open('ranks.csv','rb')
+			rankstr = ''
+			for line in ranks:
+				if len(line) > 3:
+					rankstr = string.split(string.strip(line,"\r\n"),",")
+					ranknew = rankstr[0]
+					rankcost = rankstr[1]
+			#playerdb.writerow([newplayer,playerip,getdate(),getdate(),time.time(),0])	
+			#Open playerdb, Write new rank
+			tmparray2=[]
+			with open('playerdb.csv','rb') as csvfile:
+				playerdb = csv.reader(csvfile,delimiter=',',dialect='excel')
+				for row in playerdb:
+					db = ','.join(row)
+					dbt = string.split(db,',')
+					if dbt[0] == player:						
+						rankold = dbt[5]
+						
+						t = dbt[0] + ',' + dbt[1] + ',' + dbt[2] + ',' + dbt[3] + ',' + dbt[4] + ',' + dbt[5]
+						tmparray2.append(t)
+					else:
+						tmparray2.append(db)
+			with open('playerdb.csv','wb') as csvfile:
+				playerdb = csv.writer(csvfile,delimiter='\n',dialect='excel')
+				for y in xrange(0,len(tmparray2)):
+					a=a
+					#playerdb.writerow([tmparray2[y]])					
+			cmdin = 'tellraw @a {"text":"Rank: ' + str(rankstr[0]) + ' Cost: ' + str(rankstr[1]) + ' Bonus: ' + str(rankstr[2]) + 'x ","color":"red"}\n'
+			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+			p.stdin.write(cmdin)
+		
 		if tmp[4] == '.report':
 			player = getplayername(tmp[3])
 			if len(tmp) > 5:
@@ -712,6 +774,29 @@ while True:
 					cmdin = "say Only ops may .setwarp\n"
 					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 					p.stdin.write(cmdin)
+		if tmp[4] == '.console':
+				isop=False
+				ops = open('ops.json','rb')
+				player = getplayername(tmp[3])
+				for line in ops:
+					if line[:13] =='    "name": "':
+						#print "Debug: Op Detected as: " + line[13:-3]
+						op = line[13:-3]
+					if op == player:
+						isop=True
+				if isop == True:
+					player = getplayername(tmp[3])
+					cmdin = ''
+					if len(tmp) >= 5:
+						for i in range(5,len(tmp)):
+							cmdin = cmdin + " " + tmp[i]
+					cmdin = cmdin + "\n"					
+					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+					p.stdin.write(cmdin)
+				else:
+					cmdin = "say Only ops may .console\n"
+					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+					p.stdin.write(cmdin)
 		if tmp[4] == '.kick':
 			ismod=False
 			mods = open('mods.csv','rb')
@@ -818,7 +903,7 @@ while True:
 			if oldplayer==False:
 				with open('playerdb.csv','ab') as csvfile:
 					playerdb = csv.writer(csvfile,delimiter=',',dialect='excel')
-					playerdb.writerow([newplayer,playerip,getdate(),getdate(),time.time()])	
+					playerdb.writerow([newplayer,playerip,getdate(),getdate(),time.time(),0])	
 					motd = string.replace(motd, "PLAYER_NAME", player)
 					cmdin = 'tellraw @a {"text":"' + motd + '","color":"yellow"}\n'
 					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
