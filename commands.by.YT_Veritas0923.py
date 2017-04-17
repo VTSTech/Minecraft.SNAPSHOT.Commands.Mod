@@ -4,7 +4,7 @@ from time import sleep
 from nbstreamreader import NonBlockingStreamReader as NBSR
 #nbstreamreader.py https://gist.github.com/EyalAr/7915597
 
-ver = "Minecraft SNAPSHOT .commands script v0.55"
+ver = "Minecraft SNAPSHOT .commands script v0.56"
 bannershown = False
 
 def banner():
@@ -27,10 +27,10 @@ def getplayername(txt):
 		return player
 
 def LoadItems():
-	itemsdb="stone,cobblestone,dirt,arrow,torch,planks,cobblestone,coal,wheat,leather,carrot,melon,log,bread,iron_ingot,gold_ingot,chainmail_leggings,chainmail_boots,chainmail_helmet,chainmail_chestplate,bow,leather_helmet,leather_chestplate,leather_leggings,leather_boots,iron_sword,iron_pickaxe,iron_hoe,iron_shovel,diamond,enchanting_table,iron_helmet,iron_chestplate,iron_leggings,iron_boots,golden_helmet,golden_chestplate,golden_leggings,golden_boots,diamond_helmet,diamond_chestplate,diamond_leggings,diamond_boots"
+	itemsdb="stone,cobblestone,dirt,arrow,torch,planks,cobblestone,coal,wheat,leather,carrot,melon,log,bread,iron_ingot,gold_ingot,chainmail_leggings,chainmail_boots,chainmail_helmet,chainmail_chestplate,bow,leather_helmet,leather_chestplate,leather_leggings,leather_boots,iron_sword,iron_axe,iron_pickaxe,iron_hoe,iron_shovel,diamond,enchanting_table,iron_helmet,iron_chestplate,iron_leggings,iron_boots,golden_helmet,golden_chestplate,golden_leggings,golden_boots,diamond_helmet,diamond_chestplate,diamond_leggings,diamond_boots"
 	return itemsdb
 def LoadPrices():
-	pricedb="1,10,1,2,5,5,10,10,10,15,15,15,20,25,100,250,100,100,100,100,100,75,120,105,60,200,750,200,100,2500,2000,500,800,700,400,1250,2000,1750,1000,12500,20000,17500,10000"
+	pricedb="1,10,1,2,5,5,10,10,10,15,15,15,20,25,100,250,100,100,100,100,100,75,120,105,60,200,750,750,200,100,2500,2000,500,800,700,400,1250,2000,1750,1000,12500,20000,17500,10000"
 	return pricedb
 
 def UpdateSB():
@@ -104,6 +104,11 @@ writestr = ''
 reported = ''
 tpasource = ''
 tpatarget = ''
+sellitem=''
+sellplayer=''
+solditem=''
+sellprice=''
+soldprice=''
 derp=''
 seen=''
 op=''
@@ -642,26 +647,41 @@ while True:
 					if tmp[5] == itemsdb[i] and tmp[6] == 1:
 						sellprice = str(int(round((int(pricedb[i]) * 0.5))))
 						sellqty = 1
-						cmdin = "clear @a[name=" + player + "] " + itemsdb[i] + " -1 1\n"
+						cmdin = "clear @a[name=" + player + "] " + itemsdb[i] + " -1 0\n"
 						print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 						p.stdin.write(cmdin)					
 						a=UpdateSB()
 					if tmp[5] == itemsdb[i] and tmp[6] > 1:
 						sellprice = str(int(round((int(pricedb[i]) * 0.5))) * int(tmp[6]))
-						sellqty = tmp[6]
-						cmdin = "clear @a[name=" + player + "] " + itemsdb[i] + " -1 " + str(int(tmp[6])) + "\n"
+						sellqty = int(tmp[6])
+						cmdin = "clear @a[name=" + player + "] " + itemsdb[i] + " -1 0\n"
 						print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 						p.stdin.write(cmdin)					
 						a=UpdateSB()
+			if len(tmp) > 5:
+				sellqty = int(tmp[6])
+			else:
+				sellqty = 1
 		if selling == True:
-			if tmp[3] == "Cleared":
-				cmdin = "scoreboard players add @a[name=" + sellplayer + "] money " + sellprice + "\n"
-				print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
-				p.stdin.write(cmdin)
+			if tmp[3] == sellplayer:
 				selling=False
-				cmdin = 'tellraw @a {"text":"' + sellplayer + ' has just sold ' + str(sellqty) + ' '+ sellitem + ' for $' + str(sellprice) + '","color":"green"}\n'
-				print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
-				p.stdin.write(cmdin)
+				soldqty = tmp[5]
+				soldprice = int(sellprice)
+				print "[" + get24hrtime() + "] [Script thread/DBUG]: " + sellplayer + " " + str(soldqty) + " " + str(sellqty) + " " + str(soldprice) + " " + str(sellprice) + "\n",
+				if int(soldqty) < int(sellqty):
+					cmdin = "tell " + sellplayer + " You do not hold enough " + sellitem + " to sell!\n"
+					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+					p.stdin.write(cmdin)
+				if int(soldqty) >= int(sellqty):
+					cmdin = "clear @a[name=" + sellplayer + "] " + sellitem + " -1 " + str(sellqty) + "\n"
+					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+					p.stdin.write(cmdin)	
+					cmdin = "scoreboard players add @a[name=" + sellplayer + "] money " + str(int(soldprice)) + "\n"
+					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+					p.stdin.write(cmdin)
+					cmdin = 'tellraw @a {"text":"' + sellplayer + ' has just sold ' + str(sellqty) + ' '+ sellitem + ' for $' + str(soldprice) + '","color":"green"}\n'
+					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+					p.stdin.write(cmdin)
 			if tmp[3] == "Could" and tmp[4] == "not" and tmp[5] == "clear":
 				selling=False
 				cmdin = "tell " + sellplayer + " You do not hold any " + sellitem + " to sell!\n"
