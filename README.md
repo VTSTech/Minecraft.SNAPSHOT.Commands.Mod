@@ -42,8 +42,8 @@ admin="YT_Veritas0923"
 
 Shop Config, Lines 30,33
 
-itemsdb="stone,cobblestone,dirt,arrow,torch,planks,cobblestone,coal,wheat,leather,carrot,melon,log,bread,iron_ingot,gold_ingot,chainmail_leggings,chainmail_boots,chainmail_helmet,chainmail_chestplate,bow,leather_helmet,leather_chestplate,leather_leggings,leather_boots,iron_sword,iron_pickaxe,iron_hoe,iron_shovel,diamond,enchanting_table,iron_helmet,iron_chestplate,iron_leggings,iron_boots,gold helmet,gold_chestplate,gold_leggings,gold_boots,diamond_helmet,diamond_chestplate,diamond_leggings,diamond_boots"
-pricedb="1,10,1,2,5,5,10,10,10,15,15,15,20,25,100,250,100,100,100,100,100,75,120,105,60,200,750,200,100,2500,2000,500,800,700,400,1250,2000,1750,1000,12500,20000,17500,10000"
+itemsdb="stone,cobblestone,dirt,arrow,torch,planks,cobblestone,coal,wheat,leather,carrot,melon,log,bread,iron_ingot,gold_ingot,chainmail_leggings,chainmail_boots,chainmail_helmet,chainmail_chestplate,bow,leather_helmet,leather_chestplate,leather_leggings,leather_boots,iron_sword,iron_axe,iron_pickaxe,iron_hoe,iron_shovel,diamond,enchanting_table,iron_helmet,iron_chestplate,iron_leggings,iron_boots,golden_helmet,golden_chestplate,golden_leggings,golden_boots,diamond_helmet,diamond_chestplate,diamond_leggings,diamond_boots"
+pricedb="1,10,1,2,5,5,10,10,10,15,15,15,20,25,100,250,100,100,100,100,100,75,120,105,60,200,750,750,200,100,2500,2000,500,800,700,400,1250,2000,1750,1000,12500,20000,17500,10000"
 
 </pre>
 
