@@ -1,6 +1,11 @@
-
-
 Changelog:
+
+v0.56
+
+Added .ranks, .rankup, .console, .motd
+Improved .sell logic
+
+Higher ranks yield more money dropped from mobs.
 
 v0.55
 Added .sell
