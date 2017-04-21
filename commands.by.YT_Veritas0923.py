@@ -4,7 +4,7 @@ from time import sleep
 from nbstreamreader import NonBlockingStreamReader as NBSR
 #nbstreamreader.py https://gist.github.com/EyalAr/7915597
 
-ver = "Minecraft SNAPSHOT .commands script v0.56"
+ver = "Minecraft SNAPSHOT .commands script v0.57"
 bannershown = False
 
 def banner():
@@ -113,9 +113,6 @@ def UpdateSB():
 	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 	p.stdin.write(setsb)
 	setsb = "scoreboard players operation Rank Character = @a rank\n"
-	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
-	p.stdin.write(setsb)
-	setsb = "scoreboard objectives setdisplay list rank\n"
 	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 	p.stdin.write(setsb)
 #spawn = "-82 64 264" Dev Server coords		(MC.NIGELTODMAN.COM:25599)
@@ -286,6 +283,12 @@ while True:
 		setsb = "scoreboard objectives add killcounter stat.mobKills\n"
 		print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
 		p.stdin.write(setsb)
+		setsb = "scoreboard objectives add wood stat.mineBlock.minecraft.log Wood\n"
+		print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
+		p.stdin.write(setsb)
+		setsb = "scoreboard objectives add woodcounter stat.mineBlock.minecraft.log\n"
+		print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
+		p.stdin.write(setsb)
 		setsb = "scoreboard objectives add rank dummy Rank\n"
 		print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
 		p.stdin.write(setsb)
@@ -299,6 +302,9 @@ while True:
 		print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
 		p.stdin.write(setsb)
 		setsb = "scoreboard players operation Kills Character = @a totalkills\n"
+		print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
+		p.stdin.write(setsb)
+		setsb = "scoreboard players operation Wood Character = @a wood\n"
 		print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
 		p.stdin.write(setsb)
 		setsb = "scoreboard players operation Rank Character = @a rank\n"
@@ -317,10 +323,10 @@ while True:
 		for i in range(1,16):
 			setsb = "scoreboard players add @a[score_killcounter_min=" + str(i) + ",score_rank_min=0,score_rank=3] money " + str(int(i) * 5) + "\n"
 			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
-			#p.stdin.write(setsb)
+			p.stdin.write(setsb)
 			setsb = "scoreboard players add @a[score_killcounter_min=" + str(i) + ",score_rank_min=4,score_rank=5] money " + str(int(round((int(i) * 5) * 1.2))) + "\n"
 			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
-			#p.stdin.write(setsb)
+			p.stdin.write(setsb)
 			setsb = "scoreboard players add @a[score_killcounter_min=" + str(i) + ",score_rank_min=6,score_rank=7] money " + str(int(round((int(i) * 5) * 1.4))) + "\n"
 			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 			p.stdin.write(setsb)
@@ -336,19 +342,47 @@ while True:
 			setsb = "scoreboard players add @a[score_killcounter_min=" + str(i) + ",score_rank_min=12] money " + str(int(round((int(i) * 5) * 2.5))) + "\n"
 			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 			p.stdin.write(setsb)
+			setsb = "scoreboard players add @a[score_woodcounter_min=" + str(i) + ",score_rank_min=0,score_rank=3] money " + str(int(i) * 5) + "\n"
+			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+			p.stdin.write(setsb)
+			setsb = "scoreboard players add @a[score_woodcounter_min=" + str(i) + ",score_rank_min=4,score_rank=5] money " + str(int(round((int(i) * 5) * 1.2))) + "\n"
+			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+			p.stdin.write(setsb)
+			setsb = "scoreboard players add @a[score_woodcounter_min=" + str(i) + ",score_rank_min=6,score_rank=7] money " + str(int(round((int(i) * 5) * 1.4))) + "\n"
+			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+			p.stdin.write(setsb)
+			setsb = "scoreboard players add @a[score_woodcounter_min=" + str(i) + ",score_rank_min=8,score_rank=9] money " + str(int(round((int(i) * 5) * 1.6))) + "\n"
+			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+			p.stdin.write(setsb)
+			setsb = "scoreboard players add @a[score_woodcounter_min=" + str(i) + ",score_rank_min=10,score_rank=10] money " + str(int(round((int(i) * 5) * 1.8))) + "\n"
+			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+			p.stdin.write(setsb)
+			setsb = "scoreboard players add @a[score_woodcounter_min=" + str(i) + ",score_rank_min=11,score_rank=11] money " + str(int(round((int(i) * 5) * 2))) + "\n"
+			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+			p.stdin.write(setsb)
+			setsb = "scoreboard players add @a[score_woodcounter_min=" + str(i) + ",score_rank_min=12] money " + str(int(round((int(i) * 5) * 2.5))) + "\n"
+			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+			p.stdin.write(setsb)
+
 		setsb = "scoreboard players operation $ Character = @a money\n"
 		#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 		p.stdin.write(setsb)
 		setsb = "scoreboard players operation Kills Character = @a totalkills\n"
 		#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 		p.stdin.write(setsb)
-		setsb = "scoreboard objectives setdisplay list Info\n"
+		setsb = "scoreboard players operation Wood Character = @a wood\n"
+		#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+		p.stdin.write(setsb)
+		setsb = "scoreboard objectives setdisplay list rank\n"
 		#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 		p.stdin.write(setsb)
 		setsb = "scoreboard objectives setdisplay sidebar Character\n"
 		#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 		p.stdin.write(setsb)
 		setsb = "scoreboard players set @a killcounter 0\n"
+		#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+		p.stdin.write(setsb)
+		setsb = "scoreboard players set @a woodcounter 0\n"
 		#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 		p.stdin.write(setsb)
 		setsb = "scoreboard players set @a inOverworld 0\n"
@@ -500,9 +534,6 @@ while True:
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 			cmdin = 'tellraw ' + player + ' {"text":"whois player - checks if player has played on this server","color":"aqua"}\n'
-			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
-			p.stdin.write(cmdin)
-			cmdin = 'tellraw ' + player + ' {"text":"motd - displays server Message Of The Day","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 			cmdin = 'tellraw ' + player + ' {"text":"ping - causes server to reply with ping response time in ms","color":"aqua"}\n'
