@@ -121,7 +121,7 @@ def UpdateSB():
 
 ## Start Config ##
 javacmd = 'java -Xms128M -Xmx4G -jar minecraft_server.jar nogui' # Java command line to start Minecraft Server jar, Must use nogui
-spawn = "206 64 259"   																					 # WorldSpawn Coordinates
+spawn = "0 64 -3"   																					 # WorldSpawn Coordinates
 rtpradius = 35000  																						 # Random Teleport radius (-35000,35000)
 useautosave = True 																						 # Use Autosave?
 useautoclear = True 																					 # Use Autoclear?
@@ -420,7 +420,7 @@ while True:
 						p.stdin.write(cmdin)
 		if tmp[4] == '.commands':
 			player = getplayername(tmp[3])
-			cmdin = 'tellraw ' + player + ' {"text":"User Commands are: .spawn .sethome .home .rtp .warp .whois .ping .report .seen .uptime .shop .buy .sell .stats .staff .tpa .tpaccept .tpdeny .vote .ranks .rankup .report .commands .about .help Mod Commands are: .setwarp .kick","color":"aqua"}\n'
+			cmdin = 'tellraw ' + player + ' {"text":"User Commands are: .spawn .sethome .home .rtp .warp .whois .motd .ping .report .seen .uptime .shop .buy .sell .stats .staff .tpa .tpaccept .tpdeny .vote .ranks .rankup .report .commands .about .help Mod Commands are: .setwarp .kick","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 		if tmp[4] == '.about':
@@ -534,6 +534,9 @@ while True:
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 			cmdin = 'tellraw ' + player + ' {"text":"whois player - checks if player has played on this server","color":"aqua"}\n'
+			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+			p.stdin.write(cmdin)
+			cmdin = 'tellraw ' + player + ' {"text":"motd - displays server Message Of The Day","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 			cmdin = 'tellraw ' + player + ' {"text":"ping - causes server to reply with ping response time in ms","color":"aqua"}\n'
