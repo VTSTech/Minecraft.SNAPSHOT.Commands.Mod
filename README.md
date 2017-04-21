@@ -61,7 +61,13 @@ User Commands:
 
 .whois
 
+.motd
+
 .ping
+
+.ranks
+
+.rankup
 
 .report
 

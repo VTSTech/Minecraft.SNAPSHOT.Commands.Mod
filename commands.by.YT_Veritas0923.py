@@ -502,6 +502,9 @@ while True:
 			cmdin = 'tellraw ' + player + ' {"text":"whois player - checks if player has played on this server","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
+			cmdin = 'tellraw ' + player + ' {"text":"motd - displays server Message Of The Day","color":"aqua"}\n'
+			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+			p.stdin.write(cmdin)
 			cmdin = 'tellraw ' + player + ' {"text":"ping - causes server to reply with ping response time in ms","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
