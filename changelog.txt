@@ -1,7 +1,10 @@
 Changelog:
 
-v0.56
+v0.57
+Now counts # 'log' mined.
+Money is now also given for breaking logs.
 
+v0.56
 Added .ranks, .rankup, .console, .motd
 Improved .sell logic
 
