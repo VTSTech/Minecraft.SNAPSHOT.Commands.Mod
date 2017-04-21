@@ -26,12 +26,84 @@ def getplayername(txt):
 		player = string.strip(player,">")	
 		return player
 
+#Give Looting III Enchantment Book:
+#give @p minecraft:enchanted_book 1 0 {StoredEnchantments:[{id:21,lvl:3}]}
+#Give Diamond Sword with Looting III Enchantment:
+#give @p minecraft:diamond_sword 1 0 {ench:[{id:21,lvl:3}]}
+#Give Night Vision Potion
+#give @p potion 1 0 {Potion:night_vision}
+#Give Regeneration Potion
+#give @p potion 1 0 {Potion:regeneration}
+#Give Swiftness Potion
+#give @p potion 1 0 {Potion:swiftness}
+#Give Healing Potion
+#give @p potion 1 0 {Potion:healing}
+
+#Enchantment IDs
+#0=protection
+#1=Fire protection
+#2=feather falling
+#3=blast protection
+#4=projectile protection
+#5=respiration
+#6=aqua affinity
+#7=thorns
+#34=unbreaking
+#16=sharpness
+#17=smite
+#18=bane of athropods
+#19=knockback
+#20=fire aspect
+#21=looting
+#34=unbreaking
+#32=efficiency
+#33=silk touch
+#34=unbreaking
+#35=fortune
+#48=power
+#49=punch
+#50=flame
+#51=infinity
+
+#Potion IDs
+#1-Speed
+#2-Slowness
+#3-Haste
+#4-Mining Fatigue
+#5-Strength
+#6-Instant Health
+#7-Instant Damage
+#8-Jump Boost
+#9-Nausea
+#10-Regeneration
+#11-Resistance
+#12-Fire Resistance
+#13-Water Breathing
+#14-Invisibility
+#15-Blindness
+#16-Night Vision
+#17-Hunger
+#18-Weakness
+#19-Poison
+#20-Wither
+#21-Health Boost
+#22-Absorbsion
+#23-Saturation
+#24-Glowing
+#25-Levitation
+
 def LoadItems():
-	itemsdb="stone,cobblestone,dirt,arrow,torch,planks,cobblestone,coal,wheat,leather,carrot,melon,log,bread,iron_ingot,gold_ingot,chainmail_leggings,chainmail_boots,chainmail_helmet,chainmail_chestplate,bow,leather_helmet,leather_chestplate,leather_leggings,leather_boots,iron_sword,iron_axe,iron_pickaxe,iron_hoe,iron_shovel,diamond,enchanting_table,iron_helmet,iron_chestplate,iron_leggings,iron_boots,golden_helmet,golden_chestplate,golden_leggings,golden_boots,diamond_helmet,diamond_chestplate,diamond_leggings,diamond_boots"
+	itemsdb="stone,cobblestone,dirt,arrow,wheat_seeds,cookie,torch,planks,potato,cobblestone,coal,wheat,glass,carrot,melon,chicken,fireworks,leather,cooked_fish,log2,log,bread,glowstone,bookshelf,emerald,hay_block,melon_block,ender_pearl,purple_shulker_box,lime_shulker_box,ender_chest,iron_ingot,gold_ingot,chainmail_leggings,chainmail_boots,chainmail_helmet,chainmail_chestplate,bow,leather_helmet,leather_chestplate,leather_leggings,leather_boots,iron_sword,iron_axe,iron_pickaxe,iron_hoe,iron_shovel,diamond,enchanting_table,iron_helmet,iron_chestplate,iron_leggings,iron_boots,golden_helmet,golden_chestplate,golden_leggings,golden_boots,diamond_helmet,diamond_chestplate,diamond_leggings,diamond_boots"
 	return itemsdb
 def LoadPrices():
-	pricedb="1,10,1,2,5,5,10,10,10,15,15,15,20,25,100,250,100,100,100,100,100,75,120,105,60,200,750,750,200,100,2500,2000,500,800,700,400,1250,2000,1750,1000,12500,20000,17500,10000"
+	pricedb="1,15,1,2,4,5,5,5,8,10,10,10,15,15,15,25,25,25,25,25,25,25,50,50,100,125,135,1000,10000,12000,25000,250,500,100,100,100,100,100,125,200,175,100,500,750,750,500,250,2500,5000,500,800,700,400,2500,4000,3500,2000,12500,20000,17500,10000"
 	return pricedb
+def LoadRankItems():
+	ritemsdb="0,1,2,3,4,5,6,7,8,9,10,11,12"
+	return ritemsdb
+def LoadRankPrices():
+	rpricedb="0,1,100,500,1000,5000,10000,25000,40000,60000,120000,250000,500000"
+	return rpricedb
 
 def UpdateSB():
 	setsb = "scoreboard players operation $ Character = @a money\n"
@@ -43,20 +115,23 @@ def UpdateSB():
 	setsb = "scoreboard players operation Rank Character = @a rank\n"
 	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 	p.stdin.write(setsb)
+	setsb = "scoreboard objectives setdisplay list rank\n"
+	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+	p.stdin.write(setsb)
 #spawn = "-82 64 264" Dev Server coords		(MC.NIGELTODMAN.COM:25599)
 #spawn = "0 64 -3"    Snapshot srv coords (MC.NIGELTODMAN.COM:25565)
 #spawn = "206 64 259" VNNLA Server coords (VNLLA.NIGELTODMAN.COM:25566)
 
 ## Start Config ##
 javacmd = 'java -Xms128M -Xmx4G -jar minecraft_server.jar nogui' # Java command line to start Minecraft Server jar, Must use nogui
-spawn = "-82 64 264"   																					 # WorldSpawn Coordinates
+spawn = "206 64 259"   																					 # WorldSpawn Coordinates
 rtpradius = 35000  																						 # Random Teleport radius (-35000,35000)
 useautosave = True 																						 # Use Autosave?
 useautoclear = True 																					 # Use Autoclear?
 autosaveint = 1776																					   # Autosave Interval in seconds
 autoclearint = 3625																					   # Autoclear Interval in seconds
 freeshulkerbox = True																					 # Gives new players a shulker box on their first connect
-motd = "!## MOTD ##! Welcome to vnlla.nigeltodman.com, PLAYER_NAME! See our custom commands and their usage with '.help' * April Gamerules: limitedCrafting:Off keepInventory:On mobGriefing:Off Difficulty:Hard"
+motd = "!## MOTD ##! Welcome to mc.nigeltodman.com, PLAYER_NAME! See our custom commands and their usage with '.help' * April Gamerules: limitedCrafting:Off keepInventory:On mobGriefing:Off Difficulty:Hard"
 votemsg = "Vote for this server! Vote #1 adf.ly/1kVCJK #2 adf.ly/1kVCLs #3 adf.ly/1g4VYV #4 adf.ly/1mCgLU #5 adf.ly/1mCgcL #6 adf.ly/1mCgoa"
 admin="YT_Veritas0923"
 																					   									 # Message of the Day notes:
@@ -66,6 +141,8 @@ admin="YT_Veritas0923"
 
 itemsdb=LoadItems()
 pricedb=LoadPrices()
+rpricedb=LoadRankPrices()
+ritemsdb=LoadRankItems()
 
 cmdline = string.split(javacmd)
 p = subprocess.Popen([cmdline[0],cmdline[1],cmdline[2],cmdline[3],cmdline[4],cmdline[5]], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -112,6 +189,8 @@ sellplayer=''
 solditem=''
 sellprice=''
 soldprice=''
+ranknew=''
+rankcost=''
 derp=''
 seen=''
 op=''
@@ -190,6 +269,7 @@ while True:
 		print cmdout,
 		clearwarn60 = False
 		clearwarn10 = False
+	#Setup Scoreboard
 	if sbset == False:
 		setsb = "scoreboard objectives add inOverworld dummy\n"
 		print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
@@ -206,7 +286,7 @@ while True:
 		setsb = "scoreboard objectives add killcounter stat.mobKills\n"
 		print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
 		p.stdin.write(setsb)
-		setsb = "scoreboard objectives add rank 0 Rank\n"
+		setsb = "scoreboard objectives add rank dummy Rank\n"
 		print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
 		p.stdin.write(setsb)
 		setsb = "scoreboard objectives add money dummy Money\n"
@@ -224,23 +304,36 @@ while True:
 		setsb = "scoreboard players operation Rank Character = @a rank\n"
 		print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
 		p.stdin.write(setsb)
-		setsb = "scoreboard players operation Rank Info = @a rank\n"
-		print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
-		p.stdin.write(setsb)
-		setsb = "scoreboard players operation $ Info = @a money\n"
-		print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
-		p.stdin.write(setsb)
 		setsb = "scoreboard players operation Kills Info = @a totalkills\n"
 		print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
 		p.stdin.write(setsb)
-		setsb = "scoreboard objectives setdisplay list Info\n"
+		setsb = "scoreboard objectives setdisplay list rank\n"
 		print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
 		p.stdin.write(setsb)
 		sbset = True
-	if sbset == True and currtime - lasttimepoll > 5:
+	#12s Poll time
+	if sbset == True and currtime - lasttimepoll > 12:
 		lasttimepoll = time.time()
 		for i in range(1,16):
-			setsb = "scoreboard players add @a[score_killcounter_min=" + str(i) + "] money " + str(int(i) * 5) + "\n"
+			setsb = "scoreboard players add @a[score_killcounter_min=" + str(i) + ",score_rank_min=0,score_rank=3] money " + str(int(i) * 5) + "\n"
+			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+			#p.stdin.write(setsb)
+			setsb = "scoreboard players add @a[score_killcounter_min=" + str(i) + ",score_rank_min=4,score_rank=5] money " + str(int(round((int(i) * 5) * 1.2))) + "\n"
+			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+			#p.stdin.write(setsb)
+			setsb = "scoreboard players add @a[score_killcounter_min=" + str(i) + ",score_rank_min=6,score_rank=7] money " + str(int(round((int(i) * 5) * 1.4))) + "\n"
+			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+			p.stdin.write(setsb)
+			setsb = "scoreboard players add @a[score_killcounter_min=" + str(i) + ",score_rank_min=8,score_rank=9] money " + str(int(round((int(i) * 5) * 1.6))) + "\n"
+			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+			p.stdin.write(setsb)
+			setsb = "scoreboard players add @a[score_killcounter_min=" + str(i) + ",score_rank_min=10,score_rank=10] money " + str(int(round((int(i) * 5) * 1.8))) + "\n"
+			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+			p.stdin.write(setsb)
+			setsb = "scoreboard players add @a[score_killcounter_min=" + str(i) + ",score_rank_min=11,score_rank=11] money " + str(int(round((int(i) * 5) * 2))) + "\n"
+			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+			p.stdin.write(setsb)
+			setsb = "scoreboard players add @a[score_killcounter_min=" + str(i) + ",score_rank_min=12] money " + str(int(round((int(i) * 5) * 2.5))) + "\n"
 			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 			p.stdin.write(setsb)
 		setsb = "scoreboard players operation $ Character = @a money\n"
@@ -258,15 +351,12 @@ while True:
 		setsb = "scoreboard players set @a killcounter 0\n"
 		#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 		p.stdin.write(setsb)
-	if sbset == True and currtime - lasttimepoll > 15:
-		#lasttimepoll = time.time()
 		setsb = "scoreboard players set @a inOverworld 0\n"
 		#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 		p.stdin.write(setsb)
 		setsb = "scoreboard players set @a inOverworld 1 {Dimension:0}\n"
 		#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 		p.stdin.write(setsb)
-
 	##
 	#User .commands
 	##
@@ -296,7 +386,7 @@ while True:
 						p.stdin.write(cmdin)
 		if tmp[4] == '.commands':
 			player = getplayername(tmp[3])
-			cmdin = 'tellraw ' + player + ' {"text":"User Commands are: .spawn .sethome .home .rtp .warp .whois .ping .report .seen .uptime .shop .buy .sell .stats .staff .tpa .tpaccept .tpdeny .vote .report .commands .about .help Mod Commands are: .setwarp .kick","color":"aqua"}\n'
+			cmdin = 'tellraw ' + player + ' {"text":"User Commands are: .spawn .sethome .home .rtp .warp .whois .ping .report .seen .uptime .shop .buy .sell .stats .staff .tpa .tpaccept .tpdeny .vote .ranks .rankup .report .commands .about .help Mod Commands are: .setwarp .kick","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 		if tmp[4] == '.about':
@@ -413,6 +503,12 @@ while True:
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 			cmdin = 'tellraw ' + player + ' {"text":"ping - causes server to reply with ping response time in ms","color":"aqua"}\n'
+			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+			p.stdin.write(cmdin)
+			cmdin = 'tellraw ' + player + ' {"text":"ranks - Displays Ranks, Their cost and their money drop multiplier.","color":"aqua"}\n'
+			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+			p.stdin.write(cmdin)
+			cmdin = 'tellraw ' + player + ' {"text":"rankup - Increases your rank by 1. See cost use .rank","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 			cmdin = 'tellraw ' + player + ' {"text":"report player reason - reports player for specified reason","color":"aqua"}\n'
@@ -552,37 +648,17 @@ while True:
 					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 					p.stdin.write(cmdin)
 		if tmp[4] == '.rankup':
-			ranks = open('ranks.csv','rb')
-			rankstr = ''
-			for line in ranks:
-				if len(line) > 3:
-					rankstr = string.split(string.strip(line,"\r\n"),",")
-					ranknew = rankstr[0]
-					rankcost = rankstr[1]
-			#playerdb.writerow([newplayer,playerip,getdate(),getdate(),time.time(),0])	
-			#Open playerdb, Write new rank
-			tmparray2=[]
-			with open('playerdb.csv','rb') as csvfile:
-				playerdb = csv.reader(csvfile,delimiter=',',dialect='excel')
-				for row in playerdb:
-					db = ','.join(row)
-					dbt = string.split(db,',')
-					if dbt[0] == player:						
-						rankold = dbt[5]
-						
-						t = dbt[0] + ',' + dbt[1] + ',' + dbt[2] + ',' + dbt[3] + ',' + dbt[4] + ',' + dbt[5]
-						tmparray2.append(t)
-					else:
-						tmparray2.append(db)
-			with open('playerdb.csv','wb') as csvfile:
-				playerdb = csv.writer(csvfile,delimiter='\n',dialect='excel')
-				for y in xrange(0,len(tmparray2)):
-					a=a
-					#playerdb.writerow([tmparray2[y]])					
-			cmdin = 'tellraw @a {"text":"Rank: ' + str(rankstr[0]) + ' Cost: ' + str(rankstr[1]) + ' Bonus: ' + str(rankstr[2]) + 'x ","color":"red"}\n'
-			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
-			p.stdin.write(cmdin)
-		
+			player = getplayername(tmp[3])	
+			rankcost = LoadRankPrices()
+			rankcost = string.split(rankcost,",")
+			for i in range(12,0,-1):
+				setrank = "scoreboard players add @a[name=" + str(player) + ",score_money_min=" + rankcost[i] + ",score_rank_min=" + str(i-1) +",score_rank=" + str(i-1) + "] rank 1\n"
+				print "[" + get24hrtime() + "] [Script thread/EXEC]: " + setrank,
+				p.stdin.write(setrank)
+				setrank = "scoreboard players remove @a[name=" + str(player) + ",score_money_min=" + rankcost[i] + ",score_rank_min=" + str(i) +",score_rank=" + str(i) + "] money " + str(rankcost[i]) + "\n"
+				print "[" + get24hrtime() + "] [Script thread/EXEC]: " + setrank,
+				p.stdin.write(setrank)
+			a=UpdateSB()
 		if tmp[4] == '.report':
 			player = getplayername(tmp[3])
 			if len(tmp) > 5:
@@ -662,10 +738,8 @@ while True:
 						print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 						p.stdin.write(cmdin)
 						setsb = "scoreboard players operation $ Character = @a money\n"
-						#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 						p.stdin.write(setsb)
 						setsb = "scoreboard players operation Kills Character = @a totalkills\n"
-						#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 						p.stdin.write(setsb)
 						cmdin = 'tellraw @a {"text":"' + player + ' has just bought ' + str(buyqty) + ' '+ itemsdb[i] + ' for $' + str(totalprice) + '","color":"yellow"}\n'
 						print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
@@ -680,12 +754,9 @@ while True:
 						print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 						p.stdin.write(cmdin)
 						setsb = "scoreboard players operation $ Character = @a money\n"
-						#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 						p.stdin.write(setsb)
 						setsb = "scoreboard players operation Kills Character = @a totalkills\n"
-						#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 						p.stdin.write(setsb)
-						#'tellraw @a {"text":"Items cleared. Autoclear by ' + ver +  '","color":"aqua"}\n'
 						cmdin = 'tellraw @a {"text":"' + player + ' has just bought ' + str(buyqty) + ' '+ itemsdb[i] + ' for $' + str(totalprice) + '","color":"yellow"}\n'
 						print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 						p.stdin.write(cmdin)
@@ -693,7 +764,6 @@ while True:
 				cmdin = "tell " + player + " .buy requires a quantity! (ie: .buy log 64 or .buy log 1)\n"
 				print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 				p.stdin.write(cmdin)
-
 		if tmp[4] == '.sell':
 			selling=True
 			itemsdb=LoadItems()
@@ -703,7 +773,8 @@ while True:
 			player = getplayername(tmp[3])
 			selltime = currtime
 			sellplayer = player
-			sellitem = tmp[5]
+			if len(tmp) > 5:
+				sellitem = tmp[5]
 			for i in range(0,len(itemsdb)):
 				if len(tmp) > 6:
 					if tmp[5] == itemsdb[i] and tmp[6] == 1:
@@ -724,29 +795,20 @@ while True:
 				sellqty = int(tmp[6])
 			else:
 				sellqty = 1
-		if selling == True:
-			if tmp[3] == sellplayer:
-				selling=False
-				soldqty = tmp[5]
-				soldprice = int(sellprice)
-				print "[" + get24hrtime() + "] [Script thread/DBUG]: " + sellplayer + " " + str(soldqty) + " " + str(sellqty) + " " + str(soldprice) + " " + str(sellprice) + "\n",
-				if int(soldqty) < int(sellqty):
-					cmdin = "tell " + sellplayer + " You do not hold enough " + sellitem + " to sell!\n"
-					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
-					p.stdin.write(cmdin)
-				if int(soldqty) >= int(sellqty):
-					cmdin = "clear @a[name=" + sellplayer + "] " + sellitem + " -1 " + str(sellqty) + "\n"
-					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
-					p.stdin.write(cmdin)	
-					cmdin = "scoreboard players add @a[name=" + sellplayer + "] money " + str(int(soldprice)) + "\n"
-					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
-					p.stdin.write(cmdin)
-					cmdin = 'tellraw @a {"text":"' + sellplayer + ' has just sold ' + str(sellqty) + ' '+ sellitem + ' for $' + str(soldprice) + '","color":"green"}\n'
-					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
-					p.stdin.write(cmdin)
-			if tmp[3] == "Could" and tmp[4] == "not" and tmp[5] == "clear":
-				selling=False
-				cmdin = "tell " + sellplayer + " You do not hold any " + sellitem + " to sell!\n"
+		#Selling Event
+		if tmp[4] == '.motd':
+			player = getplayername(tmp[3])
+			motd = string.replace(motd, "PLAYER_NAME", player)
+			motd = string.replace(motd, "Welcome to ", "Welcome back to ")
+			cmdin = 'tellraw @a {"text":"' + motd + '","color":"yellow"}\n'
+			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+			motd = string.replace(motd, player,"PLAYER_NAME")
+			motd = string.replace(motd, "Welcome back to ", "Welcome to ")
+			p.stdin.write(cmdin)
+		if tmp[4] == '.pay':
+			player = getplayername(tmp[3])
+			if tmp[6] > 1:
+				cmdin = "scoreboard players add @a[name=" + tmp[5] + "] money " + str(int(tmp[6])) + "\n"
 				print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 				p.stdin.write(cmdin)
 	##			
@@ -817,6 +879,32 @@ while True:
 	##
 	#Event functions
 	##
+		#Selling Event
+		if selling == True:
+			if tmp[3] == sellplayer:
+				selling=False
+				soldqty = tmp[5]
+				soldprice = int(sellprice)
+				print "[" + get24hrtime() + "] [Script thread/DBUG]: " + sellplayer + " " + str(soldqty) + " " + str(sellqty) + " " + str(soldprice) + " " + str(sellprice) + "\n",
+				if int(soldqty) < int(sellqty):
+					cmdin = "tell " + sellplayer + " You do not hold enough " + sellitem + " to sell!\n"
+					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+					p.stdin.write(cmdin)
+				if int(soldqty) >= int(sellqty):
+					cmdin = "clear @a[name=" + sellplayer + "] " + sellitem + " -1 " + str(sellqty) + "\n"
+					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+					p.stdin.write(cmdin)	
+					cmdin = "scoreboard players add @a[name=" + sellplayer + "] money " + str(int(soldprice)) + "\n"
+					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+					p.stdin.write(cmdin)
+					cmdin = 'tellraw @a {"text":"' + sellplayer + ' has just sold ' + str(sellqty) + ' '+ sellitem + ' for $' + str(soldprice) + '","color":"green"}\n'
+					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+					p.stdin.write(cmdin)
+			if tmp[3] == "Could" and tmp[4] == "not" and tmp[5] == "clear":
+				selling=False
+				cmdin = "tell " + sellplayer + " You do not hold any " + sellitem + " to sell!\n"
+				print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+				p.stdin.write(cmdin)
 		#.setwarp
 		if setwarp == True and tmp[3] == "Teleported":
 			x = tmp[6]
