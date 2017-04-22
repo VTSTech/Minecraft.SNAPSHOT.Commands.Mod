@@ -1,5 +1,18 @@
 Changelog:
 
+v0.6-r49
+Renamed project to .essentials script.
+Money is now optional
+.warp is now optional
+.home/.sethome is now optional
+.rtp is now optional
+.shop/.buy/.sell are now optional
+.spawn is now optional
+
+Added .version and .essentials aliases for .about
+Filtered some scoreboard output
+Players get $250 on first join. $100 on connect.
+
 v0.58
 Added tracking of wood, stone and ores.
 Awards money for mining wood, stone and ores.
