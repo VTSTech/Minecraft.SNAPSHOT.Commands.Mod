@@ -1,4 +1,4 @@
-# Minecraft SNAPSHOT .commands script v0.6-r49
+# Minecraft SNAPSHOT .essentials script v0.6-r49
 
 Written by YT_Veritas0923             
 
