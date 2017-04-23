@@ -56,33 +56,63 @@ pricedb="1,15,1,2,4,5,5,5,8,10,10,10,15,15,15,25,25,25,25,25,25,25,50,50,100,125
 User Commands:
 
 .about - display script version and author information
+
 .buy item_name 64 - buys 64 items from the .shop, increase or decrease 64 as needed
+
 .commands - list available commands
+
+.essentials - alias of .about
+
 .help - displays commands and their usage
+
 .home - teleports you to your set home
+
+.version - alias of .about
+
 .motd - displays server Message Of The Day
+
 .ping - causes server to reply with ping response time in ms
+
 .ranks - Displays Ranks, Their cost and their money drop multiplier.
+
 .rankup - Increases your rank by 1. See cost use .rank
+
 .report player reason - reports player for specified reason
+
 .rtp - teleports you to a random location
+
 .seen player - displays when player was last seen online
+
 .sell item_name 1 - sells 1 item to the .shop, increase or decrease 1 as needed
+
 .sethome - sets .home to current coordinates
+
 .shop - lists items for sale, use .buy to purchase
+
 .spawn - teleports you to spawn
+
 .staff - list server staff
+
 .stats - displays total players in PlayerDB and server uptime
+
 .tpa player - sends .tpa request to specified player
+
 .tpaccept - Accepts .tpa request. Teleports player to you.
+
 .tpdeny - Denies .tpa request.
+
 .uptime - displays server uptime
+
 .vote - displays server vote links
+
 .warp name - teleports you to warp name. List warps with just .warp
+
 .whois player - checks if player has played on this server
 
 Mod Commands:
 
 .console command - runs /command on the server as console
+
 .kick player reason - kicks a player, reason is optional. reason cannot contain spaces (use . instead of space)
+
 .setwarp name - sets a public .warp as given name. name cannot contain spaces
