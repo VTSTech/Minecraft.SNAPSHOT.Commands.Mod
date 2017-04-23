@@ -4,7 +4,7 @@ from time import sleep
 from nbstreamreader import NonBlockingStreamReader as NBSR
 #nbstreamreader.py https://gist.github.com/EyalAr/7915597
 
-ver = "Minecraft SNAPSHOT .essentials script v0.6-r49"
+ver = "Minecraft SNAPSHOT .essentials script v0.6-r50"
 bannershown = False
 
 def banner():
@@ -93,16 +93,16 @@ def getplayername(txt):
 #25-Levitation
 
 def LoadItems():
-	itemsdb="stone,cobblestone,dirt,arrow,wheat_seeds,cookie,torch,planks,potato,cobblestone,coal,wheat,glass,carrot,melon,chicken,fireworks,leather,cooked_fish,log2,log,bread,glowstone,bookshelf,emerald,hay_block,melon_block,ender_pearl,purple_shulker_box,lime_shulker_box,ender_chest,iron_ingot,gold_ingot,chainmail_leggings,chainmail_boots,chainmail_helmet,chainmail_chestplate,bow,leather_helmet,leather_chestplate,leather_leggings,leather_boots,iron_sword,iron_axe,iron_pickaxe,iron_hoe,iron_shovel,diamond,enchanting_table,iron_helmet,iron_chestplate,iron_leggings,iron_boots,golden_helmet,golden_chestplate,golden_leggings,golden_boots,diamond_helmet,diamond_chestplate,diamond_leggings,diamond_boots"
+	itemsdb="stone,cobblestone,dirt,arrow,wheat_seeds,cookie,torch,planks,potato,cobblestone,coal,wheat,glass,carrot,melon,string,chicken,fireworks,leather,cooked_fish,log2,log,bread,glowstone,bookshelf,bone,emerald,hay_block,melon_block,bed,slime_ball,ender_pearl,purple_shulker_box,lime_shulker_box,ender_chest,iron_ingot,gold_ingot,chainmail_leggings,chainmail_boots,chainmail_helmet,chainmail_chestplate,bow,leather_helmet,leather_chestplate,leather_leggings,leather_boots,iron_sword,iron_axe,iron_pickaxe,iron_hoe,iron_shovel,diamond,enchanting_table,iron_helmet,iron_chestplate,iron_leggings,iron_boots,golden_helmet,golden_chestplate,golden_leggings,golden_boots,diamond_helmet,diamond_chestplate,diamond_leggings,diamond_boots"
 	return itemsdb
 def LoadPrices():
-	pricedb="1,15,1,2,4,5,5,5,8,10,10,10,15,15,15,25,25,25,25,25,25,25,50,50,100,125,135,1000,10000,12000,25000,250,500,100,100,100,100,100,125,200,175,100,500,750,750,500,250,2500,5000,500,800,700,400,2500,4000,3500,2000,12500,20000,17500,10000"
+	pricedb="1,15,1,2,4,5,5,5,8,10,10,10,15,15,15,25,25,25,25,25,25,25,25,50,50,100,100,125,135,500,1000,1000,10000,12000,25000,250,500,100,100,100,100,100,125,200,175,100,500,750,750,500,250,2500,5000,500,800,700,400,2500,4000,3500,2000,12500,20000,17500,10000"
 	return pricedb
 def LoadRankItems():
-	ritemsdb="0,1,2,3,4,5,6,7,8,9,10,11,12"
+	ritemsdb="0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15"
 	return ritemsdb
 def LoadRankPrices():
-	rpricedb="0,1,100,500,1000,5000,10000,25000,40000,60000,120000,250000,500000"
+	rpricedb="0,1,100,500,1000,5000,10000,25000,40000,60000,120000,250000,500000,1000000,2000000,4000000"
 	return rpricedb
 
 def UpdateSB():
@@ -121,15 +121,15 @@ def UpdateSB():
 
 ## Start Config ##
 javacmd = 'java -Xms128M -Xmx4G -jar minecraft_server.jar nogui' # Java command line to start Minecraft Server jar, Must use nogui
-spawn = "-82 64 264"   																					 # WorldSpawn Coordinates
+spawn = "0 64 -3"   																					 # WorldSpawn Coordinates
 rtpradius = 35000	  																						 # Random Teleport radius (-35000,35000)
 useautosave = True	 																						 # Use Autosave?
 useautoclear = True 																						 # Use Autoclear?
-usemoney = False																								 # Use Money?
+usemoney = True																								 # Use Money?
 usewarp = True			 																						 # Allow .warp?
 usehome = True			 																						 # Allow .home/.sethome?
 usertp = True				 																						 # Allow .rtp?
-useshop = False			 																						 # Allow .shop/.buy/.sell?
+useshop = True			 																						 # Allow .shop/.buy/.sell?
 usespawn = True			 																						 # Allow .spawn?
 autosaveint = 1776																						   # Autosave Interval in seconds
 autoclearint = 3625																						   # Autoclear Interval in seconds
@@ -1103,7 +1103,7 @@ while True:
 				selling=False
 				soldqty = tmp[5]
 				soldprice = int(sellprice)
-				print "[" + get24hrtime() + "] [Script thread/DBUG]: " + sellplayer + " " + str(soldqty) + " " + str(sellqty) + " " + str(soldprice) + " " + str(sellprice) + "\n",
+				#print "[" + get24hrtime() + "] [Script thread/DBUG]: " + sellplayer + " " + str(soldqty) + " " + str(sellqty) + " " + str(soldprice) + " " + str(sellprice) + "\n",
 				if int(soldqty) < int(sellqty):
 					cmdin = "tell " + sellplayer + " You do not hold enough " + sellitem + " to sell!\n"
 					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
