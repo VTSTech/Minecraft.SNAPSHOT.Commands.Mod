@@ -1,5 +1,18 @@
 Changelog:
 
+v0.6-r51
+Created OverworldCheck()
+Created ProcessRewards()
+Expanded UpdateSB()
+Reduced Poll time to 6s from 12s
+Max iterations of rewardable actions reduced to 4 per poll (Down from 16)
+Added buy/sell limit of 1024 per item.
+Added .tdf (toggledownfall) .stop .pay
+
+v0.6-r50
+Added a few more items to .shop
+Added 3 more ranks. Total of 15
+
 v0.6-r49
 Renamed project to .essentials script.
 Money is now optional

@@ -1,4 +1,4 @@
-# Minecraft SNAPSHOT .essentials script v0.6-r49
+# Minecraft SNAPSHOT .essentials script v0.6-r51
 
 Written by YT_Veritas0923             
 
@@ -10,19 +10,19 @@ GitHub: Veritas83
 
 BTC 18j2Env7QokhGG5MccS3LPBKnjsko6u4NQ
 
-<img src="https://i.gyazo.com/7c1f3994dcaa10fc1bd68fe458afa8dc.png">
+<img src="https://i.gyazo.com/a1168fecc97d4be34bd900c006a0e2e3.png">
 
 
 Simply place beside your minecraft_server.jar and run.
 
-<img src="https://i.gyazo.com/2305feb592e1b2a4237f40e65e2442a1.png">
+<img src="https://i.gyazo.com/19fce9abb82b282af71de902124d3868.png">
 
 Config:
 
 specify admin player name in config. add mods to mods.csv, 1 player name per line.
 
 <pre>
-Lines 122-142:
+Lines 203-223:
 
 ## Start Config ##
 javacmd = 'java -Xms128M -Xmx4G -jar minecraft_server.jar nogui' # Java command line to start Minecraft Server jar, Must use nogui

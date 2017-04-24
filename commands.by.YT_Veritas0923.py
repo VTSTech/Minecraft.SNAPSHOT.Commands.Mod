@@ -4,7 +4,7 @@ from time import sleep
 from nbstreamreader import NonBlockingStreamReader as NBSR
 #nbstreamreader.py https://gist.github.com/EyalAr/7915597
 
-ver = "Minecraft SNAPSHOT .essentials script v0.6-r50"
+ver = "Minecraft SNAPSHOT .essentials script v0.6-r51"
 bannershown = False
 
 def banner():
@@ -115,6 +115,87 @@ def UpdateSB():
 	setsb = "scoreboard players operation Kills Character = @a totalkills\n"
 	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 	p.stdin.write(setsb)
+	setsb = "scoreboard players operation Wood Character = @a wood\n"
+	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+	p.stdin.write(setsb)
+	setsb = "scoreboard players operation Stone Character = @a stone\n"
+	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+	p.stdin.write(setsb)
+	setsb = "scoreboard players operation Coal Character = @a coal\n"
+	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+	p.stdin.write(setsb)
+	setsb = "scoreboard players operation Iron Character = @a iron\n"
+	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+	p.stdin.write(setsb)
+	setsb = "scoreboard players operation Gold Character = @a gold\n"
+	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+	p.stdin.write(setsb)
+	setsb = "scoreboard players operation Redstone Character = @a redstone\n"
+	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+	p.stdin.write(setsb)
+	setsb = "scoreboard players operation Diamond Character = @a diamond\n"
+	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+	p.stdin.write(setsb)
+	setsb = "scoreboard objectives setdisplay list rank\n"
+	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+	p.stdin.write(setsb)
+	setsb = "scoreboard objectives setdisplay sidebar Character\n"
+	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+	p.stdin.write(setsb)
+	setsb = "scoreboard players set @a killcounter 0\n"
+	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+	p.stdin.write(setsb)
+	setsb = "scoreboard players set @a woodcounter 0\n"
+	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+	p.stdin.write(setsb)
+	setsb = "scoreboard players set @a stonecounter 0\n"
+	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+	p.stdin.write(setsb)
+	setsb = "scoreboard players set @a coalcounter 0\n"
+	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+	p.stdin.write(setsb)
+	setsb = "scoreboard players set @a ironcounter 0\n"
+	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+	p.stdin.write(setsb)
+	setsb = "scoreboard players set @a goldcounter 0\n"
+	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+	p.stdin.write(setsb)
+	setsb = "scoreboard players set @a redstonecounter 0\n"
+	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+	p.stdin.write(setsb)
+	setsb = "scoreboard players set @a diamondcounter 0\n"
+	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+	p.stdin.write(setsb)
+
+def ProcessRewards(metric,reward):
+	for i in range(1,4):
+		setsb = "scoreboard players add @a[score_" + metric + "counter_min=" + str(i) + ",score_rank_min=0,score_rank=3] money " + str(int(round((int(i) * int(reward)) * 1.2))) + "\n"
+		p.stdin.write(setsb)
+		setsb = "scoreboard players add @a[score_" + metric + "counter_min=" + str(i) + ",score_rank_min=4,score_rank=6] money " + str(int(round((int(i) * int(reward)) * 1.6))) + "\n"
+		p.stdin.write(setsb)
+		setsb = "scoreboard players add @a[score_" + metric + "counter_min=" + str(i) + ",score_rank_min=7,score_rank=9] money " + str(int(round((int(i) * int(reward)) * 2))) + "\n"
+		p.stdin.write(setsb)
+		setsb = "scoreboard players add @a[score_" + metric + "counter_min=" + str(i) + ",score_rank_min=10,score_rank=10] money " + str(int(round((int(i) * int(reward)) * 2.4))) + "\n"
+		p.stdin.write(setsb)
+		setsb = "scoreboard players add @a[score_" + metric + "counter_min=" + str(i) + ",score_rank_min=11,score_rank=11] money " + str(int(round((int(i) * int(reward)) * 2.8))) + "\n"
+		p.stdin.write(setsb)
+		setsb = "scoreboard players add @a[score_" + metric + "counter_min=" + str(i) + ",score_rank_min=12,score_rank=12] money " + str(int(round((int(i) * int(reward)) * 3.2))) + "\n"
+		p.stdin.write(setsb)
+		setsb = "scoreboard players add @a[score_" + metric + "counter_min=" + str(i) + ",score_rank_min=13,score_rank=13] money " + str(int(round((int(i) * int(reward)) * 5))) + "\n"
+		p.stdin.write(setsb)
+		setsb = "scoreboard players add @a[score_" + metric + "counter_min=" + str(i) + ",score_rank_min=14,score_rank=14] money " + str(int(round((int(i) * int(reward)) * 10))) + "\n"
+		p.stdin.write(setsb)
+		setsb = "scoreboard players add @a[score_" + metric + "counter_min=" + str(i) + ",score_rank_min=15,score_rank=15] money " + str(int(round((int(i) * int(reward)) * 15))) + "\n"
+		p.stdin.write(setsb)
+
+def OverworldCheck():
+	setsb = "scoreboard players set @a inOverworld 0\n"
+	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+	p.stdin.write(setsb)
+	setsb = "scoreboard players set @a inOverworld 1 {Dimension:0}\n"
+	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
+	p.stdin.write(setsb)
+
 #spawn = "-82 64 264" Dev Server coords		(MC.NIGELTODMAN.COM:25599)
 #spawn = "0 64 -3"    Snapshot srv coords (MC.NIGELTODMAN.COM:25565)
 #spawn = "206 64 259" VNNLA Server coords (VNLLA.NIGELTODMAN.COM:25566)
@@ -380,204 +461,16 @@ while True:
 			print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
 			p.stdin.write(setsb)
 		sbset = True
-	#12s Poll time
-	if sbset == True and currtime - lasttimepoll > 12:
+	#6s Poll time
+	if sbset == True and currtime - lasttimepoll > 6:
 		lasttimepoll = time.time()
 		if usemoney == True:
-			for i in range(1,16):
-				#
-				#Mobhunting
-				#
-				setsb = "scoreboard players add @a[score_killcounter_min=" + str(i) + ",score_rank_min=0,score_rank=3] money " + str(int(i) * 10) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_killcounter_min=" + str(i) + ",score_rank_min=4,score_rank=5] money " + str(int(round((int(i) * 10) * 1.2))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_killcounter_min=" + str(i) + ",score_rank_min=6,score_rank=7] money " + str(int(round((int(i) * 10) * 1.4))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_killcounter_min=" + str(i) + ",score_rank_min=8,score_rank=9] money " + str(int(round((int(i) * 10) * 1.6))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_killcounter_min=" + str(i) + ",score_rank_min=10,score_rank=10] money " + str(int(round((int(i) * 10) * 1.8))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_killcounter_min=" + str(i) + ",score_rank_min=11,score_rank=11] money " + str(int(round((int(i) * 10) * 2))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_killcounter_min=" + str(i) + ",score_rank_min=12] money " + str(int(round((int(i) * 10) * 2.5))) + "\n"
-				p.stdin.write(setsb)
-				#
-				#Woodhunting
-				#
-				setsb = "scoreboard players add @a[score_woodcounter_min=" + str(i) + ",score_rank_min=0,score_rank=3] money " + str(int(i) * 5) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_woodcounter_min=" + str(i) + ",score_rank_min=4,score_rank=5] money " + str(int(round((int(i) * 5) * 1.2))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_woodcounter_min=" + str(i) + ",score_rank_min=6,score_rank=7] money " + str(int(round((int(i) * 5) * 1.4))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_woodcounter_min=" + str(i) + ",score_rank_min=8,score_rank=9] money " + str(int(round((int(i) * 5) * 1.6))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_woodcounter_min=" + str(i) + ",score_rank_min=10,score_rank=10] money " + str(int(round((int(i) * 5) * 1.8))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_woodcounter_min=" + str(i) + ",score_rank_min=11,score_rank=11] money " + str(int(round((int(i) * 5) * 2))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_woodcounter_min=" + str(i) + ",score_rank_min=12] money " + str(int(round((int(i) * 5) * 2.5))) + "\n"
-				p.stdin.write(setsb)
-				#
-				#Stonehunting
-				#
-				setsb = "scoreboard players add @a[score_stonecounter_min=" + str(i) + ",score_rank_min=0,score_rank=3] money " + str(int(i) * 1) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_stonecounter_min=" + str(i) + ",score_rank_min=4,score_rank=5] money " + str(int(round((int(i) * 1) * 1.2))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_stonecounter_min=" + str(i) + ",score_rank_min=6,score_rank=7] money " + str(int(round((int(i) * 1) * 1.4))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_stonecounter_min=" + str(i) + ",score_rank_min=8,score_rank=9] money " + str(int(round((int(i) * 1) * 1.6))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_stonecounter_min=" + str(i) + ",score_rank_min=10,score_rank=10] money " + str(int(round((int(i) * 1) * 1.8))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_stonecounter_min=" + str(i) + ",score_rank_min=11,score_rank=11] money " + str(int(round((int(i) * 1) * 2))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_stonecounter_min=" + str(i) + ",score_rank_min=12] money " + str(int(round((int(i) * 8) * 2.5))) + "\n"
-				p.stdin.write(setsb)
-
-				#
-				#Orehunting
-				#
-				#Coal
-				setsb = "scoreboard players add @a[score_coalcounter_min=" + str(i) + ",score_rank_min=0,score_rank=3] money " + str(int(i) * 8) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_coalcounter_min=" + str(i) + ",score_rank_min=4,score_rank=5] money " + str(int(round((int(i) * 8) * 1.2))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_coalcounter_min=" + str(i) + ",score_rank_min=6,score_rank=7] money " + str(int(round((int(i) * 8) * 1.4))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_coalcounter_min=" + str(i) + ",score_rank_min=8,score_rank=9] money " + str(int(round((int(i) * 8) * 1.6))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_coalcounter_min=" + str(i) + ",score_rank_min=10,score_rank=10] money " + str(int(round((int(i) * 8) * 1.8))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_coalcounter_min=" + str(i) + ",score_rank_min=11,score_rank=11] money " + str(int(round((int(i) * 8) * 2))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_coalcounter_min=" + str(i) + ",score_rank_min=12] money " + str(int(round((int(i) * 8) * 2.5))) + "\n"
-				p.stdin.write(setsb)
-				#iron
-				setsb = "scoreboard players add @a[score_ironcounter_min=" + str(i) + ",score_rank_min=0,score_rank=3] money " + str(int(i) * 16) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_ironcounter_min=" + str(i) + ",score_rank_min=4,score_rank=5] money " + str(int(round((int(i) * 16) * 1.2))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_ironcounter_min=" + str(i) + ",score_rank_min=6,score_rank=7] money " + str(int(round((int(i) * 16) * 1.4))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_ironcounter_min=" + str(i) + ",score_rank_min=8,score_rank=9] money " + str(int(round((int(i) * 16) * 1.6))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_ironcounter_min=" + str(i) + ",score_rank_min=10,score_rank=10] money " + str(int(round((int(i) * 16) * 1.8))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_ironcounter_min=" + str(i) + ",score_rank_min=11,score_rank=11] money " + str(int(round((int(i) * 16) * 2))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_ironcounter_min=" + str(i) + ",score_rank_min=12] money " + str(int(round((int(i) * 16) * 2.5))) + "\n"
-				p.stdin.write(setsb)
-				#gold
-				setsb = "scoreboard players add @a[score_goldcounter_min=" + str(i) + ",score_rank_min=0,score_rank=3] money " + str(int(i) * 32) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_goldcounter_min=" + str(i) + ",score_rank_min=4,score_rank=5] money " + str(int(round((int(i) * 32) * 1.2))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_goldcounter_min=" + str(i) + ",score_rank_min=6,score_rank=7] money " + str(int(round((int(i) * 32) * 1.4))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_goldcounter_min=" + str(i) + ",score_rank_min=8,score_rank=9] money " + str(int(round((int(i) * 32) * 1.6))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_goldcounter_min=" + str(i) + ",score_rank_min=10,score_rank=10] money " + str(int(round((int(i) * 32) * 1.8))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_goldcounter_min=" + str(i) + ",score_rank_min=11,score_rank=11] money " + str(int(round((int(i) * 32) * 2))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_goldcounter_min=" + str(i) + ",score_rank_min=12] money " + str(int(round((int(i) * 32) * 2.5))) + "\n"
-				p.stdin.write(setsb)
-				#redstone
-				setsb = "scoreboard players add @a[score_redstonecounter_min=" + str(i) + ",score_rank_min=0,score_rank=3] money " + str(int(i) * 10) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_redstonecounter_min=" + str(i) + ",score_rank_min=4,score_rank=5] money " + str(int(round((int(i) * 10) * 1.2))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_redstonecounter_min=" + str(i) + ",score_rank_min=6,score_rank=7] money " + str(int(round((int(i) * 10) * 1.4))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_redstonecounter_min=" + str(i) + ",score_rank_min=8,score_rank=9] money " + str(int(round((int(i) * 10) * 1.6))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_redstonecounter_min=" + str(i) + ",score_rank_min=10,score_rank=10] money " + str(int(round((int(i) * 10) * 1.8))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_redstonecounter_min=" + str(i) + ",score_rank_min=11,score_rank=11] money " + str(int(round((int(i) * 10) * 2))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_redstonecounter_min=" + str(i) + ",score_rank_min=12] money " + str(int(round((int(i) * 10) * 2.5))) + "\n"
-				p.stdin.write(setsb)
-				#diamond
-				setsb = "scoreboard players add @a[score_diamondcounter_min=" + str(i) + ",score_rank_min=0,score_rank=3] money " + str(int(i) * 64) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_diamondcounter_min=" + str(i) + ",score_rank_min=4,score_rank=5] money " + str(int(round((int(i) * 64) * 1.2))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_diamondcounter_min=" + str(i) + ",score_rank_min=6,score_rank=7] money " + str(int(round((int(i) * 64) * 1.4))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_diamondcounter_min=" + str(i) + ",score_rank_min=8,score_rank=9] money " + str(int(round((int(i) * 64) * 1.6))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_diamondcounter_min=" + str(i) + ",score_rank_min=10,score_rank=10] money " + str(int(round((int(i) * 64) * 1.8))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_diamondcounter_min=" + str(i) + ",score_rank_min=11,score_rank=11] money " + str(int(round((int(i) * 64) * 2))) + "\n"
-				p.stdin.write(setsb)
-				setsb = "scoreboard players add @a[score_diamondcounter_min=" + str(i) + ",score_rank_min=12] money " + str(int(round((int(i) * 64) * 2.5))) + "\n"
-				p.stdin.write(setsb)
-			setsb = "scoreboard players operation $ Character = @a money\n"
-			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
-			p.stdin.write(setsb)
-			setsb = "scoreboard players operation Kills Character = @a totalkills\n"
-			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
-			p.stdin.write(setsb)
-			setsb = "scoreboard players operation Wood Character = @a wood\n"
-			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
-			p.stdin.write(setsb)
-			setsb = "scoreboard players operation Stone Character = @a stone\n"
-			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
-			p.stdin.write(setsb)
-			setsb = "scoreboard players operation Coal Character = @a coal\n"
-			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
-			p.stdin.write(setsb)
-			setsb = "scoreboard players operation Iron Character = @a iron\n"
-			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
-			p.stdin.write(setsb)
-			setsb = "scoreboard players operation Gold Character = @a gold\n"
-			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
-			p.stdin.write(setsb)
-			setsb = "scoreboard players operation Redstone Character = @a redstone\n"
-			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
-			p.stdin.write(setsb)
-			setsb = "scoreboard players operation Diamond Character = @a diamond\n"
-			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
-			p.stdin.write(setsb)
-			setsb = "scoreboard objectives setdisplay list rank\n"
-			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
-			p.stdin.write(setsb)
-			setsb = "scoreboard objectives setdisplay sidebar Character\n"
-			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
-			p.stdin.write(setsb)
-			setsb = "scoreboard players set @a killcounter 0\n"
-			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
-			p.stdin.write(setsb)
-			setsb = "scoreboard players set @a woodcounter 0\n"
-			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
-			p.stdin.write(setsb)
-			setsb = "scoreboard players set @a stonecounter 0\n"
-			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
-			p.stdin.write(setsb)
-			setsb = "scoreboard players set @a coalcounter 0\n"
-			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
-			p.stdin.write(setsb)
-			setsb = "scoreboard players set @a ironcounter 0\n"
-			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
-			p.stdin.write(setsb)
-			setsb = "scoreboard players set @a goldcounter 0\n"
-			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
-			p.stdin.write(setsb)
-			setsb = "scoreboard players set @a redstonecounter 0\n"
-			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
-			p.stdin.write(setsb)
-			setsb = "scoreboard players set @a diamondcounter 0\n"
-			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
-			p.stdin.write(setsb)
-		setsb = "scoreboard players set @a inOverworld 0\n"
-		#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
-		p.stdin.write(setsb)
-		setsb = "scoreboard players set @a inOverworld 1 {Dimension:0}\n"
-		#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
-		p.stdin.write(setsb)
+			tasks = ['kill','wood','stone','coal','iron','gold','redstone','diamond']
+			reward = [10,5,1,8,16,32,10,64]
+			for t in range(0,len(tasks)):
+				a=ProcessRewards(tasks[t],reward[t])
+		a=UpdateSB()
+		a=OverworldCheck()
 	##
 	#User .commands
 	##
@@ -607,7 +500,7 @@ while True:
 						p.stdin.write(cmdin)
 		if tmp[4] == '.commands':
 			player = getplayername(tmp[3])
-			cmdin = 'tellraw ' + player + ' {"text":"User Commands are:.about .buy .commands .essentials .help .home .motd .ping .ranks .rankup .report .rtp .seen .sell .sethome .shop .spawn .staff .stats .tpa .tpaccept .tpdeny .uptime .version .vote .warp .whois Mod Commands are: .console .kick .setwarp","color":"aqua"}\n'
+			cmdin = 'tellraw ' + player + ' {"text":"User Commands are: .about .buy .commands .essentials .help .home .motd .pay .ping .ranks .rankup .report .rtp .seen .sell .sethome .shop .spawn .staff .stats .tdf .tpa .tpaccept .tpdeny .uptime .version .vote .warp .whois Mod Commands are: .console .kick .setwarp .stop","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 		if tmp[4] == '.about' or tmp[4] == '.version' or tmp[4] == '.essentials':
@@ -967,8 +860,10 @@ while True:
 						p.stdin.write(cmdin)
 					if tmp[5] == itemsdb[i] and tmp[6] > 1:
 						buyqty = tmp[6]
+						if int(buyqty) > int(1024):
+							buyqty = int(1024)
 						totalprice = int(pricedb[i]) * int(buyqty)
-						cmdin = "give @a[name=" + player + ",score_money_min=" + str(int(totalprice)) + "] " + itemsdb[i] + " " + str(tmp[6]) + "\n"
+						cmdin = "give @a[name=" + player + ",score_money_min=" + str(int(totalprice)) + "] " + itemsdb[i] + " " + str(buyqty) + "\n"
 						print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 						p.stdin.write(cmdin)
 						cmdin = "scoreboard players remove @a[name=" + player + "] money " + str(int(totalprice)) + "\n"
@@ -1005,12 +900,16 @@ while True:
 					if tmp[5] == itemsdb[i] and tmp[6] > 1:
 						sellprice = str(int(round((int(pricedb[i]) * 0.5))) * int(tmp[6]))
 						sellqty = int(tmp[6])
+						if sellqty > 1024:
+							sellqty = 1024
 						cmdin = "clear @a[name=" + player + "] " + itemsdb[i] + " -1 0\n"
 						print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 						p.stdin.write(cmdin)					
 						a=UpdateSB()
 			if len(tmp) > 6:
 				sellqty = int(tmp[6])
+				if sellqty > 1024:
+					sellqty = 1024
 			else:
 				sellqty = 1
 			#-> Selling Event
@@ -1026,9 +925,21 @@ while True:
 		if tmp[4] == '.pay':
 			player = getplayername(tmp[3])
 			if tmp[6] > 1:
-				cmdin = "scoreboard players add @a[name=" + tmp[5] + "] money " + str(int(tmp[6])) + "\n"
+				target = str(tmp[5])
+				amount = int(tmp[6])
+				cmdin = "scoreboard players remove @a[name=" + player + ",score_money_min=" + str(amount) + "] money " + str(amount) + "\n"
 				print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 				p.stdin.write(cmdin)
+				cmdin = "scoreboard players add @a[name=" + target + "] money " + str(amount) + "\n"
+				print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+				p.stdin.write(cmdin)
+		if tmp[4] == '.tdf':
+			cmdin = "toggledownfall\n"
+			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+			p.stdin.write(cmdin)
+			cmdin = 'tellraw @a {"text":"Toggled Downfall.","color":"blue"}\n'
+			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+			p.stdin.write(cmdin)
 	##			
 	#Mod .commands
 	##
@@ -1075,6 +986,25 @@ while True:
 					p.stdin.write(cmdin)
 				else:
 					cmdin = "say Only ops may .console\n"
+					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+					p.stdin.write(cmdin)
+		if tmp[4] == '.stop':
+				isop=False
+				ops = open('ops.json','rb')
+				player = getplayername(tmp[3])
+				for line in ops:
+					if line[:13] =='    "name": "':
+						#print "Debug: Op Detected as: " + line[13:-3]
+						op = line[13:-3]
+					if op == player:
+						isop=True
+				if isop == True:
+					player = getplayername(tmp[3])
+					cmdin = "stop\n"					
+					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+					p.stdin.write(cmdin)
+				else:
+					cmdin = "say Only ops may .stop\n"
 					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 					p.stdin.write(cmdin)
 		if tmp[4] == '.kick':
