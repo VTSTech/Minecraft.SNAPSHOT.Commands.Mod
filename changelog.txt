@@ -1,5 +1,11 @@
 Changelog:
 
+v0.6-r52
+Added .tpyes .tpno aliases for .tpaccept and .tpdeny
+Added some more requested items to shop.
+Increased prices of ores
+Added filter for 'Horse moved too quickly' console spam
+
 v0.6-r51
 Created OverworldCheck()
 Created ProcessRewards()

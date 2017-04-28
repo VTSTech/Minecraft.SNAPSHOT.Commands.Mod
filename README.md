@@ -1,4 +1,4 @@
-# Minecraft SNAPSHOT .essentials script v0.6-r51
+# Minecraft SNAPSHOT .essentials script v0.6-r52
 
 Written by YT_Veritas0923             
 
@@ -101,6 +101,10 @@ User Commands:
 
 .tpdeny - Denies .tpa request.
 
+.tpyes - alias of .tpaccept
+
+.tpno - alias of .tpdeny
+
 .uptime - displays server uptime
 
 .vote - displays server vote links
@@ -116,3 +120,5 @@ Mod Commands:
 .kick player reason - kicks a player, reason is optional. reason cannot contain spaces (use . instead of space)
 
 .setwarp name - sets a public .warp as given name. name cannot contain spaces
+
+.stop - issues /stop command as console.

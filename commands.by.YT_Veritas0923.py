@@ -4,7 +4,7 @@ from time import sleep
 from nbstreamreader import NonBlockingStreamReader as NBSR
 #nbstreamreader.py https://gist.github.com/EyalAr/7915597
 
-ver = "Minecraft SNAPSHOT .essentials script v0.6-r51"
+ver = "Minecraft SNAPSHOT .essentials script v0.6-r52"
 bannershown = False
 
 def banner():
@@ -93,10 +93,10 @@ def getplayername(txt):
 #25-Levitation
 
 def LoadItems():
-	itemsdb="stone,cobblestone,dirt,arrow,wheat_seeds,cookie,torch,planks,potato,cobblestone,coal,wheat,glass,carrot,melon,string,chicken,fireworks,leather,cooked_fish,log2,log,bread,glowstone,bookshelf,bone,emerald,hay_block,melon_block,bed,slime_ball,ender_pearl,purple_shulker_box,lime_shulker_box,ender_chest,iron_ingot,gold_ingot,chainmail_leggings,chainmail_boots,chainmail_helmet,chainmail_chestplate,bow,leather_helmet,leather_chestplate,leather_leggings,leather_boots,iron_sword,iron_axe,iron_pickaxe,iron_hoe,iron_shovel,diamond,enchanting_table,iron_helmet,iron_chestplate,iron_leggings,iron_boots,golden_helmet,golden_chestplate,golden_leggings,golden_boots,diamond_helmet,diamond_chestplate,diamond_leggings,diamond_boots"
+	itemsdb="stone,dirt,egg,arrow,wheat_seeds,cookie,torch,planks,potato,cobblestone,coal,wheat,reeds,cactus,cobblestone,glass,carrot,melon,string,chicken,fireworks,leather,cooked_fish,log2,log,bread,glowstone,bookshelf,bone,rotten_flesh,emerald,hay_block,melon_block,bed,slime_ball,ender_pearl,purple_shulker_box,lime_shulker_box,ender_chest,iron_ingot,gold_ingot,chainmail_leggings,chainmail_boots,chainmail_helmet,chainmail_chestplate,bow,leather_helmet,leather_chestplate,leather_leggings,leather_boots,iron_sword,iron_axe,iron_pickaxe,iron_hoe,iron_shovel,diamond,enchanting_table,iron_helmet,iron_chestplate,iron_leggings,iron_boots,golden_helmet,golden_chestplate,golden_leggings,golden_boots,diamond_helmet,diamond_chestplate,diamond_leggings,diamond_boots"
 	return itemsdb
 def LoadPrices():
-	pricedb="1,15,1,2,4,5,5,5,8,10,10,10,15,15,15,25,25,25,25,25,25,25,25,50,50,100,100,125,135,500,1000,1000,10000,12000,25000,250,500,100,100,100,100,100,125,200,175,100,500,750,750,500,250,2500,5000,500,800,700,400,2500,4000,3500,2000,12500,20000,17500,10000"
+	pricedb="1,1,2,2,4,5,5,5,8,10,10,10,12,12,15,15,15,15,25,25,25,25,25,25,25,25,50,50,100,100,250,125,135,500,1000,1000,10000,12000,25000,500,1000,1750,1000,1250,2000,100,125,200,175,100,1000,1500,1500,1000,500,5000,5000,2500,4000,3500,2000,5000,8000,7000,4000,25000,40000,35000,20000"
 	return pricedb
 def LoadRankItems():
 	ritemsdb="0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15"
@@ -313,6 +313,8 @@ while True:
 				derp=True
 			elif tmp[3] == "Operation":
 				derp=True
+			elif tmp[3] == "Horse":
+				derp=True
 			#if not matching a filter, send output to console (display, not stdin)
 			else:
 				print line,
@@ -500,7 +502,7 @@ while True:
 						p.stdin.write(cmdin)
 		if tmp[4] == '.commands':
 			player = getplayername(tmp[3])
-			cmdin = 'tellraw ' + player + ' {"text":"User Commands are: .about .buy .commands .essentials .help .home .motd .pay .ping .ranks .rankup .report .rtp .seen .sell .sethome .shop .spawn .staff .stats .tdf .tpa .tpaccept .tpdeny .uptime .version .vote .warp .whois Mod Commands are: .console .kick .setwarp .stop","color":"aqua"}\n'
+			cmdin = 'tellraw ' + player + ' {"text":"User Commands are: .about .buy .commands .essentials .help .home .motd .pay .ping .ranks .rankup .report .rtp .seen .sell .sethome .shop .spawn .staff .stats .tdf .tpa .tpaccept .tpdeny .tpyes .tpno .uptime .version .vote .warp .whois Mod Commands are: .console .kick .setwarp .stop","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 		if tmp[4] == '.about' or tmp[4] == '.version' or tmp[4] == '.essentials':
@@ -803,7 +805,7 @@ while True:
 				cmdin = 'tellraw @a {"text":"Sending .tpa request to ' + tpatarget + ' from ' + tpasource + ' Type .tpaccept to accept. .tpdeny to deny","color":"red"}\n'
 				print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 				p.stdin.write(cmdin)
-		if tmp[4] == '.tpaccept' and player == tpatarget and tpareq == True:
+		if tmp[4] == '.tpaccept' or tmp[4] == '.tpyes' and player == tpatarget and tpareq == True:
 			tpyes = True
 			tpno = False
 			tpareq = False
@@ -817,7 +819,7 @@ while True:
 			tpareq = False		
 			tpyes = False
 			tpasent = False
-		if tmp[4] == '.tpdeny' and player == tpatarget and tpareq == True:
+		if tmp[4] == '.tpdeny' or tmp[4] == '.tpno' and player == tpatarget and tpareq == True:
 			tpyes = False
 			tpno = True
 			tpareq = False
