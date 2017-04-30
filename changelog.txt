@@ -1,7 +1,47 @@
 Changelog:
 
-v0.56
+v0.6-r52
+Added .tpyes .tpno aliases for .tpaccept and .tpdeny
+Added some more requested items to shop.
+Increased prices of ores
+Added filter for 'Horse moved too quickly' console spam
 
+v0.6-r51
+Created OverworldCheck()
+Created ProcessRewards()
+Expanded UpdateSB()
+Reduced Poll time to 6s from 12s
+Max iterations of rewardable actions reduced to 4 per poll (Down from 16)
+Added buy/sell limit of 1024 per item.
+Added .tdf (toggledownfall) .stop .pay
+
+v0.6-r50
+Added a few more items to .shop
+Added 3 more ranks. Total of 15
+
+v0.6-r49
+Renamed project to .essentials script.
+Money is now optional
+.warp is now optional
+.home/.sethome is now optional
+.rtp is now optional
+.shop/.buy/.sell are now optional
+.spawn is now optional
+
+Added .version and .essentials aliases for .about
+Filtered some scoreboard output
+Players get $250 on first join. $100 on connect.
+
+v0.58
+Added tracking of wood, stone and ores.
+Awards money for mining wood, stone and ores.
+Doubled money recieved from mobs.
+
+v0.57
+Now counts # 'log' mined.
+Money is now also given for breaking logs.
+
+v0.56
 Added .ranks, .rankup, .console, .motd
 Improved .sell logic
 

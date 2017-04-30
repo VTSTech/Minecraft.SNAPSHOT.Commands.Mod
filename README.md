@@ -1,4 +1,4 @@
-# Minecraft SNAPSHOT .commands script v0.56
+# Minecraft SNAPSHOT .essentials script v0.6-r52
 
 Written by YT_Veritas0923             
 
@@ -10,97 +10,115 @@ GitHub: Veritas83
 
 BTC 18j2Env7QokhGG5MccS3LPBKnjsko6u4NQ
 
-<img src="https://i.gyazo.com/a61907ee29455e53eee6b08f386dc7f0.png">
+<img src="https://i.gyazo.com/a1168fecc97d4be34bd900c006a0e2e3.png">
 
 
 Simply place beside your minecraft_server.jar and run.
 
-<img src="https://i.gyazo.com/fa6774c428f7a276047616098109a04d.png">
+<img src="https://i.gyazo.com/19fce9abb82b282af71de902124d3868.png">
 
 Config:
 
 specify admin player name in config. add mods to mods.csv, 1 player name per line.
 
 <pre>
-Lines 48-58:
+Lines 203-223:
 
 ## Start Config ##
-javacmd = 'java -Xms2G -Xmx2G -jar minecraft_server.jar nogui' # Java command line to start Minecraft Server jar, Must use nogui
-spawn = "0 64 -3"   																					 # WorldSpawn Coordinates
-rtpradius = 35000  																						 # Random Teleport radius (-35000,35000)
-useautosave = True 																						 # Use Autosave?
-useautoclear = True 																					 # Use Autoclear?
-autosaveint = 1776																					   # Autosave Interval in seconds
-autoclearint = 3625																					   # Autoclear Interval in seconds
-freeshulkerbox = True																					 # Gives new players a shulker box on their first connect
+javacmd = 'java -Xms128M -Xmx4G -jar minecraft_server.jar nogui' # Java command line to start Minecraft Server jar, Must use nogui
+spawn = "-82 64 264"   																					 # WorldSpawn Coordinates
+rtpradius = 35000	  																						 # Random Teleport radius (-35000,35000)
+useautosave = True	 																						 # Use Autosave?
+useautoclear = True 																						 # Use Autoclear?
+usemoney = False																								 # Use Money?
+usewarp = True			 																						 # Allow .warp?
+usehome = True			 																						 # Allow .home/.sethome?
+usertp = True				 																						 # Allow .rtp?
+useshop = False			 																						 # Allow .shop/.buy/.sell?
+usespawn = True			 																						 # Allow .spawn?
+autosaveint = 1776																						   # Autosave Interval in seconds
+autoclearint = 3625																						   # Autoclear Interval in seconds
+freeshulkerbox = False																					 # Gives new players a shulker box on their first connect
 motd = "!## MOTD ##! Welcome to mc.nigeltodman.com, PLAYER_NAME! See our custom commands and their usage with '.help' * April Gamerules: limitedCrafting:Off keepInventory:On mobGriefing:Off Difficulty:Hard"
-votemsg = "Vote for this server! Vote #1 adf.ly/1kVCJK #2 adf.ly/1kVCLs #3 adf.ly/1g4VYV"
+votemsg = "Vote for this server! Vote #1 adf.ly/1kVCJK #2 adf.ly/1kVCLs #3 adf.ly/1g4VYV #4 adf.ly/1mCgLU #5 adf.ly/1mCgcL #6 adf.ly/1mCgoa"
 admin="YT_Veritas0923"
-																					   									 # Message of the Day notes:
-																					   									 # PLAYER_NAME is replaced with connecting player.
-## End Config   ##												   									 # 'Welcome to' is replaced by 'Welcome back to' for returning players.
+																						   									 # Message of the Day notes:
+																						   									 # PLAYER_NAME is replaced with connecting player.
+## End Config   ##												  	 									 # 'Welcome to' is replaced by 'Welcome back to' for returning players.
 
-Shop Config, Lines 30,33
+Shop Config, Lines 96,99
 
-itemsdb="stone,cobblestone,dirt,arrow,torch,planks,cobblestone,coal,wheat,leather,carrot,melon,log,bread,iron_ingot,gold_ingot,chainmail_leggings,chainmail_boots,chainmail_helmet,chainmail_chestplate,bow,leather_helmet,leather_chestplate,leather_leggings,leather_boots,iron_sword,iron_axe,iron_pickaxe,iron_hoe,iron_shovel,diamond,enchanting_table,iron_helmet,iron_chestplate,iron_leggings,iron_boots,golden_helmet,golden_chestplate,golden_leggings,golden_boots,diamond_helmet,diamond_chestplate,diamond_leggings,diamond_boots"
-pricedb="1,10,1,2,5,5,10,10,10,15,15,15,20,25,100,250,100,100,100,100,100,75,120,105,60,200,750,750,200,100,2500,2000,500,800,700,400,1250,2000,1750,1000,12500,20000,17500,10000"
+itemsdb=""stone,cobblestone,dirt,arrow,wheat_seeds,cookie,torch,planks,potato,cobblestone,coal,wheat,glass,carrot,melon,chicken,fireworks,leather,cooked_fish,log2,log,bread,glowstone,bookshelf,emerald,hay_block,melon_block,ender_pearl,purple_shulker_box,lime_shulker_box,ender_chest,iron_ingot,gold_ingot,chainmail_leggings,chainmail_boots,chainmail_helmet,chainmail_chestplate,bow,leather_helmet,leather_chestplate,leather_leggings,leather_boots,iron_sword,iron_axe,iron_pickaxe,iron_hoe,iron_shovel,diamond,enchanting_table,iron_helmet,iron_chestplate,iron_leggings,iron_boots,golden_helmet,golden_chestplate,golden_leggings,golden_boots,diamond_helmet,diamond_chestplate,diamond_leggings,diamond_boots"
+pricedb="1,15,1,2,4,5,5,5,8,10,10,10,15,15,15,25,25,25,25,25,25,25,50,50,100,125,135,1000,10000,12000,25000,250,500,100,100,100,100,100,125,200,175,100,500,750,750,500,250,2500,5000,500,800,700,400,2500,4000,3500,2000,12500,20000,17500,10000"
 
 </pre>
 
 User Commands:
 
-.spawn
+.about - display script version and author information
 
-.sethome
+.buy item_name 64 - buys 64 items from the .shop, increase or decrease 64 as needed
 
-.home
+.commands - list available commands
 
-.rtp
+.essentials - alias of .about
 
-.warp
+.help - displays commands and their usage
 
-.whois
+.home - teleports you to your set home
 
-.motd
+.version - alias of .about
 
-.ping
+.motd - displays server Message Of The Day
 
-.ranks
+.ping - causes server to reply with ping response time in ms
 
-.rankup
+.ranks - Displays Ranks, Their cost and their money drop multiplier.
 
-.report
+.rankup - Increases your rank by 1. See cost use .rank
 
-.shop
+.report player reason - reports player for specified reason
 
-.buy
+.rtp - teleports you to a random location
 
-.sell
+.seen player - displays when player was last seen online
 
-.seen
+.sell item_name 1 - sells 1 item to the .shop, increase or decrease 1 as needed
 
-.stats
+.sethome - sets .home to current coordinates
 
-.staff
+.shop - lists items for sale, use .buy to purchase
 
-.tpa
+.spawn - teleports you to spawn
 
-.tpaccept
+.staff - list server staff
 
-.tpdeny
+.stats - displays total players in PlayerDB and server uptime
 
-.vote
+.tpa player - sends .tpa request to specified player
 
-.uptime
+.tpaccept - Accepts .tpa request. Teleports player to you.
 
-.help
+.tpdeny - Denies .tpa request.
 
-.about
+.tpyes - alias of .tpaccept
 
-.commands
+.tpno - alias of .tpdeny
+
+.uptime - displays server uptime
+
+.vote - displays server vote links
+
+.warp name - teleports you to warp name. List warps with just .warp
+
+.whois player - checks if player has played on this server
 
 Mod Commands:
 
-.setwarp
+.console command - runs /command on the server as console
 
-.kick
+.kick player reason - kicks a player, reason is optional. reason cannot contain spaces (use . instead of space)
+
+.setwarp name - sets a public .warp as given name. name cannot contain spaces
+
+.stop - issues /stop command as console.
