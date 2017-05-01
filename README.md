@@ -1,4 +1,4 @@
-# Minecraft SNAPSHOT .essentials script v0.6-r53
+# Minecraft SNAPSHOT .essentials script v0.6-r54
 
 Written by YT_Veritas0923             
 
@@ -57,6 +57,10 @@ User Commands:
 
 .about - display script version and author information
 
+.bal - displays your balance
+
+.balance - alias of .bal
+
 .buy item_name 64 - buys 64 items from the .shop, increase or decrease 64 as needed
 
 .commands - list available commands
@@ -79,6 +83,8 @@ User Commands:
 
 .report player reason - reports player for specified reason
 
+.reset - resets your money to 100
+
 .rtp - teleports you to a random location
 
 .seen player - displays when player was last seen online
@@ -94,6 +100,8 @@ User Commands:
 .staff - list server staff
 
 .stats - displays total players in PlayerDB and server uptime
+
+.tdf - Toggles downfall
 
 .tpa player - sends .tpa request to specified player
 

@@ -1,5 +1,14 @@
 Changelog:
 
+v0.6-r54
+Added .bal/.balance
+Removed sidebar display
+tablist now displays rank
+Updated .help and .commands to reflect new additions
+
+Fixed Issue #5
+
+
 v0.6-r53
 Added experience_bottle to .shop
 Tab list now shows money instead of rank

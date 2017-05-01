@@ -4,7 +4,7 @@ from time import sleep
 from nbstreamreader import NonBlockingStreamReader as NBSR
 #nbstreamreader.py https://gist.github.com/EyalAr/7915597
 
-ver = "Minecraft SNAPSHOT .essentials script v0.6-r53"
+ver = "Minecraft SNAPSHOT .essentials script v0.6-r54"
 bannershown = False
 
 def banner():
@@ -106,40 +106,7 @@ def LoadRankPrices():
 	return rpricedb
 
 def UpdateSB():
-	setsb = "scoreboard players operation $ Character = @a money\n"
-	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
-	p.stdin.write(setsb)
-	setsb = "scoreboard players operation Rank Character = @a rank\n"
-	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
-	p.stdin.write(setsb)
-	setsb = "scoreboard players operation Kills Character = @a totalkills\n"
-	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
-	p.stdin.write(setsb)
-	setsb = "scoreboard players operation Wood Character = @a wood\n"
-	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
-	p.stdin.write(setsb)
-	setsb = "scoreboard players operation Stone Character = @a stone\n"
-	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
-	p.stdin.write(setsb)
-	setsb = "scoreboard players operation Coal Character = @a coal\n"
-	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
-	p.stdin.write(setsb)
-	setsb = "scoreboard players operation Iron Character = @a iron\n"
-	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
-	p.stdin.write(setsb)
-	setsb = "scoreboard players operation Gold Character = @a gold\n"
-	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
-	p.stdin.write(setsb)
-	setsb = "scoreboard players operation Redstone Character = @a redstone\n"
-	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
-	p.stdin.write(setsb)
-	setsb = "scoreboard players operation Diamond Character = @a diamond\n"
-	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
-	p.stdin.write(setsb)
-	setsb = "scoreboard objectives setdisplay list money\n"
-	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
-	p.stdin.write(setsb)
-	setsb = "scoreboard objectives setdisplay sidebar Character\n"
+	setsb = "scoreboard objectives setdisplay list rank\n"
 	#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 	p.stdin.write(setsb)
 	setsb = "scoreboard players set @a killcounter 0\n"
@@ -267,9 +234,11 @@ logged = False
 sbset = False
 ismod=False
 isop=False
+getbal=False
 tmparray=[]
 cmdout = "[" + get24hrtime() + "] [Script thread/IDLE]: There was no output for awhile\n"
 strtime= time.clock()
+playername=''
 warpstr = ''
 modstr = ''
 reportstr = ''
@@ -432,42 +401,32 @@ while True:
 			setsb = "scoreboard objectives add money dummy Money\n"
 			print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
 			p.stdin.write(setsb)
-			setsb = "scoreboard objectives setdisplay sidebar Character\n"
+			setsb = "scoreboard objectives setdisplay list rank\n"
 			print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
 			p.stdin.write(setsb)
-			setsb = "scoreboard players operation $ Character = @a money\n"
-			print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
+			setsb = "scoreboard players set @a killcounter 0\n"
+			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 			p.stdin.write(setsb)
-			setsb = "scoreboard players operation Rank Character = @a rank\n"
-			print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
+			setsb = "scoreboard players set @a woodcounter 0\n"
+			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 			p.stdin.write(setsb)
-			setsb = "scoreboard players operation Kills Character = @a totalkills\n"
-			print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
+			setsb = "scoreboard players set @a stonecounter 0\n"
+			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 			p.stdin.write(setsb)
-			setsb = "scoreboard players operation Wood Character = @a wood\n"
-			print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
+			setsb = "scoreboard players set @a coalcounter 0\n"
+			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 			p.stdin.write(setsb)
-			setsb = "scoreboard players operation Coal Character = @a coal\n"
-			print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
+			setsb = "scoreboard players set @a ironcounter 0\n"
+			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 			p.stdin.write(setsb)
-			setsb = "scoreboard players operation Iron Character = @a iron\n"
-			print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
+			setsb = "scoreboard players set @a goldcounter 0\n"
+			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 			p.stdin.write(setsb)
-			setsb = "scoreboard players operation Gold Character = @a gold\n"
-			print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
+			setsb = "scoreboard players set @a redstonecounter 0\n"
+			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 			p.stdin.write(setsb)
-			setsb = "scoreboard players operation Redstone Character = @a redstone\n"
-			print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
-			p.stdin.write(setsb)
-			setsb = "scoreboard players operation Diamond Character = @a diamond\n"
-			print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
-			p.stdin.write(setsb)
-			setsb = "scoreboard players operation Kills Info = @a totalkills\n"
-			print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
-			p.stdin.write(setsb)
-			setsb = "scoreboard objectives setdisplay list money\n"
-			print "[" + get24hrtime() + "] [Script thread/INIT]: " + setsb,
-			p.stdin.write(setsb)
+			setsb = "scoreboard players set @a diamondcounter 0\n"
+			#print "[" + get24hrtime() + "] [Script thread/POLL]: " + setsb,
 		sbset = True
 	#6s Poll time
 	if sbset == True and currtime - lasttimepoll > 6:
@@ -508,7 +467,7 @@ while True:
 						p.stdin.write(cmdin)
 		if tmp[4] == '.commands':
 			player = getplayername(tmp[3])
-			cmdin = 'tellraw ' + player + ' {"text":"User Commands are: .about .buy .commands .essentials .help .home .motd .pay .ping .ranks .rankup .report .reset .rtp .seen .sell .sethome .shop .spawn .staff .stats .tdf .tpa .tpaccept .tpdeny .tpyes .tpno .uptime .version .vote .warp .whois Mod Commands are: .console .kick .setwarp .stop","color":"aqua"}\n'
+			cmdin = 'tellraw ' + player + ' {"text":"User Commands are: .about .bal .balance .buy .commands .essentials .help .home .motd .pay .ping .ranks .rankup .report .reset .rtp .seen .sell .sethome .shop .spawn .staff .stats .tdf .tpa .tpaccept .tpdeny .tpyes .tpno .uptime .version .vote .warp .whois Mod Commands are: .console .kick .setwarp .stop","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 		if tmp[4] == '.about' or tmp[4] == '.version' or tmp[4] == '.essentials':
@@ -603,7 +562,7 @@ while True:
 							p.stdin.write(cmdin)
 		if tmp[4] == '.help':
 			player = getplayername(tmp[3])
-			cmdin = 'tellraw ' + player + ' {"text":"' + ver + ' help\\nspawn - teleports you to spawn\\nsethome - sets .home to current coordinates\\nhome - teleports you to your set home\\nreset - resets your money to 100\\nrtp - teleports you to a random location\\nwarp name - teleports you to warp name. List warps with just .warp\\nwhois player - checks if player has played on this server\\nmotd - displays server Message Of The Day\\nping - causes server to reply with ping response time in ms\\nranks - Displays Ranks, Their cost and their money drop multiplier.\\nrankup - Increases your rank by 1. See cost use .rank\\nreport player reason - reports player for specified reason\\nshop - lists items for sale, use .buy to purchase\\nbuy item_name 64 - buys 64 items from the .shop, increase or decrease 64 as needed\\nsell item_name 1 - sells 1 item to the .shop, increase or decrease 1 as needed\\nseen player - displays when player was last seen online\\nstats - displays total players in PlayerDB and server uptime\\ntpa player - sends .tpa request to specified player\\ntpaccept - Accepts .tpa request. Teleports player to you.\\ntpdeny - Denies .tpa request.\\nuptime - displays server uptime\\nvote - displays server vote links\\ncommands - list available commands\\nstaff - list server staff\\nabout - display script version and author information\\nhelp - displays commands and their usage","color":"aqua"}\n'
+			cmdin = 'tellraw ' + player + ' {"text":"' + ver + ' help\\nspawn - teleports you to spawn\\nsethome - sets .home to current coordinates\\nhome - teleports you to your set home\\nreset - resets your money to 100\\nrtp - teleports you to a random location\\nwarp name - teleports you to warp name. List warps with just .warp\\nwhois player - checks if player has played on this server\\nmotd - displays server Message Of The Day\\nping - causes server to reply with ping response time in ms\\nranks - Displays Ranks, Their cost and their money drop multiplier.\\nrankup - Increases your rank by 1. See cost use .ranks\\nreport player reason - reports player for specified reason\\nreset - resets your money to 100\\nshop - lists items for sale, use .buy to purchase\\nbal - displays your balance\\nbalance - alias of .bal\\nbuy item_name 64 - buys 64 items from the .shop, increase or decrease 64 as needed\\nsell item_name 1 - sells 1 item to the .shop, increase or decrease 1 as needed\\nseen player - displays when player was last seen online\\nstats - displays total players in PlayerDB and server uptime\\ntpa player - sends .tpa request to specified player\\ntpaccept - Accepts .tpa request. Teleports player to you.\\ntpdeny - Denies .tpa request.\\ntpyes - alias of .tpaccept\\ntpno - alias of .tpdeny\\nuptime - displays server uptime\\nvote - displays server vote links\\ncommands - list available commands\\nstaff - list server staff\\nabout - display script version and author information\\nversion - alias of .about\\nessentials - alias of .about\\nhelp - displays commands and their usage","color":"aqua"}\n'
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 			cmdin = 'tellraw ' + player + ' {"text":"setwarp name - sets a public .warp as given name. name cannot contain spaces\\nkick player reason - kicks a player, reason is optional. reason cannot contain spaces (use . instead of space)","color":"red"}\n'
@@ -657,8 +616,12 @@ while True:
 							cmdin = 'tellraw @a {"text":"' + playername + ' playing here since ' + dbt[2] + '","color":"aqua"}\n'
 							print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 							p.stdin.write(cmdin)
-			if oldplayer == False:		
+			if oldplayer == False and len(playername) > 1:		
 						cmdin = 'tellraw @a {"text":"' + playername + ' not found.","color":"aqua"}\n'
+						print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+						p.stdin.write(cmdin)
+			if len(playername) <=1:
+						cmdin = 'tellraw @a {"text":"Proper syntax is .whois player","color":"aqua"}\n'
 						print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 						p.stdin.write(cmdin)
 		if tmp[4] == '.stats':
@@ -838,7 +801,7 @@ while True:
 							sellqty = 1
 						if sellqty > 1024:
 							sellqty = 1024
-						cmdin = "clear @a[name=" + player + "] " + itemsdb[i] + " -1 0\n"
+						cmdin = "clear @p[name=" + player + "] " + itemsdb[i] + " -1 0\n"
 						print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 						p.stdin.write(cmdin)					
 						#a=UpdateSB()
@@ -879,6 +842,12 @@ while True:
 			p.stdin.write(cmdin)
 		if tmp[4] == '.reset':
 			cmdin = "scoreboard players reset " + player + " money\nscoreboard players set " + player + " money 100\n"
+			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+			p.stdin.write(cmdin)
+		if tmp[4] == '.bal' or tmp[4] == '.balance':
+			balplayer = player
+			getbal=True
+			cmdin = "scoreboard players test @p[name=" + player + "] money -1\n"
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 	##			
@@ -968,6 +937,19 @@ while True:
 	##
 	#Event functions
 	##
+		#GetBalance Event
+		if getbal == True:
+			#[16:58:27] [Script thread/EXEC]:  scoreboard players test @p[name=YT_Veritas0923] money -1
+			#[16:58:27] [Server thread/INFO]: Score 70500 is in range -1 to 2147483647
+			#cmdin = "tell @a DEBUG: Len " + str(len(tmp)) + " tmp3 " + tmp[3] + "\n"
+			#p.stdin.write(cmdin)
+			if len(tmp) > 10:
+				if tmp[3] == "Score" and int(tmp[10]) == 2147483647:
+					playerbal = tmp[4]
+					cmdin = 'tellraw ' + balplayer + ' {"text":"Your balance is: $' + str(playerbal) + '","color":"green"}\n'
+					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+					p.stdin.write(cmdin)
+				getbal = False
 		#Selling Event
 		if selling == True:
 			if tmp[3] == sellplayer and tmp[4] == "has":
