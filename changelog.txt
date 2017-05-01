@@ -1,7 +1,13 @@
 Changelog:
 
 v0.6-r53
+Added experience_bottle to .shop
+Tab list now shows money instead of rank
+Improved horse moving too quickly filter to filter all entities
+Added .reset command to reset your money to 100
 
+Fixed Issue #3
+Fixed Issue #4
 
 v0.6-r52
 Added .tpyes .tpno aliases for .tpaccept and .tpdeny
