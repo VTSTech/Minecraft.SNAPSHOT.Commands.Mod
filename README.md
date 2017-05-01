@@ -1,4 +1,4 @@
-# Minecraft SNAPSHOT .essentials script v0.6-r52
+# Minecraft SNAPSHOT .essentials script v0.6-r53
 
 Written by YT_Veritas0923             
 

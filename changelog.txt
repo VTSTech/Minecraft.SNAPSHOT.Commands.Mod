@@ -1,5 +1,8 @@
 Changelog:
 
+v0.6-r53
+
+
 v0.6-r52
 Added .tpyes .tpno aliases for .tpaccept and .tpdeny
 Added some more requested items to shop.
