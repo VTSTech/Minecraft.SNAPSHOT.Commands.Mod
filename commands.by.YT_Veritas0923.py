@@ -4,7 +4,7 @@ from time import sleep
 from nbstreamreader import NonBlockingStreamReader as NBSR
 #nbstreamreader.py https://gist.github.com/EyalAr/7915597
 
-ver = "Minecraft SNAPSHOT .essentials script v0.6-r54"
+ver = "Minecraft SNAPSHOT .essentials script v0.6-r55"
 bannershown = False
 
 def banner():
@@ -178,11 +178,11 @@ def OverworldCheck():
 
 ## Start Config ##
 javacmd = 'java -Xms128M -Xmx4G -jar minecraft_server.jar nogui' # Java command line to start Minecraft Server jar, Must use nogui
-spawn = "0 64 -3"   																					 # WorldSpawn Coordinates
+spawn = "0 64 -3"   																						 # WorldSpawn Coordinates
 rtpradius = 35000	  																						 # Random Teleport radius (-35000,35000)
 useautosave = True	 																						 # Use Autosave?
 useautoclear = True 																						 # Use Autoclear?
-usemoney = True																								 # Use Money?
+usemoney = True																									 # Use Money?
 usewarp = True			 																						 # Allow .warp?
 usehome = True			 																						 # Allow .home/.sethome?
 usertp = True				 																						 # Allow .rtp?
@@ -190,7 +190,11 @@ useshop = True			 																						 # Allow .shop/.buy/.sell?
 usespawn = True			 																						 # Allow .spawn?
 autosaveint = 1776																						   # Autosave Interval in seconds
 autoclearint = 3625																						   # Autoclear Interval in seconds
-freeshulkerbox = False																					 # Gives new players a shulker box on their first connect
+basicincomeint = 3600																						 # Basic Income Payout Interval in seconds
+basicincomeamt = 1500																						 # Basic Income Payout Amount in Money
+freeshulkerbox = True																						 # Gives new players a shulker box on their first connect
+giveubi = True																									 # Gives world a Universal Basic Income
+givehead = True																									 # Gives new players a likeness of their head on their first connect
 motd = "!## MOTD ##! Welcome to mc.nigeltodman.com, PLAYER_NAME! See our custom commands and their usage with '.help' * May Gamerules: limitedCrafting:On keepInventory:Off mobGriefing:On Difficulty:Hard"
 votemsg = "Vote for this server! Vote #1 adf.ly/1kVCJK #2 adf.ly/1kVCLs #3 adf.ly/1g4VYV #4 adf.ly/1mCgLU #5 adf.ly/1mCgcL #6 adf.ly/1mCgoa"
 admin="YT_Veritas0923"
@@ -216,6 +220,7 @@ lasttimesave = currtime
 lasttimeclear = currtime
 lasttimepoll = currtime
 lasttimetpa = currtime
+lasttimeubi = currtime
 playerisonline = False
 playerisseen = False
 clearwarn10 = False
@@ -332,6 +337,14 @@ while True:
 		p.stdin.write(autoclear)
 		clearwarn60 = False
 		clearwarn10 = False
+	if giveubi == True and ((currtime - lasttimeubi) > basicincomeint):
+		lasttimeubi = time.time()
+		basicincome = "scoreboard players add @a[m=0] money " + str(int(basicincomeamt)) + "\n"
+		print "[" + get24hrtime() + "] [Script thread/EXEC]: " + basicincome,
+		p.stdin.write(basicincome)
+		basicincome = 'tellraw @a {"text":"Basic Income Payments issued. Thanks for playing!","color":"green"}\nlist\n'
+		print "[" + get24hrtime() + "] [Script thread/EXEC]: " + basicincome,
+		p.stdin.write(basicincome)
 	#Setup Scoreboard
 	if sbset == False:
 		setsb = "scoreboard objectives add inOverworld dummy\n"
@@ -445,7 +458,7 @@ while True:
 		player = getplayername(tmp[3])
 		if tmp[4] == '.spawn' and usespawn == True:
 			player = getplayername(tmp[3])
-			cmdin = "tp @a[name=" + player + ",score_inOverworld_min=1] " + spawn + "\n"
+			cmdin = "tp @p[name=" + player + ",score_inOverworld_min=1] " + spawn + "\n"
 			print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 			p.stdin.write(cmdin)
 		if tmp[4] == '.sethome' and usehome == True:
@@ -462,7 +475,7 @@ while True:
 					h = ','.join(row)
 					ht = string.split(h,',')
 					if ht[0] == player:
-						cmdin = "tp @a[name=" + player + ",score_inOverworld_min=1] " + str(ht[1]) + " " + str(ht[2]) + " " + str(ht[3]) + "\n"
+						cmdin = "tp @p[name=" + player + ",score_inOverworld_min=1] " + str(ht[1]) + " " + str(ht[2]) + " " + str(ht[3]) + "\n"
 						print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 						p.stdin.write(cmdin)
 		if tmp[4] == '.commands':
@@ -584,7 +597,7 @@ while True:
 					w = ','.join(row)
 					wt = string.split(w,',')
 					if warplist == False and wt[0] == warpname:
-						cmdin = "tp @a[name=" + player + ",score_inOverworld_min=1] " + str(wt[1]) + " " + str(wt[2]) + " " + str(wt[3]) + "\n"
+						cmdin = "tp @p[name=" + player + ",score_inOverworld_min=1] " + str(wt[1]) + " " + str(wt[2]) + " " + str(wt[3]) + "\n"
 						print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 						p.stdin.write(cmdin)
 					elif warplist == True:
@@ -744,7 +757,7 @@ while True:
 					if tmp[5] == itemsdb[i] and tmp[6] == 1:
 						buyqty = 1
 						totalprice = int(pricedb[i]) * int(buyqty)
-						cmdin = "give @a[name=" + player + ",score_money_min=" + pricedb[i]+ "] " + itemsdb[i] + " 1\n"
+						cmdin = "give @p[name=" + player + ",score_money_min=" + pricedb[i]+ "] " + itemsdb[i] + " 1\n"
 						print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 						p.stdin.write(cmdin)
 						cmdin = "scoreboard players remove @a[name=" + player + "] money " + pricedb[i]+ "\n"
@@ -759,7 +772,7 @@ while True:
 						if int(buyqty) > int(1024):
 							buyqty = int(1024)
 						totalprice = int(pricedb[i]) * int(buyqty)
-						cmdin = "give @a[name=" + player + ",score_money_min=" + str(int(totalprice)) + "] " + itemsdb[i] + " " + str(buyqty) + "\n"
+						cmdin = "give @p[name=" + player + ",score_money_min=" + str(int(totalprice)) + "] " + itemsdb[i] + " " + str(buyqty) + "\n"
 						print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 						p.stdin.write(cmdin)
 						cmdin = "scoreboard players remove @a[name=" + player + "] money " + str(int(totalprice)) + "\n"
@@ -789,7 +802,7 @@ while True:
 					if tmp[5] == itemsdb[i] and tmp[6] == 1:
 						sellprice = str(int(round((int(pricedb[i]) * 0.5))))
 						sellqty = 1
-						cmdin = "clear @a[name=" + player + "] " + itemsdb[i] + " -1 0\n"
+						cmdin = "clear @p[name=" + player + "] " + itemsdb[i] + " -1 0\n"
 						print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 						p.stdin.write(cmdin)					
 						a=UpdateSB()
@@ -964,7 +977,7 @@ while True:
 					sellplayer=''
 					a=UpdateSB()
 				if int(soldqty) >= int(sellqty):
-					cmdin = "clear @a[name=" + sellplayer + "] " + sellitem + " -1 " + str(sellqty) + "\n"
+					cmdin = "clear @p[name=" + sellplayer + "] " + sellitem + " -1 " + str(sellqty) + "\n"
 					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 					p.stdin.write(cmdin)	
 					cmdin = "scoreboard players add @a[name=" + sellplayer + "] money " + str(int(soldprice)) + "\n"
@@ -1080,12 +1093,16 @@ while True:
 						cmdin = "give " + player + " purple_shulker_box 1\n"
 						print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 						p.stdin.write(cmdin)
-						setsb = "scoreboard players add " + player + " money 250\n"
-						print "[" + get24hrtime() + "] [Script thread/EXEC]: " + setsb,
-						p.stdin.write(setsb)
-						setsb = "scoreboard players add " + player + " rank 0\n"
-						print "[" + get24hrtime() + "] [Script thread/EXEC]: " + setsb,
-						p.stdin.write(setsb)
+					if givehead == True:
+						cmdin = "give " + player + " minecraft:skull 1 3 {SkullOwner:" + player + "}\n"
+						print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+						p.stdin.write(cmdin)
+					setsb = "scoreboard players add " + player + " money 250\n"
+					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + setsb,
+					p.stdin.write(setsb)
+					setsb = "scoreboard players add " + player + " rank 0\n"
+					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + setsb,
+					p.stdin.write(setsb)
 				with open('online.csv','ab') as csvfile:
 					online = csv.writer(csvfile,delimiter=',',dialect='excel')
 					online.writerow([player,playerip,time.time()])

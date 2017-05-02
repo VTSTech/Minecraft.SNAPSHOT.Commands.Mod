@@ -1,4 +1,4 @@
-# Minecraft SNAPSHOT .essentials script v0.6-r54
+# Minecraft SNAPSHOT .essentials script v0.6-r55
 
 Written by YT_Veritas0923             
 
@@ -22,29 +22,34 @@ Config:
 specify admin player name in config. add mods to mods.csv, 1 player name per line.
 
 <pre>
-Lines 203-223:
+Lines 179-204:
 
 ## Start Config ##
 javacmd = 'java -Xms128M -Xmx4G -jar minecraft_server.jar nogui' # Java command line to start Minecraft Server jar, Must use nogui
-spawn = "-82 64 264"   																					 # WorldSpawn Coordinates
+spawn = "0 64 -3"   																						 # WorldSpawn Coordinates
 rtpradius = 35000	  																						 # Random Teleport radius (-35000,35000)
 useautosave = True	 																						 # Use Autosave?
 useautoclear = True 																						 # Use Autoclear?
-usemoney = False																								 # Use Money?
+usemoney = True																									 # Use Money?
 usewarp = True			 																						 # Allow .warp?
 usehome = True			 																						 # Allow .home/.sethome?
 usertp = True				 																						 # Allow .rtp?
-useshop = False			 																						 # Allow .shop/.buy/.sell?
+useshop = True			 																						 # Allow .shop/.buy/.sell?
 usespawn = True			 																						 # Allow .spawn?
 autosaveint = 1776																						   # Autosave Interval in seconds
 autoclearint = 3625																						   # Autoclear Interval in seconds
-freeshulkerbox = False																					 # Gives new players a shulker box on their first connect
-motd = "!## MOTD ##! Welcome to mc.nigeltodman.com, PLAYER_NAME! See our custom commands and their usage with '.help' * April Gamerules: limitedCrafting:Off keepInventory:On mobGriefing:Off Difficulty:Hard"
+basicincomeint = 3600																						 # Basic Income Payout Interval in seconds
+basicincomeamt = 1500																						 # Basic Income Payout Amount in Money
+freeshulkerbox = True																						 # Gives new players a shulker box on their first connect
+giveubi = True																									 # Gives world a Universal Basic Income
+givehead = True																									 # Gives new players a likeness of their head on their first connect
+motd = "!## MOTD ##! Welcome to mc.nigeltodman.com, PLAYER_NAME! See our custom commands and their usage with '.help' * May Gamerules: limitedCrafting:On keepInventory:Off mobGriefing:On Difficulty:Hard"
 votemsg = "Vote for this server! Vote #1 adf.ly/1kVCJK #2 adf.ly/1kVCLs #3 adf.ly/1g4VYV #4 adf.ly/1mCgLU #5 adf.ly/1mCgcL #6 adf.ly/1mCgoa"
 admin="YT_Veritas0923"
 																						   									 # Message of the Day notes:
 																						   									 # PLAYER_NAME is replaced with connecting player.
 ## End Config   ##												  	 									 # 'Welcome to' is replaced by 'Welcome back to' for returning players.
+# 5m 300, 30m 1800, 1h 3600, 12h 43200, 1d 86400, 1w 604800, 1mo 2419200
 
 Shop Config, Lines 96,99
 
