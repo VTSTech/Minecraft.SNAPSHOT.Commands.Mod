@@ -4,7 +4,7 @@ from time import sleep
 from nbstreamreader import NonBlockingStreamReader as NBSR
 #nbstreamreader.py https://gist.github.com/EyalAr/7915597
 
-ver = "Minecraft SNAPSHOT .essentials script v0.6-r55"
+ver = "Minecraft SNAPSHOT .essentials script v0.6-r56"
 bannershown = False
 
 def banner():
@@ -195,7 +195,7 @@ basicincomeamt = 1500																						 # Basic Income Payout Amount in Mone
 freeshulkerbox = True																						 # Gives new players a shulker box on their first connect
 giveubi = True																									 # Gives world a Universal Basic Income
 givehead = True																									 # Gives new players a likeness of their head on their first connect
-motd = "!## MOTD ##! Welcome to mc.nigeltodman.com, PLAYER_NAME! See our custom commands and their usage with '.help' * May Gamerules: limitedCrafting:On keepInventory:Off mobGriefing:On Difficulty:Hard"
+motd = "!## MOTD ##! Welcome to mc.nigeltodman.com, PLAYER_NAME! See our custom commands and their usage with '.help' * May Gamerules: dolimitedCrafting:On keepInventory:Off mobGriefing:On Difficulty:Hard"
 votemsg = "Vote for this server! Vote #1 adf.ly/1kVCJK #2 adf.ly/1kVCLs #3 adf.ly/1g4VYV #4 adf.ly/1mCgLU #5 adf.ly/1mCgcL #6 adf.ly/1mCgoa"
 admin="YT_Veritas0923"
 																						   									 # Message of the Day notes:
@@ -799,32 +799,22 @@ while True:
 				sellitem = tmp[5]
 			for i in range(0,len(itemsdb)):
 				if len(tmp) > 6:
-					if tmp[5] == itemsdb[i] and tmp[6] == 1:
+					if tmp[5] == itemsdb[i] and int(tmp[6]) == int(1):
 						sellprice = str(int(round((int(pricedb[i]) * 0.5))))
 						sellqty = 1
 						cmdin = "clear @p[name=" + player + "] " + itemsdb[i] + " -1 0\n"
 						print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 						p.stdin.write(cmdin)					
 						a=UpdateSB()
-					if tmp[5] == itemsdb[i] and tmp[6] > 1:
-						sellprice = str(int(round((int(pricedb[i]) * 0.5))) * int(tmp[6]))
-						if type(tmp[6]) is int:
-							sellqty = int(tmp[6])
-						else:
-							sellqty = 1
-						if sellqty > 1024:
-							sellqty = 1024
+					elif tmp[5] == itemsdb[i] and int(tmp[6]) > int(1):
+						sellqty = int(tmp[6])
+						if int(sellqty) > int(1024):
+							sellqty = int(1024)
+						sellprice = str(int(round((int(pricedb[i]) * 0.5))) * int(sellqty))
 						cmdin = "clear @p[name=" + player + "] " + itemsdb[i] + " -1 0\n"
 						print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 						p.stdin.write(cmdin)					
-						#a=UpdateSB()
-			if len(tmp) > 6:
-				if type(tmp[6]) is int:
-					sellqty = int(tmp[6])
-					if sellqty > 1024:
-						sellqty = 1024
-				else:
-					sellqty = 1
+						a=UpdateSB()
 			#-> Selling Event
 		if tmp[4] == '.motd':
 			player = getplayername(tmp[3])
@@ -957,15 +947,20 @@ while True:
 			#cmdin = "tell @a DEBUG: Len " + str(len(tmp)) + " tmp3 " + tmp[3] + "\n"
 			#p.stdin.write(cmdin)
 			if len(tmp) > 10:
-				if tmp[3] == "Score" and int(tmp[10]) == 2147483647:
+				if tmp[3] == "Score" and tmp[6] != "NOT" and int(tmp[10]) == 2147483647:
 					playerbal = tmp[4]
 					cmdin = 'tellraw ' + balplayer + ' {"text":"Your balance is: $' + str(playerbal) + '","color":"green"}\n'
+					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
+					p.stdin.write(cmdin)
+				elif tmp[3] == "Score" and tmp[6] == "NOT":
+					playerbal = tmp[4]
+					cmdin = 'tellraw ' + balplayer + ' {"text":"Your balance is: $' + str(playerbal) + '.Use .reset to go back to +100","color":"green"}\n'
 					print "[" + get24hrtime() + "] [Script thread/EXEC]: " + cmdin,
 					p.stdin.write(cmdin)
 				getbal = False
 		#Selling Event
 		if selling == True:
-			if tmp[3] == sellplayer and tmp[4] == "has":
+			if tmp[3] == sellplayer and tmp[4] == "has" and tmp[7] != "advancement":
 				soldqty = tmp[5]
 				soldprice = int(sellprice)
 				#print "[" + get24hrtime() + "] [Script thread/DBUG]: " + sellplayer + " " + str(soldqty) + " " + str(sellqty) + " " + str(soldprice) + " " + str(sellprice) + "\n",

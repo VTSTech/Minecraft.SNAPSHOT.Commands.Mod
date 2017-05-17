@@ -1,4 +1,4 @@
-# Minecraft SNAPSHOT .essentials script v0.6-r55
+# Minecraft SNAPSHOT .essentials script v0.6-r56
 
 Written by YT_Veritas0923             
 
@@ -10,12 +10,11 @@ GitHub: Veritas83
 
 BTC 18j2Env7QokhGG5MccS3LPBKnjsko6u4NQ
 
-<img src="https://i.gyazo.com/a1168fecc97d4be34bd900c006a0e2e3.png">
-
+<img src="https://i.gyazo.com/688be8e65da4e9fc2fa5838c9dd29af3.png">
 
 Simply place beside your minecraft_server.jar and run.
 
-<img src="https://i.gyazo.com/19fce9abb82b282af71de902124d3868.png">
+<img src="https://i.gyazo.com/5bc9c42d9ef0d9c1fd5411a7144914d1.png">
 
 Config:
 
