@@ -1,12 +1,14 @@
+I've re-written this for 1.21+ at https://github.com/VTSTech/Minecraft.SNAPSHOT.Commands.Reborn
+
 # Minecraft SNAPSHOT .essentials script v0.6-r56
 
-Written by YT_Veritas0923             
+Written by VTSTech           
 
-Twitter: @Veritas_83                  
+Twitter: @VTSTech_                 
 
 Web: www.NigelTodman.com              
 
-GitHub: Veritas83                     
+GitHub: VTSTech                     
 
 BTC 18j2Env7QokhGG5MccS3LPBKnjsko6u4NQ
 
